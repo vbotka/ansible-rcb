@@ -1,0 +1,4 @@
+---
+
+- name: Test decrytpion
+  command: "{{ rcb_bin_dir }}/rcb-decrypt.sh"

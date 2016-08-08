@@ -1,0 +1,19 @@
+---
+
+- name: Create test directory {{ rcb_test_dir }}
+  file: state=directory path={{ rcb_test_dir }}
+
+- name: Configure rsnapshot to backup {{ rcb_test_dir }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }} regexp="^{{ rcb_test_dir }}" insertafter="# LOCALHOST" line="backup\t/scratch/rcb/test/\tlocalhost/"
+  
+- name: Create test file 1
+  shell: cp /etc/passwd {{ rcb_test_dir }}/1
+  
+- name: Create test file 2
+  shell: cp /etc/passwd {{ rcb_test_dir }}/2
+  
+- name: Create test file 3
+  shell: cp /etc/passwd {{ rcb_test_dir }}/3
+
+- name: Tes backup {{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly
+  command: "{{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"

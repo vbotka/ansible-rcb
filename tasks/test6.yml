@@ -1,0 +1,4 @@
+---
+
+- name: Test restore
+  command: "{{ rcb_bin_dir }}/rcb-restore.sh"

@@ -1,0 +1,35 @@
+---
+# vars file for ansible-rcb
+#
+# source
+rcb_source_dest: /usr/local/src
+rcb_source_url: https://github.com/vbotka/rcb/archive
+rcb_source-version: 1.1
+rcb_source_file: v1.1.tar.gz
+rcb_source_dir: rcb-1.1
+# directories
+rcb_bin_dir: /root/bin
+rcb_etc_dir: /usr/local/etc
+rcb_snapshot_root: /scratch/rcb/backup/snapshots
+rcb_test_dir: /scratch/rcb/test
+# files
+rcb_rcb_conf: rcb.conf
+rcb_rsnapshot_conf: rsnapshot.conf
+#
+rcb_cert_CN: example.com
+# rcb.conf
+# RCB_HOST will be replaced with ansible_hostname
+rcb_RCB_EMAIL: root
+rcb_RCB_BCK_ROOT: /scratch/rcb/backup
+rcb_RCB_BCK_PREFIX: snapshots/hourly.0
+# path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
+rcb_RSYNCRYPTO_TRIM_E: 5
+# path length of $RCB_BCK_ROOT/enc
+rcb_RSYNCRYPTO_TRIM_D: 4
+rcb_RCB_RST_ROOT: /scratch/rcb/restore
+rcb_RCB_CRT_ROOT: /scratch/rcb/cert
+rcb_BCK_HOST: 46.101.120.127
+rcb_BCK_USER: rcbackup
+# BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
+rcb_BCK_DST: /scratch/backup
+#

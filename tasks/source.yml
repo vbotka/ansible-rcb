@@ -1,0 +1,10 @@
+---
+
+- name: Create directory for the source code {{ rcb_source_dest }}
+  file: state=directory path={{ rcb_source_dest }}
+
+- name: Download sources from {{ rcb_source_url }}/{{ rcb_source_file }}
+  get_url: url={{ rcb_source_url }}/{{ rcb_source_file }} dest={{ rcb_source_dest }}/{{ rcb_source_file }}
+
+- name: Extract sources to {{ rcb_source_dest }}
+  unarchive: src={{ rcb_source_dest }}/{{ rcb_source_file }} dest={{ rcb_source_dest }} copy=no

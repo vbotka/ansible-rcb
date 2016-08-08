@@ -1,0 +1,68 @@
+---
+
+#- name: Change path to bash with sed
+#  shell: sed -i'~' -e 's/\/usr\/local\/bin\/bash/\/bin\/bash/' {{ rcb_bin_dir }}/*sh
+
+- name: Create directory for backup {{ rcb_RCB_BCK_ROOT }}
+  file: state=directory path={{ rcb_RCB_BCK_ROOT }}
+
+- name: Create directory to restore from backup {{ rcb_RCB_RST_ROOT }}
+  file: state=directory path={{ rcb_RCB_RST_ROOT }}
+
+- name: Register list of the .sh files in {{ rcb_bin_dir }}
+  command: find {{ rcb_bin_dir }} -type f -name "*.sh"
+  register: command_result
+  tags: configure_bash_path
+
+- name: Change path to bash to /bin/bash
+  replace: dest={{ item }} regexp="/usr/local/bin/bash" replace="/bin/bash" backup=no
+  with_items: "{{ command_result.stdout_lines }}"
+  tags: configure_bash_path
+
+- name: Configure RCB_HOST to {{ ansible_hostname }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^RCB_HOST line=RCB_HOST=\"{{ ansible_hostname }}\"
+  tags: configure_rcb_conf
+
+- name: Configure RCB_EMAIL to {{ rcb_RCB_EMAIL }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^RCB_EMAIL line=RCB_EMAIL=\"{{ rcb_RCB_EMAIL }}\"
+  tags: configure_rcb_conf
+
+- name: Configure RCB_BCK_ROOT to {{ rcb_RCB_BCK_ROOT }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^RCB_BCK_ROOT line=RCB_BCK_ROOT=\"{{ rcb_RCB_BCK_ROOT }}\"
+  tags: configure_rcb_conf
+
+- name: Configure RCB_BCK_PREFIX to {{ rcb_RCB_BCK_PREFIX }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^RCB_BCK_PREFIX line=RCB_BCK_PREFIX=\"{{ rcb_RCB_BCK_PREFIX }}\"
+  tags: configure_rcb_conf
+
+- name: Configure RCB_RST_ROOT to {{ rcb_RCB_RST_ROOT }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^RCB_RST_ROOT line=RCB_RST_ROOT=\"{{ rcb_RCB_RST_ROOT }}\"
+  tags: configure_rcb_conf
+
+- name: Configure RCB_CRT_ROOT to {{ rcb_RCB_CRT_ROOT }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^RCB_CRT_ROOT line=RCB_CRT_ROOT=\"{{ rcb_RCB_CRT_ROOT }}\"
+  tags: configure_rcb_conf
+
+- name: Configure BCK_HOST to {{ rcb_BCK_HOST }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^BCK_HOST line=BCK_HOST=\"{{ rcb_BCK_HOST }}\"
+  tags: configure_rcb_conf
+
+- name: Configure BCK_USER to {{ rcb_BCK_USER }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^BCK_USER line=BCK_USER=\"{{ rcb_BCK_USER }}\"
+  tags: configure_rcb_conf
+
+- name: Configure BCK_DST to {{ rcb_BCK_DST }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^BCK_DST line=BCK_DST=\"{{ rcb_BCK_DST }}/{{ ansible_hostname }}\"
+  tags: configure_rcb_conf
+
+- name: Configure RSYNCRYPTO_TRIM_E to {{ rcb_RSYNCRYPTO_TRIM_E }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^RSYNCRYPTO_TRIM_E line=RSYNCRYPTO_TRIM_E=\"{{ rcb_RSYNCRYPTO_TRIM_E }}\"
+  tags: configure_rcb_conf
+
+- name: Configure RSYNCRYPTO_TRIM_D to {{ rcb_RSYNCRYPTO_TRIM_D }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rcb_conf }} regexp=^RSYNCRYPTO_TRIM_D line=RSYNCRYPTO_TRIM_D=\"{{ rcb_RSYNCRYPTO_TRIM_D }}\"
+  tags: configure_rcb_conf
+
+- name: Configure rsnapshot snapshot_root {{ rcb_snapshot_root }}
+  lineinfile: dest={{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }} regexp="^snapshot_root" line="snapshot_root\t{{ rcb_snapshot_root }}"
+  tags: configure_rsnapshot_conf
