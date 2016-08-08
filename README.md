@@ -28,8 +28,10 @@ Examples
 Playbooks are available in the RCB project https://github.com/vbotka/rcb
 
 
-1) Following Workflow was tested with Ubuntu 16.04 at digitalocean.com. Create one droplet for Backup-Server and at least one droplet for Backup-Client. Change at least the IP addresses in the ansible hosts file and the IP address of rcb_BCK_HOST in ansible vars.
-
+1) Following Workflow was tested with Ubuntu 16.04 at digitalocean.com. Create one droplet for Backup-Server and at least one droplet for Backup-Client. Change at least:
+- the IP addresses in the ansible hosts file
+- the IP address of rcb_BCK_HOST in ansible vars
+- rcb_user_password in rcb-backup-server.yml
 
 2) "rcb.yml -t phase1" creates SSH keys at Backup-Clients and stores the public keys at the localhost
 
