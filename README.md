@@ -25,6 +25,12 @@ None
 Examples
 ----------------
 
+Install the role from Ansible Galaxy.
+
+```
+ansible-galaxy install vbotka.ansible-rcb
+```
+
 Playbooks are available in the RCB project https://github.com/vbotka/rcb
 
 
