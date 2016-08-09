@@ -28,7 +28,7 @@ rcb_RSYNCRYPTO_TRIM_E: 5
 rcb_RSYNCRYPTO_TRIM_D: 4
 rcb_RCB_RST_ROOT: /scratch/rcb/restore
 rcb_RCB_CRT_ROOT: /scratch/rcb/cert
-rcb_BCK_HOST: 46.101.120.127
+rcb_BCK_HOST: 46.101.110.103
 rcb_BCK_USER: rcbackup
 # BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
 rcb_BCK_DST: /scratch/backup

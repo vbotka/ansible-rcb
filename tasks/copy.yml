@@ -4,10 +4,10 @@
   file: state=directory path={{ rcb_bin_dir }}
 
 - name: Copy scripts to {{ rcb_bin_dir }}
-  shell: cp {{ rcb_source_dest }}/{{ rcb_source_dir }}/*.sh {{ rcb_bin_dir }}
+  shell: cp {{ rcb_source_dest }}/src/*.sh {{ rcb_bin_dir }}
 
 - name: Copy rcb configuration to {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
-  shell: cp {{ rcb_source_dest }}/{{ rcb_source_dir }}/rcb.conf.ubuntu {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
+  shell: cp {{ rcb_source_dest }}/src/rcb.conf.ubuntu {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
 
 - name: Copy rsnapshot configuration to {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
-  shell: cp {{ rcb_source_dest }}/{{ rcb_source_dir }}/rsnapshot.conf.ubuntu {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
+  shell: cp {{ rcb_source_dest }}/src/rsnapshot.conf.ubuntu {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}

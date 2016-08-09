@@ -10,28 +10,28 @@
   tags: [source, phase2, all]
 
 - include: copy.yml
-  tags: [copy, phase2, all]
+  tags: [copy, phase2, all, devel]
 
 - include: configure.yml
-  tags: [configure, phase2, all]
+  tags: [configure, phase2, all, devel]
 
 - include: keys.yml
-  tags: [keys, phase2, all]
+  tags: [keys, phase2, all, devel]
 
 - include: test1.yml
-  tags: [test1, testall, all]
+  tags: [test1, testall, all, devel]
 
 - include: test2.yml
-  tags: [test2, testall, all]
+  tags: [test2, testall, all, devel]
 
 - include: test3.yml
-  tags: [test3, testall, all]
+  tags: [test3, testall, all, devel]
 
 - include: test4.yml
-  tags: [test4, testall, all]
+  tags: [test4, testall, all, devel]
 
 - include: test5.yml
-  tags: [test5, testall, all]
+  tags: [test5, testall, all, devel]
 
 - include: test6.yml
-  tags: [test6, testall, all]
+  tags: [test6, testall, all, devel]

@@ -13,7 +13,7 @@ Ubuntu 16.04 at digitalocean.com needs python2.7
 Role Variables
 --------------
 
-<TBD>
+TBD
 
 
 Dependencies
@@ -24,12 +24,6 @@ None
 
 Examples
 ----------------
-
-Install the role from Ansible Galaxy.
-
-```
-ansible-galaxy install vbotka.ansible-rcb
-```
 
 Playbooks are available in the RCB project https://github.com/vbotka/rcb
 
@@ -63,6 +57,20 @@ ansible-playbook ~/.ansible/playbooks/rcb.yml -t phase2
 ansible-playbook ~/.ansible/playbooks/rcb.yml -t testall
 ```    
 
+Development
+-----------
+
+Copy local changes to Backup client
+
+```
+ansible-playbook ~/.ansible/playbooks/rcb-devel.yml
+```
+
+Test it
+
+```
+ansible-playbook ~/.ansible/playbooks/rcb.yml -t devel
+```
 
 License
 -------
