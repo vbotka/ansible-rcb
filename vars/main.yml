@@ -4,9 +4,9 @@
 # source
 rcb_source_dest: /usr/local/src
 rcb_source_url: https://github.com/vbotka/rcb/archive
-rcb_source-version: 1.1
-rcb_source_file: v1.1.tar.gz
-rcb_source_dir: rcb-1.1
+rcb_source-version: 1.2
+rcb_source_file: v1.2.tar.gz
+rcb_source_dir: rcb-1.2
 # directories
 rcb_bin_dir: /root/bin
 rcb_etc_dir: /usr/local/etc
