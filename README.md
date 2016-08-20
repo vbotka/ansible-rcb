@@ -25,7 +25,7 @@ None
 Examples
 ----------------
 
-Playbooks are available in the [RCB project](https://github.com/vbotka/rcb/ansible)
+Playbooks are available in the [RCB project](https://github.com/vbotka/rcb/tree/master/ansible)
 
 
 1) Following Workflow was tested with Ubuntu 16.04 at digitalocean.com. Create one droplet for Backup-Server and at least one droplet for Backup-Client. Change at least:
