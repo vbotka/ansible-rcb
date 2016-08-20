@@ -25,7 +25,7 @@ None
 Examples
 ----------------
 
-Playbooks are available in the RCB project https://github.com/vbotka/rcb
+Playbooks are available in the [RCB project](https://github.com/vbotka/rcb/ansible)
 
 
 1) Following Workflow was tested with Ubuntu 16.04 at digitalocean.com. Create one droplet for Backup-Server and at least one droplet for Backup-Client. Change at least:
@@ -51,11 +51,14 @@ ansible-playbook ~/.ansible/playbooks/rcb-backup-server.yml
 ansible-playbook ~/.ansible/playbooks/rcb.yml -t phase2
 ```
 
-5) Run tests check /var/log/rcb.log for potential errors.
+5) Run tests and check /var/log/rcb.log for potential errors.
 
 ```
 ansible-playbook ~/.ansible/playbooks/rcb.yml -t testall
 ```    
+
+6) Add backup directories to rsnapshot.conf and configure cron. [RCB project](https://github.com/vbotka/rcb) provides  [crontab.example](https://github.com/vbotka/rcb/blob/master/crontab.example)
+
 
 Development
 -----------
@@ -72,12 +75,14 @@ Test it
 ansible-playbook ~/.ansible/playbooks/rcb.yml -t devel
 ```
 
+
 License
 -------
 
 BSD
 
+
 Author Information
 ------------------
 
-Vladimir Botka [https://botka.link]
+[Vladimir Botka](https://botka.link)
