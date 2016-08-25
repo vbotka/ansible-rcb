@@ -5,27 +5,29 @@
 
 - name: Find scripts in {{ rcb_source_dest }}/rcb/
   find: paths="{{ rcb_source_dest }}/rcb/" recurse="yes" patterns="*.sh"
-  register: file_to_copy
+  register: command_result
 
 - name: Copy scripts to {{ rcb_bin_dir }}
-  copy: src="{{ item.path }}" dest="{{ rcb_bin_dir }}" remote_src="yes"
-  owner: "root"
-  group: "root"
-  mode: "0750"
-  with_items: files_to_copy.files
+  copy: src="{{ item.path }}"
+        dest="{{ rcb_bin_dir }}"
+        remote_src="yes"
+        owner="root"
+        group="root"
+        mode="0750"
+  with_items: "{{ command_result.files }}"
   
 - name: Copy rcb configuration to {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
   copy: src="{{ rcb_source_dest }}/rcb/rcb.conf.ubuntu"
         dest="{{ rcb_etc_dir }}/{{ rcb_rcb_conf }}"
         remote_src="yes"
-  owner: "root"
-  group: "root"
-  mode: "0640"
+        owner="root"
+        group="root"
+        mode="0640"
 
 - name: Copy rsnapshot configuration to {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
   copy: src="{{ rcb_source_dest }}/rcb/rsnapshot.conf.ubuntu"
-        dst="{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
+        dest="{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
         remote_src="yes"
-  owner: "root"
-  group: "root"
-  mode: "0640"
+        owner="root"
+        group="root"
+        mode="0640"

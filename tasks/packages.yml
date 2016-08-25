@@ -1,15 +1,8 @@
 ---
 
 - name: Update apt cache
-  apt: "update_cache=yes cache_valid_time={{ ubuntu_cache_valid_time }}"
+  apt: update_cache="yes" cache_valid_time="{{ ubuntu_cache_valid_time }}"
 
 - name: Install packages
-  action: apt pkg={{item}} state=installed
-  with_items:
-    - bash
-    - git
-    - hashdeep
-    - rsnapshot
-    - rsyncrypto
-    - freebsd-buildutils
-    - bsd-mailx
+  apt: name="{{item}}" state="installed"
+  with_items: [bash,git,hashdeep,rsnapshot,rsyncrypto,freebsd-buildutils,bsd-mailx]
