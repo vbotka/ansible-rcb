@@ -1,13 +1,13 @@
 ---
 
 - name: Create directory for the source code {{ rcb_source_dest }}
-  file: state=directory path={{ rcb_source_dest }}
+  file: state="directory" path="{{ rcb_source_dest }}"
 
-- name: Download sources from {{ rcb_source_url }}/{{ rcb_source_file }}
-  get_url: url={{ rcb_source_url }}/{{ rcb_source_file }} dest={{ rcb_source_dest }}/{{ rcb_source_file }}
+- name: Download source code {{ rcb_source_url }}/{{ rcb_source_file }}
+  get_url: url="{{ rcb_source_url }}/{{ rcb_source_file }}" dest="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
 
-- name: Extract sources to {{ rcb_source_dest }}
-  unarchive: src={{ rcb_source_dest }}/{{ rcb_source_file }} dest={{ rcb_source_dest }} copy=no
+- name: Extract source code to {{ rcb_source_dest }}
+  unarchive: src="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}" dest="{{ rcb_source_dest }}" copy="no"
 
-- name: Create symbolic link src to {{ rcb_source_dir }}
-  file: src={{ rcb_source_dest }}/{{ rcb_source_dir }} dest={{ rcb_source_dest }}/src state=link
+- name: Create symbolic link rcb to {{ rcb_source_dir }}
+  file: src="{{ rcb_source_dest }}/{{ rcb_source_dir }}" dest="{{ rcb_source_dest }}/rcb" state="link"

@@ -1,13 +1,31 @@
 ---
 
 - name: Create directory for installation {{ rcb_bin_dir }}
-  file: state=directory path={{ rcb_bin_dir }}
+  file: state="directory" path="{{ rcb_bin_dir }}"
+
+- name: Find scripts in {{ rcb_source_dest }}/rcb/
+  find: paths="{{ rcb_source_dest }}/rcb/" recurse="yes" patterns="*.sh"
+  register: file_to_copy
 
 - name: Copy scripts to {{ rcb_bin_dir }}
-  shell: cp {{ rcb_source_dest }}/src/*.sh {{ rcb_bin_dir }}
-
+  copy: src="{{ item.path }}" dest="{{ rcb_bin_dir }}" remote_src="yes"
+  owner: "root"
+  group: "root"
+  mode: "0750"
+  with_items: files_to_copy.files
+  
 - name: Copy rcb configuration to {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
-  shell: cp {{ rcb_source_dest }}/src/rcb.conf.ubuntu {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
+  copy: src="{{ rcb_source_dest }}/rcb/rcb.conf.ubuntu"
+        dest="{{ rcb_etc_dir }}/{{ rcb_rcb_conf }}"
+        remote_src="yes"
+  owner: "root"
+  group: "root"
+  mode: "0640"
 
 - name: Copy rsnapshot configuration to {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
-  shell: cp {{ rcb_source_dest }}/src/rsnapshot.conf.ubuntu {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
+  copy: src="{{ rcb_source_dest }}/rcb/rsnapshot.conf.ubuntu"
+        dst="{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
+        remote_src="yes"
+  owner: "root"
+  group: "root"
+  mode: "0640"
