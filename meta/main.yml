@@ -9,8 +9,6 @@ galaxy_info:
     - name: Ubuntu
   versions:
     - xenial
-  categories:
-  - system
   galaxy_tags:
     - installer
     - ubuntu
