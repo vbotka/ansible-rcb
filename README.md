@@ -2,7 +2,7 @@ ansible-rcb
 ===========
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-rcb.svg?branch=0.1.4)](https://travis-ci.org/vbotka/ansible-rcb)
-![license](https://img.shields.io/badge/license-BSD-red.svg)
+[![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
 
 Ansible role. Install and configure RCB (Rsync-Crypto-Backup) from github.com/vbotka/rcb
 
