@@ -10,7 +10,7 @@
     url="{{ rcb_source_url }}/{{ rcb_source_file }}"
     dest="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
 
-- name: Extract source code to {{ rcb_source_dest }}
+- name: Extract source code from {{ rcb_source_file }} to {{ rcb_source_dest }}
   unarchive: >
     src="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
     dest="{{ rcb_source_dest }}"
