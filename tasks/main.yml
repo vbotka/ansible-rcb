@@ -35,3 +35,6 @@
 
 - include: test6.yml
   tags: [test6, testall, all, devel]
+
+# EOF
+...

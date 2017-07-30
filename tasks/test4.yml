@@ -1,4 +1,7 @@
 ---
 
 - name: Test rsync from {{ rcb_BCK_USER }}@{{ rcb_BCK_HOST }}:/{{ rcb_BCK_DST }}
-  command: "{{ rcb_bin_dir }}/rcb-rsync-back.sh "
+  command: "{{ rcb_bin_dir }}/rcb-rsync-back.sh"
+
+# EOF
+...

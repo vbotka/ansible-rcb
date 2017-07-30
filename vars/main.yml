@@ -1,4 +1,8 @@
 ---
-# vars file for ansible-rcb
+# vars for ansible-rcb
 
-# rcb_BCK_HOST: "IP-OF-BACKUP-SERVER"
+# rcb_BCK_HOST: "FQN-OF-BACKUP-SERVER"
+# rcb_BCK_DST: "/scratch/rcb"
+
+# EOF
+...

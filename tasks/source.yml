@@ -1,13 +1,42 @@
 ---
 
 - name: Create directory for the source code {{ rcb_source_dest }}
-  file: state="directory" path="{{ rcb_source_dest }}"
+  file: >
+    state="directory"
+    path="{{ rcb_source_dest }}"
 
 - name: Download source code {{ rcb_source_url }}/{{ rcb_source_file }}
-  get_url: url="{{ rcb_source_url }}/{{ rcb_source_file }}" dest="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
+  get_url: >
+    url="{{ rcb_source_url }}/{{ rcb_source_file }}"
+    dest="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
 
 - name: Extract source code to {{ rcb_source_dest }}
-  unarchive: src="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}" dest="{{ rcb_source_dest }}" copy="no"
+  unarchive: >
+    src="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
+    dest="{{ rcb_source_dest }}"
+    remote_src="yes"
+
+- name: Register list of the .sh files in {{ rcb_source_dest }}
+  command: >
+    find "{{ rcb_source_dest }}" -type f -name "*.sh"
+  register: command_result
+  when: (ansible_os_family == "Debian") or (ansible_os_family == "RedHat")
+
+#  shell: sed -i'~' -e 's/\/usr\/local\/bin\/bash/\/bin\/bash/' {{ rcb_source_dest }}/*sh
+- name: Change path to bash to /bin/bash if OS is Linux
+  replace: >
+    dest="{{ item }}"
+    regexp="/usr/local/bin/bash"
+    replace="/bin/bash"
+    backup="no"
+  with_items: "{{ command_result.stdout_lines }}"
+  when: (ansible_os_family == "Debian") or (ansible_os_family == "RedHat")
 
 - name: Create symbolic link rcb to {{ rcb_source_dir }}
-  file: src="{{ rcb_source_dest }}/{{ rcb_source_dir }}" dest="{{ rcb_source_dest }}/rcb" state="link"
+  file: >
+    src="{{ rcb_source_dest }}/{{ rcb_source_dir }}"
+    dest="{{ rcb_source_dest }}/rcb"
+    state="link"
+
+# EOF
+...

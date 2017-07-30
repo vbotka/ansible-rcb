@@ -2,3 +2,6 @@
 
 - name: Test encryption {{ rcb_bin_dir }}/rcb-encrypt.sh
   command: "{{ rcb_bin_dir }}/rcb-encrypt.sh"
+
+# EOF
+...

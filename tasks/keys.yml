@@ -1,13 +1,19 @@
 ---
 
 - name: Create directory for certificate and keys {{ rcb_RCB_CRT_ROOT }}
-  file: state=directory path={{ rcb_RCB_CRT_ROOT }}
+  file: >
+    state="directory"
+    path="{{ rcb_RCB_CRT_ROOT }}"
 
 - name: Copy file with PEM passphase to {{ rcb_RCB_CRT_ROOT }}
-  copy: src="{{ role_path }}/files/pem-pass-phrase" dest="{{ rcb_RCB_CRT_ROOT }}/pem-pass-phrase"
+  copy: >
+    src="{{ role_path }}/files/pem-pass-phrase"
+    dest="{{ rcb_RCB_CRT_ROOT }}/pem-pass-phrase"
 
 - name: Change permissions of {{ rcb_RCB_CRT_ROOT }}/pem-pass-phrase to 0600
-  file: path="{{ rcb_RCB_CRT_ROOT }}/pem-pass-phrase"  mode=0600
+  file: >
+    path="{{ rcb_RCB_CRT_ROOT }}/pem-pass-phrase"
+    mode="0600"
   
 - name: Create self-signed server SSL cert for {{ rcb_cert_CN }}
   command: openssl req -new -x509 -extensions v3_ca -passout "file:{{ rcb_RCB_CRT_ROOT }}/pem-pass-phrase" -days {{ cert_days | default(3650) }} -subj "/C=''/ST=''/L='' /O='' /OU='' /CN='example.com' /emailAddress=''" -keyout {{ rcb_RCB_CRT_ROOT }}/backup.key -out {{ rcb_RCB_CRT_ROOT }}/backup.crt
@@ -15,4 +21,9 @@
     creates: "{{ rcb_RCB_CRT_ROOT }}/backup.crt"
 
 - name: Change permissions of {{ rcb_RCB_CRT_ROOT }}/backup.key to 0600
-  file: path="{{ rcb_RCB_CRT_ROOT }}/backup.key"  mode=0600
+  file: >
+    path="{{ rcb_RCB_CRT_ROOT }}/backup.key"
+    mode="0600"
+
+# EOF
+...

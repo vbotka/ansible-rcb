@@ -5,7 +5,7 @@ ubuntu_cache_valid_time: 14400
 
 #
 # source
-rcb_source_version: "0.1.3"
+rcb_source_version: "0.2.0"
 rcb_source_file: "{{rcb_source_version}}.tar.gz"
 rcb_source_dir: "rcb-{{rcb_source_version}}"
 rcb_source_dest: "/usr/local/src"
@@ -36,9 +36,14 @@ rcb_RSYNCRYPTO_TRIM_E: "5"
 rcb_RSYNCRYPTO_TRIM_D: "4"
 rcb_RCB_RST_ROOT: "/scratch/rcb/restore"
 rcb_RCB_CRT_ROOT: "/scratch/rcb/cert"
-rcb_BCK_HOST: "IP-OF-BACKUP-SERVER"
+
+# backup server
+#rcb_BCK_HOST: "example.com"
+rcb_BCK_HOST: "FQN-OF-BACKUP-SERVER"
 rcb_BCK_USER: "rcbackup"
+rcb_BCK_GROUP: "rcbackup"
+rcb_BCK_DST: "/scratch/rcb"
 # BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
-rcb_BCK_DST: "/scratch/backup"
 
 # EOF
+...
