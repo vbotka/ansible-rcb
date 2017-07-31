@@ -33,14 +33,15 @@
     mode="0640"
 
 # TODO: use template for idempotence
-- name: Copy rsnapshot configuration to {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
-  copy: >
-    src="{{ rcb_source_dest }}/rcb/rsnapshot.conf.ubuntu"
-    dest="{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
-    remote_src="yes"
-    owner="root"
-    group="root"
-    mode="0640"
+# rsnapshot will be configured with vbotka.rsnapshot
+#- name: Copy rsnapshot configuration to {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
+#  copy: >
+#    src="{{ rcb_source_dest }}/rcb/rsnapshot.conf.ubuntu"
+#    dest="{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
+#    remote_src="yes"
+#    owner="root"
+#    group="root"
+#    mode="0640"
 
 # EOF
 ...
