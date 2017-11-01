@@ -1,5 +1,5 @@
 ---
-# vars for ansible-rcb
+# vars for vbotka.rcb
 
 # rcb_BCK_HOST: "FQN-OF-BACKUP-SERVER"
 # rcb_BCK_DST: "/scratch/rcb"

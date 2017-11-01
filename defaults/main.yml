@@ -1,5 +1,5 @@
 ---
-# default vars for ansible-rcb
+# default vars for vbotka.rcb
 
 ubuntu_cache_valid_time: 14400
 

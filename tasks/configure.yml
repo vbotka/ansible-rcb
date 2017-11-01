@@ -10,6 +10,10 @@
     state="directory"
     path="{{ rcb_RCB_RST_ROOT }}"
 
+- name: Check existence of {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
+  stat: path="{{ rcb_etc_dir }}/{{ rcb_rcb_conf }}"
+  register: rcb_conf_installed
+  
 # TODO: use template for idempotence 
 - name: Configure {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
   lineinfile: >
@@ -28,6 +32,7 @@
     - { regexp: "^BCK_DST", line: "BCK_DST=\"{{ rcb_BCK_DST }}/{{ ansible_hostname }}\"" }
     - { regexp: "^RSYNCRYPTO_TRIM_E", line: "RSYNCRYPTO_TRIM_E=\"{{ rcb_RSYNCRYPTO_TRIM_E }}\"" }
     - { regexp: "^RSYNCRYPTO_TRIM_D", line: "RSYNCRYPTO_TRIM_D=\"{{ rcb_RSYNCRYPTO_TRIM_D }}\"" }
+  when: rcb_conf_installed.stat.exists == True
 
 # TODO: use template for idempotence
 # rsnapshot will be configured with vbotka.rsnapshot

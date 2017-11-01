@@ -4,7 +4,7 @@
   tags: [sshkey, phase1]
 
 - include: packages.yml
-  tags: [packages, phase2, all]
+  tags: [linux_packages, phase2, all]
 
 - include: source.yml
   tags: [source, phase2, all]
