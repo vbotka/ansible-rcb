@@ -16,28 +16,34 @@
   tags: [configure, phase2, all, devel]
 
 - include: cron.yml
-  when: rcb_rsnapshot_cron == "yes"
+  when: rcb_rsnapshot_cron|lower == "yes"
   tags: [cron, phase2, all, devel]
 
 - include: keys.yml
   tags: [keys, phase2, all, devel]
 
 - include: test1.yml
+  when: rcb_test|lower == "yes"
   tags: [test1, testall, all, devel]
 
 - include: test2.yml
+  when: rcb_test|lower == "yes"
   tags: [test2, testall, all, devel]
 
 - include: test3.yml
+  when: rcb_test|lower == "yes"
   tags: [test3, testall, all, devel]
 
 - include: test4.yml
+  when: rcb_test|lower == "yes"
   tags: [test4, testall, all, devel]
 
 - include: test5.yml
+  when: rcb_test|lower == "yes"
   tags: [test5, testall, all, devel]
 
 - include: test6.yml
+  when: rcb_test|lower == "yes"
   tags: [test6, testall, all, devel]
 
 # EOF

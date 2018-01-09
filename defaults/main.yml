@@ -3,6 +3,7 @@
 
 ubuntu_cache_valid_time: 14400
 rcb_debug: "no"
+rcb_test: "no"
 
 #
 # source
