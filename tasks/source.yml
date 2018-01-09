@@ -17,7 +17,7 @@
   tags: rcb_source_extract
 
 - debug: msg="rcb_source_file_downloaded {{ rcb_source_file_downloaded }}"
-  when: rcb_debug == "YES"
+  when: rcb_debug|lower == "yes"
   tags: rcb_source_extract
 
 - name: Extract source code from {{ rcb_source_dest}}/rcb-{{ rcb_source_file }} to {{ rcb_source_dest }}
@@ -55,7 +55,7 @@
   tags: rcb_source_link
 
 - debug: msg="rcb_source_dir_extracted {{ rcb_source_dir_extracted }}"
-  when: rcb_debug == "YES"
+  when: rcb_debug|lower == "yes"
   tags: rcb_source_link
 
 - name: Create symbolic link rcb to {{ rcb_source_dir }}
