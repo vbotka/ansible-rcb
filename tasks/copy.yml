@@ -30,23 +30,5 @@
   with_items: "{{ rcb_scripts.stdout_lines }}"
   tags: rcb_copy_scripts
 
-- name: Check existence of {{ rcb_source_dest }}/rcb/rcb.conf.ubuntu
-  stat: path="{{ rcb_source_dest }}/rcb/rcb.conf.ubuntu"
-  register: rcb_conf_ubuntu
-  tags: rcb_copy_scripts
-
-# TODO: use template and remove changed_when false
-- name: Copy rcb configuration to {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
-  copy: >
-    src="{{ rcb_source_dest }}/rcb/rcb.conf.ubuntu"
-    dest="{{ rcb_etc_dir }}/{{ rcb_rcb_conf }}"
-    remote_src="yes"
-    owner="root"
-    group="root"
-    mode="0640"
-  when: rcb_conf_ubuntu.stat.exists == True
-  changed_when: false
-  tags: rcb_copy_config
-
 # EOF
 ...

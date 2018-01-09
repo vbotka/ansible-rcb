@@ -1,0 +1,110 @@
+# {{ ansible_managed }}
+
+BCK_HOST="{{ rcb_BCK_HOST }}"
+BCK_USER="{{ rcb_BCK_USER }}"
+BCK_DST="{{ rcb_BCK_DST }}/{{ ansible_hostname }}"
+
+RCB_HOST="{{ ansible_hostname }}"
+RCB_EMAIL="{{ rcb_RCB_EMAIL }}"
+
+RCB_BCK_ROOT="{{ rcb_RCB_BCK_ROOT }}"
+RCB_BCK_PREFIX="{{ rcb_RCB_BCK_PREFIX }}"
+RCB_ENC="$RCB_BCK_ROOT/enc"
+RCB_ENCR="$RCB_BCK_ROOT/enc.restored"
+RCB_DEC="$RCB_BCK_ROOT/dec"
+RCB_DEC_MODE="0700"
+RCB_META="$RCB_BCK_ROOT/meta"
+
+RCB_RST_ROOT="{{ rcb_RCB_RST_ROOT }}"
+
+# THE TRIM OPTION. When running rsyncrypto in recursive mode, the
+# directory structure under srcdir is re-created under dstdir, with
+# one directory stripped from the path.
+#
+# path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
+RSYNCRYPTO_TRIM_E="{{ rcb_RSYNCRYPTO_TRIM_E }}"
+#
+# path length of $RCB_ENCR
+RSYNCRYPTO_TRIM_D="{{ rcb_RSYNCRYPTO_TRIM_D }}"
+# TODO: use awk '{print patsplit($0, array , "/")}'
+
+RCB_CRT_ROOT="{{ rcb_RCB_CRT_ROOT }}"
+RCB_KEYS="$RCB_CRT_ROOT/keys"
+RCB_CRT="$RCB_CRT_ROOT/backup.crt"
+RCB_NAMES="$RCB_CRT_ROOT/encrypted_names"
+
+MAIL="/usr/bin/mail"
+GZIP="/bin/gzip"
+TAR="/bin/tar"
+RSNAPSHOT="/usr/bin/rsnapshot"
+RSYNCRYPTO="/usr/bin/rsyncrypto"
+
+RSNAPSHOT_PARAM="-c /usr/local/etc/rsnapshot.conf"
+
+# Whenever encrypting or deleting a file, write the file's name to
+# logfile RSYNCRYPTO_EXPORT_CHANGES.  This allows passing logfile to
+# rsync(1) using the --include-from rsync option.
+RSYNCRYPTO_EXPORT_CHANGES="$RCB_META/.rsyncrypto-export-changes"
+RSYNCRYPTO_PARAM_E="--name-encrypt=$RCB_NAMES --gzip=$GZIP --trim=$RSYNCRYPTO_TRIM_E --changed --delete --export-changes=$RSYNCRYPTO_EXPORT_CHANGES"
+
+# --delete doesn't work on decryption. Files present in the destination
+# (from the previous decryption) and not present in the source anymore
+# are not deleted. As a result these files will propagate to restored
+# files, but won't be detected by the final comparison of restored and
+# origin files, because only missing, or changed files in the restore
+# directory are detected.
+# rcb-decrypt.sh --delete will delete the destination before
+# decryption. It's time consuming to perform complete decryption of
+# all files. Therefore the default is to keep the destination and
+# decrypt --changed files only.
+RSYNCRYPTO_PARAM_D="--name-encrypt=$RCB_NAMES --gzip=$GZIP --trim=$RSYNCRYPTO_TRIM_D --changed --delete"
+
+RSYNC="/usr/bin/rsync"
+RSYNC_PARAM="--progress --delete -ahv"
+# Warning from the man rsyncrypto about RSYNCRYPTO_EXPORT_CHANGES
+# (logfile). rsync version 3 starts the actual file transfer while it
+# is still transferring the file list, making the performance gain
+# from logfile less noticeable. When using this option in conjunction
+# with rsync, keep in mind that logfile is zeroed out before being
+# written into. This means that unless there is at least one
+# completely successful rsync operation for each rsyncrypto
+# invocation, it is possible to have files that have been changed on
+# disk by a previous invocation of rsyncrypto, but were over written
+# by a later invocation and do not show up in the latest version of
+# logfile. In other words, if rsyncrypto is run more than once
+# between two completely success- ful invocations of rsync, it is
+# possible for logfile not to be complete. Use this option at your
+# own risk!
+RSYNC_INCLUDE_FROM="true"
+RSYNC_INCLUDE_FROM_FILE="--include-from=$RSYNCRYPTO_EXPORT_CHANGES"
+RSYNC_StrictHostKeyChecking="false"
+RSYNC_StrictHostKeyChecking_No="ssh -o StrictHostKeyChecking=no"
+RSYNC_StrictHostKeyChecking_Yes="ssh -o StrictHostKeyChecking=yes"
+
+MTREE="/usr/bin/fmtree"
+MTREE_PARAM="-c -p"
+MTREE_SPEC=".rcb-mtree.txt"
+
+HASHDEEP="/usr/bin/hashdeep"
+HASHDEEP_PARAM_CREATE="-o f -l -r"
+HASHDEEP_PARAM="-o f -l -r -w -x -k"
+
+FIND="/usr/bin/find"
+RCB_EMPTYDIRS=".rcb-empty-dirs.txt"
+RCB_EMPTYDIRS_TAR=".rcb-empty-dirs.tar"
+RCB_LINKS=".rcb-links.txt"
+RCB_LINKS_TAR=".rcb-links.tar"
+RCB_SPECIALS=".rcb-specials.txt"
+RCB_DIGESTS=".rcb-digests.txt"
+
+RCB_LOG_ROOT="/var/log"
+RCB_LOG="$RCB_LOG_ROOT/rcb.log"
+
+RCB_LOG_TEMP_ROOT="/tmp"
+RCB_LOG_TEMP="$RCB_LOG_TEMP_ROOT/rcb-temp.log"
+RCB_LOG_TEMP_RSYNC="$RCB_LOG_TEMP_ROOT/rcb-temp-rsync.log"
+RCB_LOG_TEMP_ENC="$RCB_LOG_TEMP_ROOT/rcb-temp-encrypt.log"
+RCB_LOG_TEMP_DEC="$RCB_LOG_TEMP_ROOT/rcb-temp-decrypt.log"
+RCB_LOG_TEMP_RESTORE="$RCB_LOG_TEMP_ROOT/rcb-temp-restore.log"
+
+# EOF

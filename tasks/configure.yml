@@ -12,31 +12,14 @@
     path="{{ rcb_RCB_RST_ROOT }}"
   tags: rcb_configure_dirs
 
-- name: Check existence of {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
-  stat: path="{{ rcb_etc_dir }}/{{ rcb_rcb_conf }}"
-  register: rcb_conf_installed
-  tags: rcb_configure_conf
-
-# TODO: use template and remove changed_when false
 - name: Configure {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
-  lineinfile: >
+  template: >
+    src="rcb.conf.ubuntu.j2"
     dest="{{ rcb_etc_dir }}/{{ rcb_rcb_conf }}"
-    regexp="{{ item.regexp }}"
-    line="{{ item.line }}"
-  with_items:
-    - { regexp: "^RCB_HOST", line: "RCB_HOST=\"{{ ansible_hostname }}\"" }
-    - { regexp: "^RCB_EMAIL", line: "RCB_EMAIL=\"{{ rcb_RCB_EMAIL }}\"" }
-    - { regexp: "^RCB_BCK_ROOT", line: "RCB_BCK_ROOT=\"{{ rcb_RCB_BCK_ROOT }}\"" }
-    - { regexp: "^RCB_BCK_PREFIX", line: "RCB_BCK_PREFIX=\"{{ rcb_RCB_BCK_PREFIX }}\"" }
-    - { regexp: "^RCB_RST_ROOT", line: "RCB_RST_ROOT=\"{{ rcb_RCB_RST_ROOT }}\"" }
-    - { regexp: "^RCB_CRT_ROOT", line: "RCB_CRT_ROOT=\"{{ rcb_RCB_CRT_ROOT }}\"" }
-    - { regexp: "^BCK_HOST", line: "BCK_HOST=\"{{ rcb_BCK_HOST }}\"" }
-    - { regexp: "^BCK_USER", line: "BCK_USER=\"{{ rcb_BCK_USER }}\"" }
-    - { regexp: "^BCK_DST", line: "BCK_DST=\"{{ rcb_BCK_DST }}/{{ ansible_hostname }}\"" }
-    - { regexp: "^RSYNCRYPTO_TRIM_E", line: "RSYNCRYPTO_TRIM_E=\"{{ rcb_RSYNCRYPTO_TRIM_E }}\"" }
-    - { regexp: "^RSYNCRYPTO_TRIM_D", line: "RSYNCRYPTO_TRIM_D=\"{{ rcb_RSYNCRYPTO_TRIM_D }}\"" }
-  when: rcb_conf_installed.stat.exists == True
-  changed_when: false
+    owner="root"
+    group="root"
+    mode="0640"
+    backup="yes"
   tags: rcb_configure_conf
 
 # EOF
