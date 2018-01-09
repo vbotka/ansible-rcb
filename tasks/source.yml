@@ -5,7 +5,7 @@
     state="directory"
     path="{{ rcb_source_dest }}"
 
-- name: Download source code {{ rcb_source_url }}/{{ rcb_source_file }}
+- name: Download source code from {{ rcb_source_url }}/{{ rcb_source_file }}
   get_url: >
     url="{{ rcb_source_url }}/{{ rcb_source_file }}"
     dest="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
@@ -25,29 +25,8 @@
     src="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
     dest="{{ rcb_source_dest }}"
     remote_src="yes"
-    extra_opts="--skip-old-files"
   when: rcb_source_file_downloaded.stat.exists == True
   tags: rcb_source_extract
-
-- name: Register list of the .sh files in {{ rcb_source_dest }}
-  command: >
-    find "{{ rcb_source_dest }}" -type f -name "*.sh"
-  register: command_result
-  when: (ansible_os_family == "Debian") or (ansible_os_family == "RedHat")
-  tags: rcb_source_patch
-
-#  shell: sed -i'~' -e 's/\/usr\/local\/bin\/bash/\/bin\/bash/' {{ rcb_source_dest }}/*sh
-- name: Change path to bash to /bin/bash if OS is Linux
-  replace: >
-    dest="{{ item }}"
-    regexp="/usr/local/bin/bash"
-    replace="/bin/bash"
-    backup="no"
-  with_items: "{{ command_result.stdout_lines }}"
-  when:
-    - (ansible_os_family == "Debian") or (ansible_os_family == "RedHat")
-    - command_result.stdout_lines is defined
-  tags: rcb_source_patch
 
 - name: Check existence of {{ rcb_source_dest }}/{{ rcb_source_dir }}
   stat: path="{{ rcb_source_dest }}/{{ rcb_source_dir }}"
@@ -63,8 +42,66 @@
     src="{{ rcb_source_dest }}/{{ rcb_source_dir }}"
     dest="{{ rcb_source_dest }}/rcb"
     state="link"
+    force="yes"
   when: rcb_source_dir_extracted.stat.exists == True
   tags: rcb_source_link
+
+- name: Register list of the .sh files in {{ rcb_source_dest }}
+  command: >
+    find "{{ rcb_source_dest }}" -type f -name "*.sh"
+  register: rcb_scripts
+  changed_when: false
+  tags: rcb_source_patch
+
+- name: Create working directory for the scripts {{ rcb_source_dest }}/rcb-work
+  file: >
+    state="directory"
+    path="{{ rcb_source_dest }}/rcb-work"
+  tags: rcb_source_patch
+
+- name: Copy scripts to working directory
+  copy: >
+    src="{{ item }}"
+    dest="{{ rcb_source_dest }}/rcb-work"
+    remote_src="yes"
+  with_items: "{{ rcb_scripts.stdout_lines }}"
+  when: not ansible_check_mode
+  changed_when: false
+  tags: rcb_source_patch
+
+- name: Which bash
+  command: "which bash"
+  register: rcb_which_bash
+  changed_when: false
+  tags: rcb_source_patch
+
+- debug: msg="Bash path = {{ rcb_which_bash.stdout }}"
+  when:
+    - rcb_debug|lower == "yes"
+    - not ansible_check_mode
+  tags: rcb_source_patch
+
+- name: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work
+  command: 'find "{{ rcb_source_dest }}/rcb-work" -type f -name "*.sh"'
+  register: rcb_scripts
+  changed_when: false
+  tags: rcb_source_patch
+
+- debug: msg="Scripts = {{ rcb_scripts.stdout_lines }}"
+  when:
+    - rcb_debug|lower == "yes"
+    - not ansible_check_mode
+  tags: rcb_source_patch
+
+- name: Patch {{ rcb_which_bash.stdout }} in scripts in {{ rcb_source_dest }}/rcb-work
+  lineinfile: >
+    dest="{{ item }}"
+    regexp="#!"
+    line="#!{{ rcb_which_bash.stdout }}"
+  with_items: "{{ rcb_scripts.stdout_lines }}"
+  when: not ansible_check_mode
+  changed_when: false
+  tags: rcb_source_patch
 
 # EOF
 ...

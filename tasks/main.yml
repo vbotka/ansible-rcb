@@ -1,50 +1,50 @@
 ---
 
 - include: sshkey.yml
-  tags: [sshkey, phase1]
+  tags: [rcb_sshkey, phase1]
 
 - include: packages.yml
-  tags: [linux_packages, phase2, all]
+  tags: [rcb_packages, linux_packages, phase2, rcb_all]
 
 - include: source.yml
-  tags: [source, phase2, all]
+  tags: [rcb_source, phase2, rcb_all]
 
 - include: copy.yml
-  tags: [copy, phase2, all, devel]
+  tags: [rcb_copy, phase2, rcb_all, rcb_devel]
 
 - include: configure.yml
-  tags: [configure, phase2, all, devel]
+  tags: [rcb_configure, phase2, rcb_all, rcb_devel]
 
 - include: cron.yml
   when: rcb_rsnapshot_cron|lower == "yes"
-  tags: [cron, phase2, all, devel]
+  tags: [rcb_cron, phase2, rcb_all, rcb_devel]
 
 - include: keys.yml
-  tags: [keys, phase2, all, devel]
+  tags: [rcb_keys, phase2, rcb_all, rcb_devel]
 
 - include: test1.yml
   when: rcb_test|lower == "yes"
-  tags: [test1, testall, all, devel]
+  tags: [test1, testall, rcb_all, rcb_devel]
 
 - include: test2.yml
   when: rcb_test|lower == "yes"
-  tags: [test2, testall, all, devel]
+  tags: [test2, testall, rcb_all, rcb_devel]
 
 - include: test3.yml
   when: rcb_test|lower == "yes"
-  tags: [test3, testall, all, devel]
+  tags: [test3, testall, rcb_all, rcb_devel]
 
 - include: test4.yml
   when: rcb_test|lower == "yes"
-  tags: [test4, testall, all, devel]
+  tags: [test4, testall, rcb_all, rcb_devel]
 
 - include: test5.yml
   when: rcb_test|lower == "yes"
-  tags: [test5, testall, all, devel]
+  tags: [test5, testall, rcb_all, rcb_devel]
 
 - include: test6.yml
   when: rcb_test|lower == "yes"
-  tags: [test6, testall, all, devel]
+  tags: [test6, testall, rcb_all, rcb_devel]
 
 # EOF
 ...
