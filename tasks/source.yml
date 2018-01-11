@@ -103,5 +103,14 @@
   changed_when: false
   tags: rcb_source_patch
 
+- name: Configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
+  lineinfile: >
+    dest="{{ rcb_source_dest }}/rcb-work/rcb-daily-encrypt-rsync-decrypt-restore.sh"
+    regexp="rcb-rsync-back.sh"
+    line="rcb-rsync-back.sh --link"
+  when: rcb_link_restore|lower == "yes"
+  changed_when: false
+  tags: rcb_source_patch2
+
 # EOF
 ...

@@ -47,6 +47,9 @@ rcb_BCK_GROUP: "rcbackup"
 rcb_BCK_DST: "/scratch/rcb"
 # BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
 
+# Configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
+rcb_link_restore: "yes"
+
 # cron
 rcb_rsnapshot_cron: "no"
 rcb_rsnapshot_cron_user: "root"
