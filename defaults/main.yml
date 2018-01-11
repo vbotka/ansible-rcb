@@ -7,7 +7,7 @@ rcb_test: "no"
 
 #
 # source
-rcb_source_version: "0.2.0"
+rcb_source_version: "0.2.1"
 rcb_source_file: "{{rcb_source_version}}.tar.gz"
 rcb_source_dir: "rcb-{{rcb_source_version}}"
 rcb_source_dest: "/usr/local/src"
@@ -56,23 +56,23 @@ rcb_rsnapshot_cron_user: "root"
 rcb_rsnapshot_cron_mailto: "root"
 rcb_rsnapshot_cron_hourly_hour: "*/4"
 rcb_rsnapshot_cron_hourly_minute: "15"
-rcb_rsnapshot_cron_hourly_command: "/root/bin/rcb-rsnapshot.sh -i=hourly"
+rcb_rsnapshot_cron_hourly_command: "rcb-rsnapshot.sh -i=hourly"
 rcb_rsnapshot_cron_daily_hour: "5"
 rcb_rsnapshot_cron_daily_minute: "15"
-rcb_rsnapshot_cron_daily_command: "/root/bin/rcb-daily-encrypt-rsync-decrypt-restore.sh"
+rcb_rsnapshot_cron_daily_command: "rcb-daily-encrypt-rsync-decrypt-restore.sh"
 rcb_rsnapshot_cron_weekly_hour: "1"
 rcb_rsnapshot_cron_weekly_minute: "15"
 rcb_rsnapshot_cron_weekly_day: "1"
-rcb_rsnapshot_cron_weekly_command: "/root/bin/rcb-rsnapshot.sh -i=weekly"
+rcb_rsnapshot_cron_weekly_command: "rcb-rsnapshot.sh -i=weekly"
 rcb_rsnapshot_cron_monthly_hour: "2"
 rcb_rsnapshot_cron_monthly_minute: "15"
 rcb_rsnapshot_cron_monthly_day: "1"
-rcb_rsnapshot_cron_monthly_command: "/root/bin/rcb-rsnapshot.sh -i=monthly"
+rcb_rsnapshot_cron_monthly_command: "rcb-rsnapshot.sh -i=monthly"
 #MAILTO="root"
-#15 */4 * * */root/bin/rcb-rsnapshot.sh -i=hourly
-#15 1   * * 1/root/bin/rcb-rsnapshot.sh -i=weekly
-#15 2   1 * */root/bin/rcb-rsnapshot.sh -i=monthly
-#15 5   * * */root/bin/rcb-daily-encrypt-rsync-decrypt-restore.sh
+#15 */4 * * *rcb-rsnapshot.sh -i=hourly
+#15 1   * * 1rcb-rsnapshot.sh -i=weekly
+#15 2   1 * *rcb-rsnapshot.sh -i=monthly
+#15 5   * * *rcb-daily-encrypt-rsync-decrypt-restore.sh
 
 # EOF
 ...
