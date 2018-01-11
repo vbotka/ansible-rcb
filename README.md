@@ -1,15 +1,15 @@
 ansible-rcb
 ===========
 
-[![Build Status](https://travis-ci.org/vbotka/ansible-rcb.svg?branch=0.1.4)](https://travis-ci.org/vbotka/ansible-rcb)
+[![Build Status](https://travis-ci.org/vbotka/ansible-rcb.svg?branch=0.1.4)](https://travis-ci.org/vbotka/ansible-rcb) ![Build Status](https://readthedocs.org/projects/rcb/badge/?version=latest)
 
-[Ansible role.](https://galaxy.ansible.com/vbotka/rcb/) Install and configure [RCB (Rsync-Crypto-Backup)](https://github.com/vbotka/rcb)
+[Ansible role.](https://galaxy.ansible.com/vbotka/rcb/) Install and configure [RCB (Rsync-Crypto-Backup)](https://github.com/vbotka/rcb). Documentation is available at [ReadTheDoc](http://rcb.readthedocs.io/).
 
 
 Requirements
 ------------
 
-Ubuntu 16.04 at digitalocean.com needs python2.7
+None
 
 
 Role Variables
