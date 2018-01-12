@@ -1,9 +1,15 @@
 ---
 
-- name: Configure cron MAILTO="{{ rcb_rsnapshot_cron_mailto }}"
+- name: Configure cron MAILTO={{ rcb_rsnapshot_cron_mailto }}
   cronvar: >
     name="MAILTO"
-    value="\"{{ rcb_rsnapshot_cron_mailto }}\""
+    value="{{ rcb_rsnapshot_cron_mailto }}"
+    user="{{ rcb_rsnapshot_cron_user }}"
+
+- name: Configure cron PATH={{ rcb_rsnapshot_cron_path }}
+  cronvar: >
+    name="PATH"
+    value="{{ rcb_rsnapshot_cron_path }}"
     user="{{ rcb_rsnapshot_cron_user }}"
 
 - name: Configure cron hourly rsnapshot
@@ -13,7 +19,7 @@
     hour="{{ rcb_rsnapshot_cron_hourly_hour }}"
     job="{{ rcb_rsnapshot_cron_hourly_command }}"
     user="{{ rcb_rsnapshot_cron_user }}"
-#    backup="yes"
+#   backup="yes"
 
 - name: Configure cron daily rsnapshot
   cron: >
@@ -22,7 +28,7 @@
     hour="{{ rcb_rsnapshot_cron_daily_hour }}"
     job="{{ rcb_rsnapshot_cron_daily_command }}"
     user="{{ rcb_rsnapshot_cron_user }}"
-#    backup="yes"
+#   backup="yes"
 
 - name: Configure cron weekly rsnapshot
   cron: >
@@ -32,7 +38,7 @@
     hour="{{ rcb_rsnapshot_cron_weekly_hour }}"
     job="{{ rcb_rsnapshot_cron_weekly_command }}"
     user="{{ rcb_rsnapshot_cron_user }}"
-#    backup="yes"
+#   backup="yes"
 
 - name: Configure cron monthly rsnapshot
   cron: >
@@ -42,7 +48,7 @@
     hour="{{ rcb_rsnapshot_cron_monthly_hour }}"
     job="{{ rcb_rsnapshot_cron_monthly_command }}"
     user="{{ rcb_rsnapshot_cron_user }}"
-#    backup="yes"
+#   backup="yes"
 
 # EOF
 ...

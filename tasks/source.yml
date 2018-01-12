@@ -46,11 +46,15 @@
   when: rcb_source_dir_extracted.stat.exists == True
   tags: rcb_source_link
 
-- name: Register list of the .sh files in {{ rcb_source_dest }}
+- name: Register list of the .sh files in {{ rcb_source_dest }}/rcb
   command: >
-    find "{{ rcb_source_dest }}" -type f -name "*.sh"
+    find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"
   register: rcb_scripts
   changed_when: false
+  tags: rcb_source_patch
+
+- debug: msg="*.sh files in {{ rcb_source_dest }}/rcb = {{ rcb_scripts.stdout_lines }}"
+  when: rcb_debug|lower == "yes"
   tags: rcb_source_patch
 
 - name: Create working directory for the scripts {{ rcb_source_dest }}/rcb-work
