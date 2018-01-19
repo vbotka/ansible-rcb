@@ -1,5 +1,15 @@
 ---
 
+- name: Test presence of {{ rcb_source_dest }}/rcb-current.lock
+  stat: path="{{ rcb_source_dest }}/rcb-current.lock"
+  register: rcb_current_lock
+
+- debug: msg="[LOCK] rcb-current.lock file is present."
+  when:
+    - rcb_current_lock.stat.exists
+    - rcb_source_ignore_current_lock|lower == "no"
+    - rcb_debug|lower == "yes"
+
 - name: Create directory for the source code {{ rcb_source_dest }}
   file: >
     state="directory"
@@ -43,7 +53,9 @@
     dest="{{ rcb_source_dest }}/rcb"
     state="link"
     force="yes"
-  when: rcb_source_dir_extracted.stat.exists == True
+  when:
+    - rcb_source_dir_extracted.stat.exists == True
+    - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock|lower == "yes")
   tags: rcb_source_link
 
 - name: Register list of the .sh files in {{ rcb_source_dest }}/rcb
@@ -107,14 +119,14 @@
   changed_when: false
   tags: rcb_source_patch
 
-- name: Configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
+- name: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
   lineinfile: >
     dest="{{ rcb_source_dest }}/rcb-work/rcb-daily-encrypt-rsync-decrypt-restore.sh"
     regexp="rcb-rsync-back.sh"
     line="rcb-rsync-back.sh --link"
   when: rcb_link_restore|lower == "yes"
   changed_when: false
-  tags: rcb_source_patch2
+  tags: rcb_source_patch
 
 # EOF
 ...

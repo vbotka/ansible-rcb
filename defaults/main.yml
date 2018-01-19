@@ -4,6 +4,7 @@
 ubuntu_cache_valid_time: 14400
 rcb_debug: "no"
 rcb_test: "no"
+rcb_source_ignore_current_lock: "no"
 
 #
 # source
