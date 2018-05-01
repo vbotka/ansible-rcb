@@ -1,7 +1,15 @@
 ---
 
+- name: DEBUG Print variables
+  vars:
+    msg: |
+         TEST3 rcb conf [ {{ rcb_etc_dir }}/{{ rcb_conf }} ]
+  debug:
+    msg: "{{ msg.split('\n') }}"
+  when: rcb_debug|lower == "yes"
+
 - name: Test rsync to {{ rcb_BCK_USER }}@{{ rcb_BCK_HOST }}:/{{ rcb_BCK_DST }}
-  command: "{{ rcb_bin_dir }}/rcb-rsync.sh"
+  shell: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsync.sh"
 
 # EOF
 ...

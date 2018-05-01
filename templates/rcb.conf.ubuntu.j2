@@ -39,7 +39,7 @@ TAR="/bin/tar"
 RSNAPSHOT="/usr/bin/rsnapshot"
 RSYNCRYPTO="/usr/bin/rsyncrypto"
 
-RSNAPSHOT_PARAM="-c /usr/local/etc/rsnapshot.conf"
+RSNAPSHOT_PARAM="-c {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
 
 # Whenever encrypting or deleting a file, write the file's name to
 # logfile RSYNCRYPTO_EXPORT_CHANGES.  This allows passing logfile to
@@ -57,7 +57,7 @@ RSYNCRYPTO_PARAM_E="--name-encrypt=$RCB_NAMES --gzip=$GZIP --trim=$RSYNCRYPTO_TR
 # decryption. It's time consuming to perform complete decryption of
 # all files. Therefore the default is to keep the destination and
 # decrypt --changed files only.
-RSYNCRYPTO_PARAM_D="--name-encrypt=$RCB_NAMES --gzip=$GZIP --trim=$RSYNCRYPTO_TRIM_D --changed --delete"
+RSYNCRYPTO_PARAM_D="--name-encrypt=$RCB_NAMES --gzip=$GZIP --trim=$RSYNCRYPTO_TRIM_D --changed"
 
 RSYNC="/usr/bin/rsync"
 RSYNC_PARAM="--progress --delete -ahv"

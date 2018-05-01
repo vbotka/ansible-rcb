@@ -1,26 +1,34 @@
 ---
 
+- name: DEBUG Print variables
+  vars:
+    msg: |
+         Backup dir [ {{ rcb_RCB_BCK_ROOT }} ]
+         Restore dir [ {{ rcb_RCB_RST_ROOT }} ]
+         RCB config [ {{ rcb_etc_dir }}/{{ rcb_conf }} ]
+         Rsnaphost config [ {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }} ]
+  debug:
+    msg: "{{ msg.split('\n') }}"
+  when: rcb_debug|lower == "yes"
+
 - name: Create directory for backup {{ rcb_RCB_BCK_ROOT }}
   file: >
     state="directory"
     path="{{ rcb_RCB_BCK_ROOT }}"
-  tags: rcb_configure_dirs
 
 - name: Create directory to restore from backup {{ rcb_RCB_RST_ROOT }}
   file: >
     state="directory"
     path="{{ rcb_RCB_RST_ROOT }}"
-  tags: rcb_configure_dirs
 
-- name: Configure {{ rcb_etc_dir }}/{{ rcb_rcb_conf }}
+- name: Configure {{ rcb_etc_dir }}/{{ rcb_conf }}
   template: >
     src="rcb.conf.ubuntu.j2"
-    dest="{{ rcb_etc_dir }}/{{ rcb_rcb_conf }}"
+    dest="{{ rcb_etc_dir }}/{{ rcb_conf }}"
     owner="root"
     group="root"
     mode="0640"
     backup="yes"
-  tags: rcb_configure_conf
 
 # EOF
 ...

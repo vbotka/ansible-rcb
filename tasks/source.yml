@@ -1,10 +1,19 @@
 ---
 
+- name: DEBUG Print variables
+  vars:
+    msg: |
+         url [ {{ rcb_source_url }}/{{ rcb_source_file }} ]
+         dest [ {{ rcb_source_dest }}/rcb-{{ rcb_source_file }} ]
+  debug:
+    msg: "{{ msg.split('\n') }}"
+  when: rcb_debug|lower == "yes"
+
 - name: Test presence of {{ rcb_source_dest }}/rcb-current.lock
   stat: path="{{ rcb_source_dest }}/rcb-current.lock"
   register: rcb_current_lock
 
-- debug: msg="[LOCK] rcb-current.lock file is present."
+- debug: msg="DEBUG rcb-current.lock file is present."
   when:
     - rcb_current_lock.stat.exists
     - rcb_source_ignore_current_lock|lower == "no"
@@ -19,16 +28,13 @@
   get_url: >
     url="{{ rcb_source_url }}/{{ rcb_source_file }}"
     dest="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
-  tags: rcb_source_extract
 
 - name: Check existence of {{ rcb_source_dest}}/rcb-{{ rcb_source_file }}
   stat: path="{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
   register: rcb_source_file_downloaded
-  tags: rcb_source_extract
 
-- debug: msg="rcb_source_file_downloaded {{ rcb_source_file_downloaded }}"
+- debug: msg="DEBUG rcb_source_file_downloaded {{ rcb_source_file_downloaded }}"
   when: rcb_debug|lower == "yes"
-  tags: rcb_source_extract
 
 - name: Extract source code from {{ rcb_source_dest}}/rcb-{{ rcb_source_file }} to {{ rcb_source_dest }}
   unarchive: >
@@ -36,16 +42,13 @@
     dest="{{ rcb_source_dest }}"
     remote_src="yes"
   when: rcb_source_file_downloaded.stat.exists == True
-  tags: rcb_source_extract
 
 - name: Check existence of {{ rcb_source_dest }}/{{ rcb_source_dir }}
   stat: path="{{ rcb_source_dest }}/{{ rcb_source_dir }}"
   register: rcb_source_dir_extracted
-  tags: rcb_source_link
 
-- debug: msg="rcb_source_dir_extracted {{ rcb_source_dir_extracted }}"
+- debug: msg="DEBUG rcb_source_dir_extracted {{ rcb_source_dir_extracted }}"
   when: rcb_debug|lower == "yes"
-  tags: rcb_source_link
 
 - name: Create symbolic link rcb to {{ rcb_source_dir }}
   file: >
@@ -56,77 +59,6 @@
   when:
     - rcb_source_dir_extracted.stat.exists == True
     - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock|lower == "yes")
-  tags: rcb_source_link
-
-- name: Register list of the .sh files in {{ rcb_source_dest }}/rcb
-  command: >
-    find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"
-  register: rcb_scripts
-  changed_when: false
-  tags: rcb_source_patch
-
-- debug: msg="*.sh files in {{ rcb_source_dest }}/rcb = {{ rcb_scripts.stdout_lines }}"
-  when: rcb_debug|lower == "yes"
-  tags: rcb_source_patch
-
-- name: Create working directory for the scripts {{ rcb_source_dest }}/rcb-work
-  file: >
-    state="directory"
-    path="{{ rcb_source_dest }}/rcb-work"
-  tags: rcb_source_patch
-
-- name: Copy scripts to working directory
-  copy: >
-    src="{{ item }}"
-    dest="{{ rcb_source_dest }}/rcb-work"
-    remote_src="yes"
-  with_items: "{{ rcb_scripts.stdout_lines }}"
-  when: not ansible_check_mode
-  changed_when: false
-  tags: rcb_source_patch
-
-- name: Which bash
-  command: "which bash"
-  register: rcb_which_bash
-  changed_when: false
-  tags: rcb_source_patch
-
-- debug: msg="Bash path = {{ rcb_which_bash.stdout }}"
-  when:
-    - rcb_debug|lower == "yes"
-    - not ansible_check_mode
-  tags: rcb_source_patch
-
-- name: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work
-  command: 'find "{{ rcb_source_dest }}/rcb-work" -type f -name "*.sh"'
-  register: rcb_scripts
-  changed_when: false
-  tags: rcb_source_patch
-
-- debug: msg="Scripts = {{ rcb_scripts.stdout_lines }}"
-  when:
-    - rcb_debug|lower == "yes"
-    - not ansible_check_mode
-  tags: rcb_source_patch
-
-- name: Patch {{ rcb_which_bash.stdout }} in scripts in {{ rcb_source_dest }}/rcb-work
-  lineinfile: >
-    dest="{{ item }}"
-    regexp="#!"
-    line="#!{{ rcb_which_bash.stdout }}"
-  with_items: "{{ rcb_scripts.stdout_lines }}"
-  when: not ansible_check_mode
-  changed_when: false
-  tags: rcb_source_patch
-
-- name: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
-  lineinfile: >
-    dest="{{ rcb_source_dest }}/rcb-work/rcb-daily-encrypt-rsync-decrypt-restore.sh"
-    regexp="rcb-rsync-back.sh"
-    line="rcb-rsync-back.sh --link"
-  when: rcb_link_restore|lower == "yes"
-  changed_when: false
-  tags: rcb_source_patch
 
 # EOF
 ...

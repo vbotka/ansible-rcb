@@ -1,22 +1,28 @@
 ---
 
+- name: DEBUG Print variables
+  vars:
+    msg: |
+         work dir [ {{ rcb_source_dest }}/rcb-work }} ]
+         bin dir [ {{ rcb_bin_dir }} ]
+  debug:
+    msg: "{{ msg.split('\n') }}"
+  when: rcb_debug|lower == "yes"
+
 - name: Create directory for installation {{ rcb_bin_dir }}
   file: >
     state="directory"
     path="{{ rcb_bin_dir }}"
-  tags: rcb_copy_scripts
 
 - name: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work
   command: "find {{ rcb_source_dest }}/rcb-work -type f -name *.sh"
   register: rcb_scripts
   changed_when: false
-  tags: rcb_copy_scripts
 
 - debug: msg="Scripts = {{ rcb_scripts.stdout_lines }}"
   when:
     - rcb_debug|lower == "yes"
     - not ansible_check_mode
-  tags: rcb_copy_scripts
 
 - name: Copy scripts to {{ rcb_bin_dir }}
   copy: >
@@ -28,7 +34,6 @@
     mode="0750"
   when: not ansible_check_mode
   with_items: "{{ rcb_scripts.stdout_lines }}"
-  tags: rcb_copy_scripts
 
 # EOF
 ...

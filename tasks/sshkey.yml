@@ -1,5 +1,14 @@
 ---
 
+- name: DEBUG Print variables
+  vars:
+    msg: |
+         ssh_key_comment [root@{{ ansible_hostname }} ]
+         dest [ /tmp/{{ rcb_BCK_HOST }}/root-{{ ansible_hostname }}.id_rsa.pub ]
+  debug:
+    msg: "{{ msg.split('\n') }}"
+  when: rcb_debug|lower == "yes"
+
 - name: Generate RSA key for root
   user:
     name="root"

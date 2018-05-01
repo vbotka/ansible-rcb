@@ -1,14 +1,13 @@
 ---
-# default vars for vbotka.rcb
+# defaults for vbotka.rcb
 
 ubuntu_cache_valid_time: 14400
 rcb_debug: "no"
 rcb_test: "no"
-rcb_source_ignore_current_lock: "no"
 
-#
 # source
-rcb_source_version: "0.2.1"
+rcb_source_ignore_current_lock: "no"
+rcb_source_version: "1.0.0"
 rcb_source_file: "{{rcb_source_version}}.tar.gz"
 rcb_source_dir: "rcb-{{rcb_source_version}}"
 rcb_source_dest: "/usr/local/src"
@@ -18,14 +17,10 @@ rcb_source_url: "https://github.com/vbotka/rcb/archive"
 rcb_bin_dir: "/root/bin"
 rcb_etc_dir: "/usr/local/etc"
 rcb_snapshot_root: "/scratch/rcb/backup/snapshots"
-rcb_test_dir: "/scratch/rcb/test"
 
-# files
-rcb_rcb_conf: "rcb.conf"
+# conf
+rcb_conf: "rcb.conf"
 rcb_rsnapshot_conf: "rsnapshot.conf"
-
-# CN
-rcb_cert_CN: "example.com"
 
 # rcb.conf
 #
@@ -40,6 +35,15 @@ rcb_RSYNCRYPTO_TRIM_D: "4"
 rcb_RCB_RST_ROOT: "/scratch/rcb/restore"
 rcb_RCB_CRT_ROOT: "/scratch/rcb/cert"
 
+# certificate
+rcb_cert_CN: "example.com"
+rcb_privatekey_cipher: "AES-256-CBC"
+rcb_privatekey_passphrase: "passphrase"
+rcb_privatekey_passphrase_file: "{{rcb_RCB_CRT_ROOT }}/pem-pass-phrase"
+rcb_privatekey_passphrase_owner: "root"
+rcb_privatekey_passphrase_group: "admin"
+rcb_privatekey_passphrase_mode: "0640"
+
 # backup server
 #rcb_BCK_HOST: "example.com"
 rcb_BCK_HOST: "FQN-OF-BACKUP-SERVER"
@@ -48,7 +52,7 @@ rcb_BCK_GROUP: "rcbackup"
 rcb_BCK_DST: "/scratch/rcb"
 # BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
 
-# Configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
+# configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
 rcb_link_restore: "yes"
 
 # cron
@@ -70,6 +74,7 @@ rcb_rsnapshot_cron_monthly_hour: "2"
 rcb_rsnapshot_cron_monthly_minute: "15"
 rcb_rsnapshot_cron_monthly_day: "1"
 rcb_rsnapshot_cron_monthly_command: "rcb-rsnapshot.sh -i=monthly"
+
 #MAILTO="root"
 #15 */4 * * *rcb-rsnapshot.sh -i=hourly
 #15 1   * * 1rcb-rsnapshot.sh -i=weekly

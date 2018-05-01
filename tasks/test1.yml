@@ -1,28 +1,37 @@
 ---
 
+- name: Assign test variables
+  set_fact:
+    rcb_test_dir: "/scratch/rcb-test"
+
+- name: DEBUG Print variables
+  vars:
+    msg: |
+         TEST1 dir [ {{ rcb_test_dir }} ]
+         TEST1 rsnapshot conf [ {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }} ]
+         TEST1 rcb conf [ {{ rcb_etc_dir }}/{{ rcb_conf }} ]
+  debug:
+    msg: "{{ msg.split('\n') }}"
+  when: rcb_debug|lower == "yes"
+
 - name: Create test directory {{ rcb_test_dir }}
-  file: >
-    state="directory"
-    path="{{ rcb_test_dir }}"
+  file:
+    state: "directory"
+    path: "{{ rcb_test_dir }}"
 
-- name: Configure rsnapshot to backup {{ rcb_test_dir }}
-  lineinfile: >
+- name: Create test files in {{ rcb_test_dir }}
+  shell: "dd if=/dev/urandom of={{ rcb_test_dir }}/{{ item }} count=10 bs=1024"
+  with_items: [1, 2, 3]
+
+- name: Configure {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }} to backup {{ rcb_test_dir }}
+  lineinfile:
     dest="{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
-    regexp="^{{ rcb_test_dir }}"
-    insertafter="# LOCALHOST"
-    line="backup\t/scratch/rcb/test/\tlocalhost/"
+    regexp="{{ rcb_test_dir }}"
+    insertafter="### BACKUP POINTS"
+    line="backup\t{{ rcb_test_dir }}\tlocalhost/"
   
-- name: Create test file 1
-  shell: "cp /etc/passwd {{ rcb_test_dir }}/1"
-  
-- name: Create test file 2
-  shell: "cp /etc/passwd {{ rcb_test_dir }}/2"
-  
-- name: Create test file 3
-  shell: "cp /etc/passwd {{ rcb_test_dir }}/3"
-
 - name: Test backup {{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly
-  command: "{{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
+  shell: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
 
 # EOF
 ...
