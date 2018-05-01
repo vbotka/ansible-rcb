@@ -10,7 +10,7 @@
   tags: [rcb_source, phase2, rcb_all]
 
 - include: patch.yml
-  tags: [rcb_patch, phase2, rcb_all]
+  tags: [rcb_patch, phase2, rcb_all, rcb_devel]
 
 - include: copy.yml
   tags: [rcb_copy, phase2, rcb_all, rcb_devel]

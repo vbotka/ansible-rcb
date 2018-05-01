@@ -7,7 +7,7 @@ rcb_test: "no"
 
 # source
 rcb_source_ignore_current_lock: "no"
-rcb_source_version: "1.0.0"
+rcb_source_version: "1.0.1"
 rcb_source_file: "{{rcb_source_version}}.tar.gz"
 rcb_source_dir: "rcb-{{rcb_source_version}}"
 rcb_source_dest: "/usr/local/src"
