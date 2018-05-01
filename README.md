@@ -38,21 +38,21 @@ Edit and change at least:
 - hosts in playbooks/rcb-backup-server.yml
 
 
-Following workflow was tested with Ubuntu 17.04 (localhost Backup-Client) and FreeBSD 10.3 (remote Backup-Server)
+Following workflow was tested with Ubuntu 18.04 (localhost Backup-Client) and FreeBSD 10.3 (remote Backup-Server)
 
-2) "rcb.yml -t phase1" creates SSH keys at Backup-Clients and stores the public keys at the localhost
+2) Create SSH keys at Backup-Clients
 
 ```
  ansible-playbook ~/.ansible/playbooks/rcb.yml -t phase1
 ```
 
-3) rcb-backup-server.yml configures the Backup-Server
+3) Configure the Backup-Server
 
 ```
 ansible-playbook ~/.ansible/playbooks/rcb-backup-server.yml
 ```
 
-4) rcb.yml -t phase2 configures the Backup-Clients
+4) Configure the Backup-Clients
 
 ```
 ansible-playbook ~/.ansible/playbooks/rcb.yml -t phase2
@@ -79,7 +79,7 @@ ansible-playbook ~/.ansible/playbooks/rcb-devel.yml
 Test it
 
 ```
-ansible-playbook ~/.ansible/playbooks/rcb.yml -t devel
+ansible-playbook ~/.ansible/playbooks/rcb.yml -t rcb_devel
 ```
 
 
