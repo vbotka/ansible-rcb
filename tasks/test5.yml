@@ -9,7 +9,7 @@
   when: rcb_debug|lower == "yes"
 
 - name: Test decrytpion
-  shell: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-decrypt.sh"
+  shell: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-decrypt.sh --delete"
 
 # EOF
 ...
