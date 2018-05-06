@@ -17,9 +17,14 @@ RCB_META="$RCB_BCK_ROOT/meta"
 
 RCB_RST_ROOT="{{ rcb_RCB_RST_ROOT }}"
 
-# THE TRIM OPTION. When running rsyncrypto in recursive mode, the
-# directory structure under srcdir is re-created under dstdir, with
-# one directory stripped from the path.
+# THE TRIM OPTION. When running rsyncrypto in recursive mode, the directory
+# structure under srcdir is re-created under dstdir, with one directory stripped
+# from the path.
+#
+# Important note: When performing file name encryption, it is vitally important
+# to give the correct --trim values, both during encryption and during
+# decryption. Failing to do so will cause rsyncrypto to search for non-existing
+# file names, and to fail to locate the files to decrypt. (man rsyncrypto)
 #
 # path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
 RSYNCRYPTO_TRIM_E="{{ rcb_RSYNCRYPTO_TRIM_E }}"
