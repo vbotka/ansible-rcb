@@ -14,6 +14,7 @@ rcb_source_dest: "/usr/local/src"
 rcb_source_url: "https://github.com/vbotka/rcb/archive"
 
 # directories
+rcb_root_public_keys_dir: "/tmp"
 rcb_bin_dir: "/root/bin"
 rcb_etc_dir: "/usr/local/etc"
 rcb_snapshot_root: "/scratch/rcb/backup/snapshots"

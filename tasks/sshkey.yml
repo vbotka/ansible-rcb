@@ -4,7 +4,7 @@
   vars:
     msg: |
          ssh_key_comment [root@{{ ansible_hostname }} ]
-         dest [ /tmp/{{ rcb_BCK_HOST }}/root-{{ ansible_hostname }}.id_rsa.pub ]
+         dest [ {{ rcb_root_public_keys_dir }}/{{ rcb_BCK_HOST }}/root-{{ ansible_hostname }}.id_rsa.pub ]
   debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug|lower == "yes"
@@ -18,7 +18,7 @@
 - name: Download pub key
   fetch:
     src="/root/.ssh/id_rsa.pub"
-    dest="/tmp/{{ rcb_BCK_HOST }}/root-{{ ansible_hostname }}.id_rsa.pub"
+    dest="{{ rcb_root_public_keys_dir }}/{{ rcb_BCK_HOST }}/root-{{ ansible_hostname }}.id_rsa.pub"
     flat="yes"
 
 # EOF
