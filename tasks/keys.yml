@@ -36,7 +36,7 @@
 - name: "keys: Generate an OpenSSL private key"
   openssl_privatekey:
     path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
-    passphrase: "{{ lookup('file', rcb_privatekey_passphrase_file) }}"
+    passphrase: "{{ rcb_privatekey_passphrase }}"
     cipher: "{{ rcb_privatekey_cipher }}"
   when: not ansible_check_mode
 
@@ -44,7 +44,7 @@
   openssl_csr:
     path: "{{ rcb_RCB_CRT_ROOT }}/backup.csr"
     privatekey_path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
-    privatekey_passphrase: "{{ lookup('file', rcb_privatekey_passphrase_file) }}"
+    privatekey_passphrase: "{{ rcb_privatekey_passphrase }}"
     common_name: "{{ rcb_cert_CN }}"
   when: not ansible_check_mode
 
@@ -52,7 +52,7 @@
   openssl_certificate:
     path: "{{ rcb_RCB_CRT_ROOT }}/backup.crt"
     privatekey_path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
-    privatekey_passphrase: "{{ lookup('file', rcb_privatekey_passphrase_file) }}"
+    privatekey_passphrase: "{{ rcb_privatekey_passphrase }}"
     csr_path: "{{ rcb_RCB_CRT_ROOT }}/backup.csr"
     provider: "selfsigned"
   when: not ansible_check_mode
