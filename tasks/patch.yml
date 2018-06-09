@@ -1,76 +1,75 @@
 ---
 
-- name: DEBUG Print variables
+- name: "patch: DEBUG Print variables"
   vars:
     msg: |
          Source dir [ {{ rcb_source_dest }}/rcb ]
          Work dir [ {{ rcb_source_dest }}/rcb-work ]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug|lower == "yes"
+  when: rcb_debug
 
-- name: Register list of the .sh files in {{ rcb_source_dest }}/rcb
-  command: >
-    find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"
+- name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb"
+  command: 'find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"'
   register: rcb_scripts
   changed_when: false
 
 - debug: msg="*.sh files in {{ rcb_source_dest }}/rcb = {{ rcb_scripts.stdout_lines }}"
   when:
-    - rcb_debug|lower == "yes"
+    - rcb_debug
     - not ansible_check_mode
 
-- name: Create working directory for the scripts {{ rcb_source_dest }}/rcb-work
-  file: >
-    state="directory"
-    path="{{ rcb_source_dest }}/rcb-work"
+- name: "patch: Create working directory for the scripts {{ rcb_source_dest }}/rcb-work"
+  file:
+    state: "directory"
+    path: "{{ rcb_source_dest }}/rcb-work"
 
-- name: Copy scripts to working directory
-  copy: >
-    src="{{ item }}"
-    dest="{{ rcb_source_dest }}/rcb-work"
-    remote_src="yes"
+- name: "patch: Copy scripts to working directory"
+  copy:
+    src: "{{ item }}"
+    dest: "{{ rcb_source_dest }}/rcb-work"
+    remote_src: "yes"
   with_items: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
   changed_when: false
 
-- name: Which bash
+- name: "patch: Which bash"
   command: "which bash"
   register: rcb_which_bash
   changed_when: false
 
 - debug: msg="DEBUG Bash path = {{ rcb_which_bash.stdout }}"
   when:
-    - rcb_debug|lower == "yes"
+    - rcb_debug
     - not ansible_check_mode
 
-- name: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work
+- name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
   command: 'find "{{ rcb_source_dest }}/rcb-work" -type f -name "*.sh"'
   register: rcb_scripts
   changed_when: false
 
 - debug: msg="Scripts = {{ rcb_scripts.stdout_lines }}"
   when:
-    - rcb_debug|lower == "yes"
+    - rcb_debug
     - not ansible_check_mode
 
-- name: Patch {{ rcb_which_bash.stdout }} in scripts in {{ rcb_source_dest }}/rcb-work
-  lineinfile: >
-    dest="{{ item }}"
-    regexp="#!"
-    line="#!{{ rcb_which_bash.stdout }}"
-    insertbefore="BOF"
+- name: "patch: Patch {{ rcb_which_bash.stdout }} in scripts in {{ rcb_source_dest }}/rcb-work"
+  lineinfile:
+    dest: "{{ item }}"
+    regexp: "#!"
+    line: "#!{{ rcb_which_bash.stdout }}"
+    insertbefore: "BOF"
   with_items: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
   changed_when: false
 
-- name: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
-  lineinfile: >
-    dest="{{ rcb_source_dest }}/rcb-work/rcb-daily-encrypt-rsync-decrypt-restore.sh"
-    regexp="rcb-rsync-back.sh"
-    line="rcb-rsync-back.sh --link"
+- name: "patch: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh"
+  lineinfile:
+    dest: "{{ rcb_source_dest }}/rcb-work/rcb-daily-encrypt-rsync-decrypt-restore.sh"
+    regexp: "rcb-rsync-back.sh"
+    line: "rcb-rsync-back.sh --link"
   when:
-    - rcb_link_restore|lower == "yes"
+    - rcb_link_restore
     - not ansible_check_mode
   changed_when: false
 

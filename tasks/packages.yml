@@ -1,15 +1,14 @@
 ---
 
-- name: Update apt cache
-  apt: >
-    update_cache="yes"
-    cache_valid_time="{{ ubuntu_cache_valid_time }}"
+- name: "packages: Update apt cache"
+  apt:
+    update_cache: "yes"
+    cache_valid_time: "{{ ubuntu_cache_valid_time }}"
   when: ansible_os_family == "Debian"
 
-- name: Install packages
-  apt: >
-    name="{{ item }}"
-    state="present"
+- name: "packages: Install packages"
+  apt:
+    name: "{{ item }}"
   with_items: [bash,git,hashdeep,rsnapshot,rsyncrypto,freebsd-buildutils,bsd-mailx]
   when: ansible_os_family == "Debian"
 

@@ -1,6 +1,6 @@
 ---
 
-- name: DEBUG Print variables
+- name: "keys: DEBUG Print variables"
   vars:
     msg: |
          Dir [ {{ rcb_RCB_CRT_ROOT }} ]
@@ -12,20 +12,20 @@
          Cert [ {{ rcb_RCB_CRT_ROOT }}/backup.crt ]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug|lower == "yes"
+  when: rcb_debug
 
-- name: Create directory for certificate and keys {{ rcb_RCB_CRT_ROOT }}
-  file: >
-    state="directory"
-    path="{{ rcb_RCB_CRT_ROOT }}"
+- name: "keys: Create directory for certificate and keys {{ rcb_RCB_CRT_ROOT }}"
+  file:
+    state: "directory"
+    path: "{{ rcb_RCB_CRT_ROOT }}"
 
-- name: Create file with PEM passphase in {{ rcb_privatekey_passphrase_file }}
-  template: >
-    src="pem-pass-phrase.j2"
-    dest="{{ rcb_privatekey_passphrase_file }}"
-    owner="{{ rcb_privatekey_passphrase_owner }}"
-    group="{{ rcb_privatekey_passphrase_group }}"
-    mode="{{ rcb_privatekey_passphrase_mode }}"
+- name: "keys: Create file with PEM passphase in {{ rcb_privatekey_passphrase_file }}"
+  template:
+    src: "pem-pass-phrase.j2"
+    dest: "{{ rcb_privatekey_passphrase_file }}"
+    owner: "{{ rcb_privatekey_passphrase_owner }}"
+    group: "{{ rcb_privatekey_passphrase_group }}"
+    mode: "{{ rcb_privatekey_passphrase_mode }}"
 
 #- name: Create self-signed server SSL cert for {{ rcb_cert_CN }}
 #  command: openssl req -new -x509 -extensions v3_ca -passout "file:{{ rcb_RCB_CRT_ROOT }}/p#em-pass-phrase" -days {{ cert_days | default(3650) }} -subj "/C=''/ST=''/L='' /O='' /OU='' #/CN='example.com' /emailAddress=''" -keyout {{ rcb_RCB_CRT_ROOT }}/backup.key -out {{ rcb_R#CB_CRT_ROOT }}/backup.crt
@@ -33,34 +33,34 @@
 #    creates: "{{ rcb_RCB_CRT_ROOT }}/backup.crt"
 #  tags: [rcb_keys, phase2, rcb_all, rcb_devel]
 
-- name: Generate an OpenSSL private key
-  openssl_privatekey: >
-    path="{{ rcb_RCB_CRT_ROOT }}/backup.key"
-    passphrase="{{ lookup('file', rcb_privatekey_passphrase_file) }}"
-    cipher="{{ rcb_privatekey_cipher }}"
+- name: "keys: Generate an OpenSSL private key"
+  openssl_privatekey:
+    path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
+    passphrase: "{{ lookup('file', rcb_privatekey_passphrase_file) }}"
+    cipher: "{{ rcb_privatekey_cipher }}"
   when: not ansible_check_mode
 
-- name: Generate an OpenSSL Certificate Signing Request
-  openssl_csr: >
-    path="{{ rcb_RCB_CRT_ROOT }}/backup.csr"
-    privatekey_path="{{ rcb_RCB_CRT_ROOT }}/backup.key"
-    privatekey_passphrase="{{ lookup('file', rcb_privatekey_passphrase_file) }}"
-    common_name="{{ rcb_cert_CN }}"
+- name: "keys: Generate an OpenSSL Certificate Signing Request"
+  openssl_csr:
+    path: "{{ rcb_RCB_CRT_ROOT }}/backup.csr"
+    privatekey_path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
+    privatekey_passphrase: "{{ lookup('file', rcb_privatekey_passphrase_file) }}"
+    common_name: "{{ rcb_cert_CN }}"
   when: not ansible_check_mode
 
-- name: Generate a Self Signed OpenSSL certificate
-  openssl_certificate: >
-    path="{{ rcb_RCB_CRT_ROOT }}/backup.crt"
-    privatekey_path="{{ rcb_RCB_CRT_ROOT }}/backup.key"
-    privatekey_passphrase="{{ lookup('file', rcb_privatekey_passphrase_file) }}"
-    csr_path="{{ rcb_RCB_CRT_ROOT }}/backup.csr"
-    provider="selfsigned"
+- name: "keys: Generate a Self Signed OpenSSL certificate"
+  openssl_certificate:
+    path: "{{ rcb_RCB_CRT_ROOT }}/backup.crt"
+    privatekey_path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
+    privatekey_passphrase: "{{ lookup('file', rcb_privatekey_passphrase_file) }}"
+    csr_path: "{{ rcb_RCB_CRT_ROOT }}/backup.csr"
+    provider: "selfsigned"
   when: not ansible_check_mode
 
-- name: Change permissions of {{ rcb_RCB_CRT_ROOT }}/backup.key to 0600
-  file: >
-    path="{{ rcb_RCB_CRT_ROOT }}/backup.key"
-    mode="0600"
+- name: "keys: Change permissions of {{ rcb_RCB_CRT_ROOT }}/backup.key to 0600"
+  file:
+    path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
+    mode: "0600"
   when: not ansible_check_mode
 
 # EOF

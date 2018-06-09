@@ -1,37 +1,37 @@
 ---
 
-- name: DEBUG Print variables
+- name: "copy: DEBUG Print variables"
   vars:
     msg: |
          work dir [ {{ rcb_source_dest }}/rcb-work }} ]
          bin dir [ {{ rcb_bin_dir }} ]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug|lower == "yes"
+  when: rcb_debug
 
-- name: Create directory for installation {{ rcb_bin_dir }}
-  file: >
-    state="directory"
-    path="{{ rcb_bin_dir }}"
+- name: "copy: Create directory for installation {{ rcb_bin_dir }}"
+  file:
+    state: "directory"
+    path: "{{ rcb_bin_dir }}"
 
-- name: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work
+- name: "copy: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
   command: "find {{ rcb_source_dest }}/rcb-work -type f -name *.sh"
   register: rcb_scripts
   changed_when: false
 
 - debug: msg="Scripts = {{ rcb_scripts.stdout_lines }}"
   when:
-    - rcb_debug|lower == "yes"
+    - rcb_debug
     - not ansible_check_mode
 
-- name: Copy scripts to {{ rcb_bin_dir }}
-  copy: >
-    src="{{ item }}"
-    dest="{{ rcb_bin_dir }}"
-    remote_src="yes"
-    owner="root"
-    group="root"
-    mode="0750"
+- name: "copy: Copy scripts to {{ rcb_bin_dir }}"
+  copy:
+    src: "{{ item }}"
+    dest: "{{ rcb_bin_dir }}"
+    remote_src: "yes"
+    owner: "root"
+    group: "root"
+    mode: "0750"
   when: not ansible_check_mode
   with_items: "{{ rcb_scripts.stdout_lines }}"
 

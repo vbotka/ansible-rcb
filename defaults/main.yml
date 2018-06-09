@@ -2,11 +2,11 @@
 # defaults for vbotka.rcb
 
 ubuntu_cache_valid_time: 14400
-rcb_debug: "no"
-rcb_test: "no"
+rcb_debug: False
+rcb_test: False
 
 # source
-rcb_source_ignore_current_lock: "no"
+rcb_source_ignore_current_lock: False
 rcb_source_version: "1.0.1"
 rcb_source_file: "{{rcb_source_version}}.tar.gz"
 rcb_source_dir: "rcb-{{rcb_source_version}}"
@@ -54,10 +54,10 @@ rcb_BCK_DST: "/scratch/rcb"
 # BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
 
 # configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
-rcb_link_restore: "yes"
+rcb_link_restore: True
 
 # cron
-rcb_rsnapshot_cron: "no"
+rcb_rsnapshot_cron: False
 rcb_rsnapshot_cron_user: "root"
 rcb_rsnapshot_cron_path: "{{ rcb_bin_dir }}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 rcb_rsnapshot_cron_mailto: "root"

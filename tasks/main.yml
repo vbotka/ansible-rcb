@@ -19,34 +19,34 @@
   tags: [rcb_configure, phase2, rcb_all, rcb_devel]
 
 - include: cron.yml
-  when: rcb_rsnapshot_cron|lower == "yes"
+  when: rcb_rsnapshot_cron
   tags: [rcb_cron, phase2, rcb_all, rcb_devel]
 
 - include: keys.yml
   tags: [rcb_keys, phase2, rcb_all, rcb_devel]
 
 - include: test1.yml
-  when: rcb_test|lower == "yes"
+  when: rcb_test
   tags: [test1, testall, rcb_all, rcb_devel]
 
 - include: test2.yml
-  when: rcb_test|lower == "yes"
+  when: rcb_test
   tags: [test2, testall, rcb_all, rcb_devel]
 
 - include: test3.yml
-  when: rcb_test|lower == "yes"
+  when: rcb_test
   tags: [test3, testall, rcb_all, rcb_devel]
 
 - include: test4.yml
-  when: rcb_test|lower == "yes"
+  when: rcb_test
   tags: [test4, testall, rcb_all, rcb_devel]
 
 - include: test5.yml
-  when: rcb_test|lower == "yes"
+  when: rcb_test
   tags: [test5, testall, rcb_all, rcb_devel]
 
 - include: test6.yml
-  when: rcb_test|lower == "yes"
+  when: rcb_test
   tags: [test6, testall, rcb_all, rcb_devel]
 
 # EOF

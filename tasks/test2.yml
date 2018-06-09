@@ -1,14 +1,14 @@
 ---
 
-- name: DEBUG Print variables
+- name: "test2: DEBUG Print variables"
   vars:
     msg: |
          TEST2 rcb conf [ {{ rcb_etc_dir }}/{{ rcb_conf }} ]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug|lower == "yes"
+  when: rcb_debug
 
-- name: Test encryption {{ rcb_bin_dir }}/rcb-encrypt.sh
+- name: "test2: Test encryption {{ rcb_bin_dir }}/rcb-encrypt.sh"
   shell: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-encrypt.sh"
 
 # EOF

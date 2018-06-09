@@ -1,15 +1,15 @@
 ---
 
-- name: DEBUG Print variables
+- name: "test6: DEBUG Print variables"
   vars:
     msg: |
          TEST6 rcb conf [ {{ rcb_etc_dir }}/{{ rcb_conf }} ]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug|lower == "yes"
+  when: rcb_debug
 
 
-- name: Test restore
+- name: "test6: Test restore"
   shell: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-restore.sh"
 
 # EOF
