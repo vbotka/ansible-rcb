@@ -1,51 +1,51 @@
 ---
 
-- include: sshkey.yml
+- import_tasks: sshkey.yml
   tags: [rcb_sshkey, phase1]
 
-- include: packages.yml
+- import_tasks: packages.yml
   tags: [rcb_packages, phase2, rcb_all]
 
-- include: source.yml
+- import_tasks: source.yml
   tags: [rcb_source, phase2, rcb_all]
 
-- include: patch.yml
+- import_tasks: patch.yml
   tags: [rcb_patch, phase2, rcb_all, rcb_devel]
 
-- include: copy.yml
+- import_tasks: copy.yml
   tags: [rcb_copy, phase2, rcb_all, rcb_devel]
 
-- include: configure.yml
+- import_tasks: configure.yml
   tags: [rcb_configure, phase2, rcb_all, rcb_devel]
 
-- include: cron.yml
+- import_tasks: cron.yml
   when: rcb_rsnapshot_cron
   tags: [rcb_cron, phase2, rcb_all, rcb_devel]
 
-- include: keys.yml
+- import_tasks: keys.yml
   tags: [rcb_keys, phase2, rcb_all, rcb_devel]
 
-- include: test1.yml
+- import_tasks: test1.yml
   when: rcb_test
   tags: [test1, testall, rcb_all, rcb_devel]
 
-- include: test2.yml
+- import_tasks: test2.yml
   when: rcb_test
   tags: [test2, testall, rcb_all, rcb_devel]
 
-- include: test3.yml
+- import_tasks: test3.yml
   when: rcb_test
   tags: [test3, testall, rcb_all, rcb_devel]
 
-- include: test4.yml
+- import_tasks: test4.yml
   when: rcb_test
   tags: [test4, testall, rcb_all, rcb_devel]
 
-- include: test5.yml
+- import_tasks: test5.yml
   when: rcb_test
   tags: [test5, testall, rcb_all, rcb_devel]
 
-- include: test6.yml
+- import_tasks: test6.yml
   when: rcb_test
   tags: [test6, testall, rcb_all, rcb_devel]
 
