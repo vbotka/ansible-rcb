@@ -12,33 +12,35 @@
 - name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb"
   command: 'find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"'
   register: rcb_scripts
-  changed_when: false
+  changed_when: False
 
-- debug: msg="*.sh files in {{ rcb_source_dest }}/rcb = {{ rcb_scripts.stdout_lines }}"
+- debug:
+    msg: "*.sh files in {{ rcb_source_dest }}/rcb = {{ rcb_scripts.stdout_lines }}"
   when:
     - rcb_debug
     - not ansible_check_mode
 
 - name: "patch: Create working directory for the scripts {{ rcb_source_dest }}/rcb-work"
   file:
-    state: "directory"
+    state: directory
     path: "{{ rcb_source_dest }}/rcb-work"
 
 - name: "patch: Copy scripts to working directory"
   copy:
+    remote_src: yes
     src: "{{ item }}"
     dest: "{{ rcb_source_dest }}/rcb-work"
-    remote_src: "yes"
-  with_items: "{{ rcb_scripts.stdout_lines }}"
+  loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
-  changed_when: false
+  changed_when: False
 
 - name: "patch: Which bash"
   command: "which bash"
   register: rcb_which_bash
-  changed_when: false
+  changed_when: False
 
-- debug: msg="DEBUG Bash path = {{ rcb_which_bash.stdout }}"
+- debug:
+    msg: "DEBUG Bash path = {{ rcb_which_bash.stdout }}"
   when:
     - rcb_debug
     - not ansible_check_mode
@@ -46,9 +48,10 @@
 - name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
   command: 'find "{{ rcb_source_dest }}/rcb-work" -type f -name "*.sh"'
   register: rcb_scripts
-  changed_when: false
+  changed_when: False
 
-- debug: msg="Scripts = {{ rcb_scripts.stdout_lines }}"
+- debug:
+    msg: "Scripts = {{ rcb_scripts.stdout_lines }}"
   when:
     - rcb_debug
     - not ansible_check_mode
@@ -59,9 +62,9 @@
     regexp: "#!"
     line: "#!{{ rcb_which_bash.stdout }}"
     insertbefore: "BOF"
-  with_items: "{{ rcb_scripts.stdout_lines }}"
+  loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
-  changed_when: false
+  changed_when: False
 
 - name: "patch: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh"
   lineinfile:
@@ -71,7 +74,7 @@
   when:
     - rcb_link_restore
     - not ansible_check_mode
-  changed_when: false
+  changed_when: False
 
 # EOF
 ...

@@ -16,19 +16,19 @@
 
 - name: "test1: Create test directory {{ rcb_test_dir }}"
   file:
-    state: "directory"
+    state: directory
     path: "{{ rcb_test_dir }}"
 
 - name: "test1: Create test files in {{ rcb_test_dir }}"
   shell: "dd if=/dev/urandom of={{ rcb_test_dir }}/{{ item }} count=10 bs=1024"
-  with_items: [1, 2, 3]
+  loop: [1, 2, 3]
 
 - name: "test1: Create test links in {{ rcb_test_dir }}"
   file:
+    state: link
     src: "{{ rcb_test_dir }}/{{ item }}"
     dest: "{{ rcb_test_dir }}/link-{{ item }}"
-    state: "link"
-  with_items: [1, 2, 3]
+  loop: [1, 2, 3]
 
 - name: "test1: Configure {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }} to backup {{ rcb_test_dir }}"
   lineinfile:

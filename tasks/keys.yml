@@ -16,7 +16,7 @@
 
 - name: "keys: Create directory for certificate and keys {{ rcb_RCB_CRT_ROOT }}"
   file:
-    state: "directory"
+    state: directory
     path: "{{ rcb_RCB_CRT_ROOT }}"
 
 - name: "keys: Create file with PEM passphase in {{ rcb_privatekey_passphrase_file }}"
@@ -50,11 +50,11 @@
 
 - name: "keys: Generate a Self Signed OpenSSL certificate"
   openssl_certificate:
+    provider: selfsigned
     path: "{{ rcb_RCB_CRT_ROOT }}/backup.crt"
     privatekey_path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
     privatekey_passphrase: "{{ rcb_privatekey_passphrase }}"
     csr_path: "{{ rcb_RCB_CRT_ROOT }}/backup.csr"
-    provider: "selfsigned"
   when: not ansible_check_mode
 
 - name: "keys: Change permissions of {{ rcb_RCB_CRT_ROOT }}/backup.key to 0600"

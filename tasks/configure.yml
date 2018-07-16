@@ -13,12 +13,12 @@
 
 - name: "configure: Create directory for backup {{ rcb_RCB_BCK_ROOT }}"
   file:
-    state: "directory"
+    state: directory
     path: "{{ rcb_RCB_BCK_ROOT }}"
 
 - name: "configure: Create directory to restore from backup {{ rcb_RCB_RST_ROOT }}"
   file:
-    state: "directory"
+    state: directory
     path: "{{ rcb_RCB_RST_ROOT }}"
 
 - name: "configure: Configure {{ rcb_etc_dir }}/{{ rcb_conf }}"
@@ -28,7 +28,7 @@
     owner: "root"
     group: "root"
     mode: "0640"
-    backup: "yes"
+    backup: "{{ rcb_backup_conf }}"
 
 # EOF
 ...

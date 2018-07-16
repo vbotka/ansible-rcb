@@ -19,7 +19,7 @@
     hour: "{{ rcb_rsnapshot_cron_hourly_hour }}"
     job: "{{ rcb_rsnapshot_cron_hourly_command }}"
     user: "{{ rcb_rsnapshot_cron_user }}"
-#   backup="yes"
+    backup: "{{ rcb_backup_conf }}"
 
 - name: "cron: Configure cron daily rsnapshot"
   cron:
@@ -28,7 +28,7 @@
     hour: "{{ rcb_rsnapshot_cron_daily_hour }}"
     job: "{{ rcb_rsnapshot_cron_daily_command }}"
     user: "{{ rcb_rsnapshot_cron_user }}"
-#   backup="yes"
+    backup: "{{ rcb_backup_conf }}"
 
 - name: "cron: Configure cron weekly rsnapshot"
   cron:
@@ -38,7 +38,7 @@
     hour: "{{ rcb_rsnapshot_cron_weekly_hour }}"
     job: "{{ rcb_rsnapshot_cron_weekly_command }}"
     user: "{{ rcb_rsnapshot_cron_user }}"
-#   backup="yes"
+    backup: "{{ rcb_backup_conf }}"
 
 - name: "cron: Configure cron monthly rsnapshot"
   cron:
@@ -48,7 +48,7 @@
     hour: "{{ rcb_rsnapshot_cron_monthly_hour }}"
     job: "{{ rcb_rsnapshot_cron_monthly_command }}"
     user: "{{ rcb_rsnapshot_cron_user }}"
-#   backup="yes"
+    backup: "{{ rcb_backup_conf }}"
 
 # EOF
 ...

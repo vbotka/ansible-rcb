@@ -14,7 +14,8 @@
     path: "{{ rcb_source_dest }}/rcb-current.lock"
   register: rcb_current_lock
 
-- debug: msg="DEBUG rcb-current.lock file is present."
+- debug:
+    msg: "DEBUG rcb-current.lock file is present."
   when:
     - rcb_current_lock.stat.exists
     - not rcb_source_ignore_current_lock
@@ -22,7 +23,7 @@
 
 - name: "source: Create directory for the source code {{ rcb_source_dest }}"
   file:
-    state: "directory"
+    state: directory
     path: "{{ rcb_source_dest }}"
 
 - name: "source: Download source code from {{ rcb_source_url }}/{{ rcb_source_file }}"
@@ -35,14 +36,15 @@
     path: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
   register: rcb_source_file_downloaded
 
-- debug: msg="DEBUG rcb_source_file_downloaded {{ rcb_source_file_downloaded }}"
+- debug:
+    msg: "DEBUG rcb_source_file_downloaded {{ rcb_source_file_downloaded }}"
   when: rcb_debug
 
 - name: "source: Extract source code from {{ rcb_source_dest}}/rcb-{{ rcb_source_file }} to {{ rcb_source_dest }}"
   unarchive:
+    remote_src: yes
     src: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
     dest: "{{ rcb_source_dest }}"
-    remote_src: "yes"
   when: rcb_source_file_downloaded.stat.exists
 
 - name: "source: Check existence of {{ rcb_source_dest }}/{{ rcb_source_dir }}"
@@ -50,15 +52,16 @@
     path: "{{ rcb_source_dest }}/{{ rcb_source_dir }}"
   register: rcb_source_dir_extracted
 
-- debug: msg="DEBUG rcb_source_dir_extracted {{ rcb_source_dir_extracted }}"
+- debug:
+    msg: "DEBUG rcb_source_dir_extracted {{ rcb_source_dir_extracted }}"
   when: rcb_debug
 
 - name: "source: Create symbolic link rcb to {{ rcb_source_dir }}"
   file:
+    state: link
     src: "{{ rcb_source_dest }}/{{ rcb_source_dir }}"
     dest: "{{ rcb_source_dest }}/rcb"
-    state: "link"
-    force: "yes"
+    force: yes
   when:
     - rcb_source_dir_extracted.stat.exists
     - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock)

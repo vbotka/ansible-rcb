@@ -2,14 +2,14 @@
 
 - name: "packages: Update apt cache"
   apt:
-    update_cache: "yes"
+    update_cache: "{{ rcb_apt_update_cache }}"
     cache_valid_time: "{{ ubuntu_cache_valid_time }}"
   when: ansible_os_family == "Debian"
 
 - name: "packages: Install packages"
   apt:
     name: "{{ item }}"
-  with_items: [bash,git,hashdeep,rsnapshot,rsyncrypto,freebsd-buildutils,bsd-mailx]
+  loop: "{{ rcb_packages }}"
   when: ansible_os_family == "Debian"
 
 # EOF

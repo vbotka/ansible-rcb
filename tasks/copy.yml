@@ -11,29 +11,30 @@
 
 - name: "copy: Create directory for installation {{ rcb_bin_dir }}"
   file:
-    state: "directory"
+    state: directory
     path: "{{ rcb_bin_dir }}"
 
 - name: "copy: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
   command: "find {{ rcb_source_dest }}/rcb-work -type f -name *.sh"
   register: rcb_scripts
-  changed_when: false
+  changed_when: False
 
-- debug: msg="Scripts = {{ rcb_scripts.stdout_lines }}"
+- debug:
+    msg: "Scripts = {{ rcb_scripts.stdout_lines }}"
   when:
     - rcb_debug
     - not ansible_check_mode
 
 - name: "copy: Copy scripts to {{ rcb_bin_dir }}"
   copy:
+    remote_src: yes
     src: "{{ item }}"
     dest: "{{ rcb_bin_dir }}"
-    remote_src: "yes"
     owner: "root"
     group: "root"
     mode: "0750"
+  loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
-  with_items: "{{ rcb_scripts.stdout_lines }}"
 
 # EOF
 ...
