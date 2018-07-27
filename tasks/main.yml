@@ -1,5 +1,9 @@
 ---
 
+- import_tasks: debug.yml
+  when: rcb_debug
+  tags: rcb_debug
+
 - import_tasks: sshkey.yml
   tags: [rcb_sshkey, phase1]
 

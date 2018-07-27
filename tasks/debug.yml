@@ -1,0 +1,65 @@
+---
+# Hint: Get readable output with stdout_callback = yaml
+
+- name: "RCB Debug"
+  vars:
+    msg: |
+      ansible_architecture [ {{ ansible_architecture }} ]
+      ansible_os_family [ {{ ansible_os_family }} ]
+      ansible_distribution [ {{ ansible_distribution }} ]
+      ansible_distribution_major_version [ {{ ansible_distribution_major_version }} ]
+      ansible_distribution_version [ {{ ansible_distribution_version }} ]
+      ansible_distribution_release [ {{ ansible_distribution_release }} ]
+
+      rcb_test [ {{ rcb_test }} ]
+      rcb_apt_update_cache [ {{ rcb_apt_update_cache }} ]
+      ubuntu_cache_valid_time [ {{ ubuntu_cache_valid_time }} ]
+      rcb_packages
+      {{ rcb_packages | to_nice_yaml }}
+
+      rcb_source_version [ {{ rcb_source_version }} ]
+      rcb_source_ignore_current_lock [ {{ rcb_source_ignore_current_lock }} ]
+      rcb_source_file [ {{ rcb_source_file }} ]
+      rcb_source_dir [ {{ rcb_source_dir }} ]
+      rcb_source_dest [ {{ rcb_source_dest }} ]
+      rcb_source_url [ {{ rcb_source_url }} ]
+
+      rcb_root_public_keys_dir [ {{ rcb_root_public_keys_dir }} ]
+      rcb_bin_dir [ {{ rcb_bin_dir }} ]
+      rcb_etc_dir [ {{ rcb_etc_dir }} ]
+      rcb_snapshot_root [ {{ rcb_snapshot_root }} ]
+      
+      rcb_conf [ {{ rcb_conf }} ]
+      rcb_rsnapshot_conf [ {{ rcb_rsnapshot_conf }} ]
+      rcb_backup_conf [ {{ rcb_backup_conf }} ]
+      rcb_RCB_EMAIL [ {{ rcb_RCB_EMAIL }} ]
+      rcb_RCB_BCK_ROOT [ {{ rcb_RCB_BCK_ROOT }} ]
+      rcb_RCB_BCK_PREFIX [ {{ rcb_RCB_BCK_PREFIX }} ]
+      rcb_RSYNCRYPTO_TRIM_E [ {{ rcb_RSYNCRYPTO_TRIM_E }} ]
+      rcb_RSYNCRYPTO_TRIM_D [ {{ rcb_RSYNCRYPTO_TRIM_D }} ]
+      rcb_RCB_RST_ROOT [ {{ rcb_RCB_RST_ROOT }} ]
+      rcb_RCB_CRT_ROOT [ {{ rcb_RCB_CRT_ROOT }} ]
+
+      rcb_cert_CN [ {{ rcb_cert_CN }} ]
+      rcb_privatekey_cipher [ {{ rcb_privatekey_cipher }} ]
+      rcb_privatekey_passphrase [ {{ rcb_privatekey_passphrase }} ]
+      rcb_privatekey_passphrase_file [ {{ rcb_privatekey_passphrase_file }} ]
+      rcb_privatekey_passphrase_owner [ {{ rcb_privatekey_passphrase_owner }} ]
+      rcb_privatekey_passphrase_group [ {{ rcb_privatekey_passphrase_group }} ]
+      rcb_privatekey_passphrase_mode [ {{ rcb_privatekey_passphrase_mode }} ]
+      rcb_BCK_HOST [ {{ rcb_BCK_HOST }} ]
+      rcb_BCK_USER [ {{ rcb_BCK_USER }} ]
+      rcb_BCK_GROUP [ {{ rcb_BCK_GROUP }} ]
+      rcb_BCK_DST [ {{ rcb_BCK_DST }} ]
+      rcb_link_restore [ {{ rcb_link_restore }} ]
+      
+      rcb_rsnapshot_cron [ {{ rcb_rsnapshot_cron }} ]
+      rcb_rsnapshot_cron_user [ {{ rcb_rsnapshot_cron_user }} ]
+      rcb_rsnapshot_cron_path [ {{ rcb_rsnapshot_cron_path }} ]
+      rcb_rsnapshot_cron_mailto  [ {{ rcb_rsnapshot_cron_mailto }} ]
+
+  debug:
+    msg: "{{ msg.split('\n') }}"
+
+# EOF
+...
