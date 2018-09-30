@@ -1,16 +1,17 @@
 ---
 # defaults for vbotka.rcb
 
-rcb_debug: False
-rcb_test: False
+rcb_debug: false
+rcb_test: false
 
-rcb_apt_update_cache: True
+rcb_apt_update_cache: true
 ubuntu_cache_valid_time: 14400
 rcb_packages: [bash,git,hashdeep,rsnapshot,rsyncrypto,freebsd-buildutils,bsd-mailx]
 
 # source
-rcb_source_ignore_current_lock: False
+rcb_source_ignore_current_lock: false
 rcb_source_version: "1.0.1"
+rcb_source_checksum: "sha1:08a1e2924ed5d68eec5776963550f52134decb43"
 rcb_source_file: "{{rcb_source_version}}.tar.gz"
 rcb_source_dir: "rcb-{{rcb_source_version}}"
 rcb_source_dest: "/usr/local/src"
@@ -58,10 +59,10 @@ rcb_BCK_DST: "/scratch/rcb"
 # BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
 
 # configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
-rcb_link_restore: True
+rcb_link_restore: true
 
 # cron
-rcb_rsnapshot_cron: False
+rcb_rsnapshot_cron: false
 rcb_rsnapshot_cron_user: "root"
 rcb_rsnapshot_cron_path: "{{ rcb_bin_dir }}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 rcb_rsnapshot_cron_mailto: "root"

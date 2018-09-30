@@ -30,6 +30,7 @@
   get_url:
     url: "{{ rcb_source_url }}/{{ rcb_source_file }}"
     dest: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
+    checksum: "{{ rcb_source_checksum }}"
 
 - name: "source: Check existence of {{ rcb_source_dest}}/rcb-{{ rcb_source_file }}"
   stat:
