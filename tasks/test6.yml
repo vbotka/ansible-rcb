@@ -11,6 +11,7 @@
 
 - name: "test6: Test restore"
   command: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-restore.sh"
+  changed_when: False
 
 # EOF
 ...

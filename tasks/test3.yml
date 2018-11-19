@@ -10,6 +10,7 @@
 
 - name: "test3: Test rsync to {{ rcb_BCK_USER }}@{{ rcb_BCK_HOST }}:/{{ rcb_BCK_DST }}"
   command: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsync.sh"
+  changed_when: False
 
 # EOF
 ...

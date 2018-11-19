@@ -21,6 +21,8 @@
 
 - name: "test1: Create test files in {{ rcb_test_dir }}"
   command: "dd if=/dev/urandom of={{ rcb_test_dir }}/{{ item }} count=10 bs=1024"
+  args:
+    creates: "{{ rcb_test_dir }}/{{ item }}"
   loop: [1, 2, 3]
 
 - name: "test1: Create test links in {{ rcb_test_dir }}"
@@ -39,6 +41,7 @@
 
 - name: "test1: Test backup {{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
   command: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
+  changed_when: False
 
 # EOF
 ...

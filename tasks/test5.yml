@@ -10,6 +10,7 @@
 
 - name: "test5: Test decrytpion"
   command: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-decrypt.sh --delete"
+  changed_when: False
 
 # EOF
 ...
