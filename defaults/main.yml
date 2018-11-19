@@ -6,14 +6,21 @@ rcb_test: false
 
 rcb_apt_update_cache: true
 ubuntu_cache_valid_time: 14400
-rcb_packages: [bash,git,hashdeep,rsnapshot,rsyncrypto,freebsd-buildutils,bsd-mailx]
+rcb_packages:
+  - bash
+  - git
+  - hashdeep
+  - rsnapshot
+  - rsyncrypto
+  - freebsd-buildutils
+  - bsd-mailx
 
 # source
 rcb_source_ignore_current_lock: false
 rcb_source_version: "1.0.1"
 rcb_source_checksum: "sha1:08a1e2924ed5d68eec5776963550f52134decb43"
-rcb_source_file: "{{rcb_source_version}}.tar.gz"
-rcb_source_dir: "rcb-{{rcb_source_version}}"
+rcb_source_file: "{{ rcb_source_version }}.tar.gz"
+rcb_source_dir: "rcb-{{ rcb_source_version }}"
 rcb_source_dest: "/usr/local/src"
 rcb_source_url: "https://github.com/vbotka/rcb/archive"
 
@@ -45,13 +52,13 @@ rcb_RCB_CRT_ROOT: "/scratch/rcb/cert"
 rcb_cert_CN: "example.com"
 rcb_privatekey_cipher: "AES-256-CBC"
 rcb_privatekey_passphrase: "passphrase"
-rcb_privatekey_passphrase_file: "{{rcb_RCB_CRT_ROOT }}/pem-pass-phrase"
+rcb_privatekey_passphrase_file: "{{ rcb_RCB_CRT_ROOT }}/pem-pass-phrase"
 rcb_privatekey_passphrase_owner: "root"
 rcb_privatekey_passphrase_group: "admin"
 rcb_privatekey_passphrase_mode: "0640"
 
 # backup server
-#rcb_BCK_HOST: "example.com"
+# rcb_BCK_HOST: "example.com"
 rcb_BCK_HOST: "FQN-OF-BACKUP-SERVER"
 rcb_BCK_USER: "rcbackup"
 rcb_BCK_GROUP: "rcbackup"
@@ -81,11 +88,11 @@ rcb_rsnapshot_cron_monthly_minute: "15"
 rcb_rsnapshot_cron_monthly_day: "1"
 rcb_rsnapshot_cron_monthly_command: "rcb-rsnapshot.sh -i=monthly"
 
-#MAILTO="root"
-#15 */4 * * *rcb-rsnapshot.sh -i=hourly
-#15 1   * * 1rcb-rsnapshot.sh -i=weekly
-#15 2   1 * *rcb-rsnapshot.sh -i=monthly
-#15 5   * * *rcb-daily-encrypt-rsync-decrypt-restore.sh
+# MAILTO="root"
+# 15 */4 * * *rcb-rsnapshot.sh -i=hourly
+# 15 1   * * 1rcb-rsnapshot.sh -i=weekly
+# 15 2   1 * *rcb-rsnapshot.sh -i=monthly
+# 15 5   * * *rcb-daily-encrypt-rsync-decrypt-restore.sh
 
 # EOF
 ...

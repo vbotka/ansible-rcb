@@ -32,7 +32,7 @@
     dest: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
     checksum: "{{ rcb_source_checksum }}"
 
-- name: "source: Check existence of {{ rcb_source_dest}}/rcb-{{ rcb_source_file }}"
+- name: "source: Check existence of {{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
   stat:
     path: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
   register: rcb_source_file_downloaded
@@ -41,7 +41,7 @@
     msg: "DEBUG rcb_source_file_downloaded {{ rcb_source_file_downloaded }}"
   when: rcb_debug
 
-- name: "source: Extract source code from {{ rcb_source_dest}}/rcb-{{ rcb_source_file }} to {{ rcb_source_dest }}"
+- name: "source: Extract source code from {{ rcb_source_dest }}/rcb-{{ rcb_source_file }} to {{ rcb_source_dest }}"
   unarchive:
     remote_src: yes
     src: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"

@@ -50,7 +50,9 @@ RSNAPSHOT_PARAM="-c {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
 # logfile RSYNCRYPTO_EXPORT_CHANGES.  This allows passing logfile to
 # rsync(1) using the --include-from rsync option.
 RSYNCRYPTO_EXPORT_CHANGES="$RCB_META/.rsyncrypto-export-changes"
-RSYNCRYPTO_PARAM_E="--name-encrypt=$RCB_NAMES --gzip=$GZIP --trim=$RSYNCRYPTO_TRIM_E --changed --delete --export-changes=$RSYNCRYPTO_EXPORT_CHANGES"
+RSYNCRYPTO_PARAM_E="--name-encrypt=$RCB_NAMES --gzip=$GZIP \
+                    --trim=$RSYNCRYPTO_TRIM_E --changed --delete \
+                    --export-changes=$RSYNCRYPTO_EXPORT_CHANGES"
 
 # --delete doesn't work on decryption. Files present in the destination
 # (from the previous decryption) and not present in the source anymore
@@ -62,7 +64,8 @@ RSYNCRYPTO_PARAM_E="--name-encrypt=$RCB_NAMES --gzip=$GZIP --trim=$RSYNCRYPTO_TR
 # decryption. It's time consuming to perform complete decryption of
 # all files. Therefore the default is to keep the destination and
 # decrypt --changed files only.
-RSYNCRYPTO_PARAM_D="--name-encrypt=$RCB_NAMES --gzip=$GZIP --trim=$RSYNCRYPTO_TRIM_D --changed"
+RSYNCRYPTO_PARAM_D="--name-encrypt=$RCB_NAMES --gzip=$GZIP \
+                    --trim=$RSYNCRYPTO_TRIM_D --changed"
 
 RSYNC="/usr/bin/rsync"
 RSYNC_PARAM="--progress --delete -ahv"

@@ -9,7 +9,7 @@
   when: rcb_debug
 
 - name: "test3: Test rsync to {{ rcb_BCK_USER }}@{{ rcb_BCK_HOST }}:/{{ rcb_BCK_DST }}"
-  shell: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsync.sh"
+  command: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsync.sh"
 
 # EOF
 ...

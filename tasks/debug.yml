@@ -28,7 +28,7 @@
       rcb_bin_dir [ {{ rcb_bin_dir }} ]
       rcb_etc_dir [ {{ rcb_etc_dir }} ]
       rcb_snapshot_root [ {{ rcb_snapshot_root }} ]
-      
+
       rcb_conf [ {{ rcb_conf }} ]
       rcb_rsnapshot_conf [ {{ rcb_rsnapshot_conf }} ]
       rcb_backup_conf [ {{ rcb_backup_conf }} ]
@@ -52,7 +52,7 @@
       rcb_BCK_GROUP [ {{ rcb_BCK_GROUP }} ]
       rcb_BCK_DST [ {{ rcb_BCK_DST }} ]
       rcb_link_restore [ {{ rcb_link_restore }} ]
-      
+
       rcb_rsnapshot_cron [ {{ rcb_rsnapshot_cron }} ]
       rcb_rsnapshot_cron_user [ {{ rcb_rsnapshot_cron_user }} ]
       rcb_rsnapshot_cron_path [ {{ rcb_rsnapshot_cron_path }} ]
