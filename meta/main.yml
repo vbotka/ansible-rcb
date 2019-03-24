@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: rcb
   author: Vladimir Botka
   description: >
     Install and configure RCB (Rsync-Crypto-Backup) from github.com/vbotka/rcb
