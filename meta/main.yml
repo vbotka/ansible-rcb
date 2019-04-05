@@ -5,7 +5,6 @@ galaxy_info:
   description: |
     Install and configure RCB (Rsync-Crypto-Backup)
     from github.com/vbotka/rcb
-
   company: https://botka.link
   github_branch: master
   license: BSD
