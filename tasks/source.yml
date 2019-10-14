@@ -3,8 +3,8 @@
 - name: "source: DEBUG Print variables"
   vars:
     msg: |
-         url [ {{ rcb_source_url }}/{{ rcb_source_file }} ]
-         dest [ {{ rcb_source_dest }}/rcb-{{ rcb_source_file }} ]
+         url [{{ rcb_source_url }}/{{ rcb_source_file }}]
+         dest [{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}]
   debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug
@@ -41,9 +41,9 @@
     msg: "DEBUG rcb_source_file_downloaded {{ rcb_source_file_downloaded }}"
   when: rcb_debug
 
-- name: "source: Extract source code from {{ rcb_source_dest }}/rcb-{{ rcb_source_file }} to {{ rcb_source_dest }}"
+- name: "source: Extract source code from {{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
   unarchive:
-    remote_src: yes
+    remote_src: true
     src: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
     dest: "{{ rcb_source_dest }}"
   when: rcb_source_file_downloaded.stat.exists
@@ -62,7 +62,7 @@
     state: link
     src: "{{ rcb_source_dest }}/{{ rcb_source_dir }}"
     dest: "{{ rcb_source_dest }}/rcb"
-    force: yes
+    force: true
   when:
     - rcb_source_dir_extracted.stat.exists
     - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock)

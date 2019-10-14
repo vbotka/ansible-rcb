@@ -2,6 +2,7 @@
 # defaults for vbotka.rcb
 
 rcb_debug: false
+rcb_debug_classified: false
 rcb_test: false
 
 rcb_apt_update_cache: true
@@ -33,7 +34,7 @@ rcb_snapshot_root: "/scratch/rcb/backup/snapshots"
 # conf
 rcb_conf: "rcb.conf"
 rcb_rsnapshot_conf: "rsnapshot.conf"
-rcb_backup_conf: no
+rcb_backup_conf: false
 
 # rcb.conf
 #

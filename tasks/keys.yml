@@ -3,13 +3,13 @@
 - name: "keys: DEBUG Print variables"
   vars:
     msg: |
-         Dir [ {{ rcb_RCB_CRT_ROOT }} ]
-         Key [ {{ rcb_RCB_CRT_ROOT }}/backup.key ]
-         Passphrase [ {{ rcb_privatekey_passphrase_file }} ]
-         Cipher [ {{ rcb_privatekey_cipher }} ]
-         CSR [ {{ rcb_RCB_CRT_ROOT }}/backup.csr ]
-         CN [ {{ rcb_cert_CN }} ]
-         Cert [ {{ rcb_RCB_CRT_ROOT }}/backup.crt ]
+         Dir [{{ rcb_RCB_CRT_ROOT }}]
+         Key [{{ rcb_RCB_CRT_ROOT }}/backup.key]
+         Passphrase [{{ rcb_privatekey_passphrase_file }}]
+         Cipher [{{ rcb_privatekey_cipher }}]
+         CSR [{{ rcb_RCB_CRT_ROOT }}/backup.csr]
+         CN [{{ rcb_cert_CN }}]
+         Cert [{{ rcb_RCB_CRT_ROOT }}/backup.crt]
   debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug

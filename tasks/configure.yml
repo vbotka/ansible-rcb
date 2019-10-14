@@ -3,10 +3,10 @@
 - name: "configure: DEBUG Print variables"
   vars:
     msg: |
-         Backup dir [ {{ rcb_RCB_BCK_ROOT }} ]
-         Restore dir [ {{ rcb_RCB_RST_ROOT }} ]
-         RCB config [ {{ rcb_etc_dir }}/{{ rcb_conf }} ]
-         Rsnaphost config [ {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }} ]
+         Backup dir [{{ rcb_RCB_BCK_ROOT }}]
+         Restore dir [{{ rcb_RCB_RST_ROOT }}]
+         RCB config [{{ rcb_etc_dir }}/{{ rcb_conf }}]
+         Rsnaphost config [{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}]
   debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug

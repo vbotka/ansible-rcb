@@ -3,8 +3,8 @@
 - name: "patch: DEBUG Print variables"
   vars:
     msg: |
-         Source dir [ {{ rcb_source_dest }}/rcb ]
-         Work dir [ {{ rcb_source_dest }}/rcb-work ]
+         Source dir [{{ rcb_source_dest }}/rcb]
+         Work dir [{{ rcb_source_dest }}/rcb-work]
   debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug
@@ -12,9 +12,10 @@
 - name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb"
   command: 'find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"'
   register: rcb_scripts
-  changed_when: False
+  changed_when: false
 
-- debug:
+- name: "patch: DEBUG Scripts"
+  debug:
     msg: "*.sh files in {{ rcb_source_dest }}/rcb = {{ rcb_scripts.stdout_lines }}"
   when:
     - rcb_debug
@@ -27,19 +28,20 @@
 
 - name: "patch: Copy scripts to working directory"
   copy:
-    remote_src: yes
+    remote_src: true
     src: "{{ item }}"
     dest: "{{ rcb_source_dest }}/rcb-work"
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
-  changed_when: False
+  changed_when: false
 
 - name: "patch: Which bash"
   command: "which bash"
   register: rcb_which_bash
-  changed_when: False
+  changed_when: false
 
-- debug:
+- name: "patch: DEBUG bash"
+  debug:
     msg: "DEBUG Bash path = {{ rcb_which_bash.stdout }}"
   when:
     - rcb_debug
@@ -48,9 +50,10 @@
 - name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
   command: 'find "{{ rcb_source_dest }}/rcb-work" -type f -name "*.sh"'
   register: rcb_scripts
-  changed_when: False
+  changed_when: false
 
-- debug:
+- name: "patch: DEBUG Scripts"
+  debug:
     msg: "Scripts = {{ rcb_scripts.stdout_lines }}"
   when:
     - rcb_debug
@@ -64,7 +67,7 @@
     insertbefore: "BOF"
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
-  changed_when: False
+  changed_when: false
 
 - name: "patch: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh"
   lineinfile:
@@ -74,7 +77,7 @@
   when:
     - rcb_link_restore
     - not ansible_check_mode
-  changed_when: False
+  changed_when: false
 
 # EOF
 ...

@@ -3,8 +3,8 @@
 - name: "copy: DEBUG Print variables"
   vars:
     msg: |
-         work dir [ {{ rcb_source_dest }}/rcb-work }} ]
-         bin dir [ {{ rcb_bin_dir }} ]
+         work dir [{{ rcb_source_dest }}/rcb-work }}]
+         bin dir [{{ rcb_bin_dir }}]
   debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug
@@ -17,9 +17,10 @@
 - name: "copy: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
   command: "find {{ rcb_source_dest }}/rcb-work -type f -name *.sh"
   register: rcb_scripts
-  changed_when: False
+  changed_when: false
 
-- debug:
+- name: "copy: DEBUG Scripts"
+  debug:
     msg: "Scripts = {{ rcb_scripts.stdout_lines }}"
   when:
     - rcb_debug
@@ -27,7 +28,7 @@
 
 - name: "copy: Copy scripts to {{ rcb_bin_dir }}"
   copy:
-    remote_src: yes
+    remote_src: true
     src: "{{ item }}"
     dest: "{{ rcb_bin_dir }}"
     owner: "root"
