@@ -18,8 +18,10 @@ rcb_packages:
 
 # source
 rcb_source_ignore_current_lock: false
-rcb_source_version: "1.0.1"
-rcb_source_checksum: "sha1:08a1e2924ed5d68eec5776963550f52134decb43"
+# rcb_source_version: "1.0.1"
+# rcb_source_checksum: "sha1:08a1e2924ed5d68eec5776963550f52134decb43"
+rcb_source_version: "1.1.0"
+rcb_source_checksum: "sha256:04724edd070018978c918ff4f4f18f710b383620ff2ec63fdbcb621eea921bbb"
 rcb_source_file: "{{ rcb_source_version }}.tar.gz"
 rcb_source_dir: "rcb-{{ rcb_source_version }}"
 rcb_source_dest: "/usr/local/src"
