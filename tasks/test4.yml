@@ -3,10 +3,10 @@
 - name: "test4: DEBUG Print variables"
   vars:
     msg: |
-         TEST4 rcb conf [ {{ rcb_etc_dir }}/{{ rcb_conf }} ]
+         TEST4 rcb conf [{{ rcb_etc_dir }}/{{ rcb_conf }}]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "test4: Test rsync from {{ rcb_BCK_USER }}@{{ rcb_BCK_HOST }}:/{{ rcb_BCK_DST }}"
   command: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsync-back.sh"

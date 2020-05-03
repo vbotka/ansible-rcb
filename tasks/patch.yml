@@ -7,7 +7,7 @@
          Work dir [{{ rcb_source_dest }}/rcb-work]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb"
   command: 'find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"'
@@ -18,7 +18,7 @@
   debug:
     msg: "*.sh files in {{ rcb_source_dest }}/rcb = {{ rcb_scripts.stdout_lines }}"
   when:
-    - rcb_debug
+    - rcb_debug|bool
     - not ansible_check_mode
 
 - name: "patch: Create working directory for the scripts {{ rcb_source_dest }}/rcb-work"
@@ -44,7 +44,7 @@
   debug:
     msg: "DEBUG Bash path = {{ rcb_which_bash.stdout }}"
   when:
-    - rcb_debug
+    - rcb_debug|bool
     - not ansible_check_mode
 
 - name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
@@ -56,7 +56,7 @@
   debug:
     msg: "Scripts = {{ rcb_scripts.stdout_lines }}"
   when:
-    - rcb_debug
+    - rcb_debug|bool
     - not ansible_check_mode
 
 - name: "patch: Patch {{ rcb_which_bash.stdout }} in scripts in {{ rcb_source_dest }}/rcb-work"
@@ -75,7 +75,7 @@
     regexp: "rcb-rsync-back.sh"
     line: "rcb-rsync-back.sh --link"
   when:
-    - rcb_link_restore
+    - rcb_link_restore|bool
     - not ansible_check_mode
   changed_when: false
 

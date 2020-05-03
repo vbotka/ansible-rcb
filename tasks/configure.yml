@@ -9,7 +9,7 @@
          Rsnaphost config [{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "configure: Create directory for backup {{ rcb_RCB_BCK_ROOT }}"
   file:

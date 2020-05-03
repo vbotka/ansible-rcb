@@ -7,7 +7,7 @@
          bin dir [{{ rcb_bin_dir }}]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "copy: Create directory for installation {{ rcb_bin_dir }}"
   file:
@@ -23,7 +23,7 @@
   debug:
     msg: "Scripts = {{ rcb_scripts.stdout_lines }}"
   when:
-    - rcb_debug
+    - rcb_debug|bool
     - not ansible_check_mode
 
 - name: "copy: Copy scripts to {{ rcb_bin_dir }}"

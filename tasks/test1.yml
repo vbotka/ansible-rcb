@@ -12,7 +12,7 @@
          TEST1 rcb conf [{{ rcb_etc_dir }}/{{ rcb_conf }}]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "test1: Create test directory {{ rcb_test_dir }}"
   file:

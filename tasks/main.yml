@@ -1,7 +1,7 @@
 ---
 
 - import_tasks: debug.yml
-  when: rcb_debug
+  when: rcb_debug|bool
   tags: [rcb_debug, always]
 
 - import_tasks: sshkey.yml
@@ -23,34 +23,34 @@
   tags: [rcb_configure, phase2, rcb_all, rcb_devel]
 
 - import_tasks: cron.yml
-  when: rcb_rsnapshot_cron
+  when: rcb_rsnapshot_cron|bool
   tags: [rcb_cron, phase2, rcb_all, rcb_devel]
 
 - import_tasks: keys.yml
   tags: [rcb_keys, phase2, rcb_all, rcb_devel]
 
 - import_tasks: test1.yml
-  when: rcb_test
+  when: rcb_test|bool
   tags: [test1, testall, rcb_all, rcb_devel]
 
 - import_tasks: test2.yml
-  when: rcb_test
+  when: rcb_test|bool
   tags: [test2, testall, rcb_all, rcb_devel]
 
 - import_tasks: test3.yml
-  when: rcb_test
+  when: rcb_test|bool
   tags: [test3, testall, rcb_all, rcb_devel]
 
 - import_tasks: test4.yml
-  when: rcb_test
+  when: rcb_test|bool
   tags: [test4, testall, rcb_all, rcb_devel]
 
 - import_tasks: test5.yml
-  when: rcb_test
+  when: rcb_test|bool
   tags: [test5, testall, rcb_all, rcb_devel]
 
 - import_tasks: test6.yml
-  when: rcb_test
+  when: rcb_test|bool
   tags: [test6, testall, rcb_all, rcb_devel]
 
 # EOF

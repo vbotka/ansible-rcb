@@ -18,8 +18,8 @@
     msg: "DEBUG rcb-current.lock file is present."
   when:
     - rcb_current_lock.stat.exists
-    - not rcb_source_ignore_current_lock
-    - rcb_debug
+    - not rcb_source_ignore_current_lock|bool
+    - rcb_debug|bool
 
 - name: "source: Create directory for the source code {{ rcb_source_dest }}"
   file:
@@ -39,7 +39,7 @@
 
 - debug:
     msg: "DEBUG rcb_source_file_downloaded {{ rcb_source_file_downloaded }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "source: Extract source code from {{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
   unarchive:
@@ -55,7 +55,7 @@
 
 - debug:
     msg: "DEBUG rcb_source_dir_extracted {{ rcb_source_dir_extracted }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "source: Create symbolic link rcb to {{ rcb_source_dir }}"
   file:
@@ -65,7 +65,7 @@
     force: true
   when:
     - rcb_source_dir_extracted.stat.exists
-    - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock)
+    - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock|bool)
 
 # EOF
 ...

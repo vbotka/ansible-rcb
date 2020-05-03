@@ -7,7 +7,7 @@
          dest [{{ rcb_root_public_keys_dir }}/{{ rcb_BCK_HOST }}/root-{{ ansible_hostname }}.id_rsa.pub]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "sshkey: Generate RSA key for root"
   user:

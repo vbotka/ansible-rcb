@@ -12,7 +12,7 @@
          Cert [{{ rcb_RCB_CRT_ROOT }}/backup.crt]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "keys: Create directory for certificate and keys {{ rcb_RCB_CRT_ROOT }}"
   file:
