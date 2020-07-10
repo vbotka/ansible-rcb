@@ -1,6 +1,7 @@
 ---
 # defaults for vbotka.rcb
 
+rcb_install: true
 rcb_debug: false
 rcb_debug_classified: false
 rcb_test: false
@@ -24,48 +25,48 @@ rcb_source_version: "1.1.0"
 rcb_source_checksum: "sha256:04724edd070018978c918ff4f4f18f710b383620ff2ec63fdbcb621eea921bbb"
 rcb_source_file: "{{ rcb_source_version }}.tar.gz"
 rcb_source_dir: "rcb-{{ rcb_source_version }}"
-rcb_source_dest: "/usr/local/src"
+rcb_source_dest: /usr/local/src
 rcb_source_url: "https://github.com/vbotka/rcb/archive"
 
 # directories
-rcb_root_public_keys_dir: "/tmp"
-rcb_bin_dir: "/root/bin"
-rcb_etc_dir: "/usr/local/etc"
-rcb_snapshot_root: "/scratch/rcb/backup/snapshots"
+rcb_root_public_keys_dir: /tmp
+rcb_bin_dir: /root/bin
+rcb_etc_dir: /usr/local/etc
+rcb_snapshot_root: /scratch/rcb/backup/snapshots
 
 # conf
-rcb_conf: "rcb.conf"
-rcb_rsnapshot_conf: "rsnapshot.conf"
+rcb_conf: rcb.conf
+rcb_rsnapshot_conf: rsnapshot.conf
 rcb_backup_conf: false
 
 # rcb.conf
 #
 # RCB_HOST will be replaced with ansible_hostname
-rcb_RCB_EMAIL: "root"
-rcb_RCB_BCK_ROOT: "/scratch/rcb/backup"
-rcb_RCB_BCK_PREFIX: "snapshots/hourly.0"
+rcb_RCB_EMAIL: root
+rcb_RCB_BCK_ROOT: /scratch/rcb/backup
+rcb_RCB_BCK_PREFIX: snapshots/hourly.0
 # path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
-rcb_RSYNCRYPTO_TRIM_E: "5"
+rcb_RSYNCRYPTO_TRIM_E: 5
 # path length of $RCB_BCK_ROOT/enc
-rcb_RSYNCRYPTO_TRIM_D: "4"
-rcb_RCB_RST_ROOT: "/scratch/rcb/restore"
-rcb_RCB_CRT_ROOT: "/scratch/rcb/cert"
+rcb_RSYNCRYPTO_TRIM_D: 4
+rcb_RCB_RST_ROOT: /scratch/rcb/restore
+rcb_RCB_CRT_ROOT: /scratch/rcb/cert
 
 # certificate
-rcb_cert_CN: "example.com"
-rcb_privatekey_cipher: "AES-256-CBC"
-rcb_privatekey_passphrase: "passphrase"
+rcb_cert_CN: example.com
+rcb_privatekey_cipher: AES-256-CBC
+rcb_privatekey_passphrase: passphrase
 rcb_privatekey_passphrase_file: "{{ rcb_RCB_CRT_ROOT }}/pem-pass-phrase"
-rcb_privatekey_passphrase_owner: "root"
-rcb_privatekey_passphrase_group: "admin"
+rcb_privatekey_passphrase_owner: root
+rcb_privatekey_passphrase_group: admin
 rcb_privatekey_passphrase_mode: "0640"
 
 # backup server
 # rcb_BCK_HOST: "example.com"
-rcb_BCK_HOST: "FQN-OF-BACKUP-SERVER"
-rcb_BCK_USER: "rcbackup"
-rcb_BCK_GROUP: "rcbackup"
-rcb_BCK_DST: "/scratch/rcb"
+rcb_BCK_HOST: FQN-OF-BACKUP-SERVER
+rcb_BCK_USER: rcbackup
+rcb_BCK_GROUP: rcbackup
+rcb_BCK_DST: /scratch/rcb
 # BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
 
 # configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
@@ -73,9 +74,9 @@ rcb_link_restore: true
 
 # cron
 rcb_rsnapshot_cron: false
-rcb_rsnapshot_cron_user: "root"
+rcb_rsnapshot_cron_user: root
 rcb_rsnapshot_cron_path: "{{ rcb_bin_dir }}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-rcb_rsnapshot_cron_mailto: "root"
+rcb_rsnapshot_cron_mailto: root
 rcb_rsnapshot_cron_hourly_hour: "*/4"
 rcb_rsnapshot_cron_hourly_minute: "15"
 rcb_rsnapshot_cron_hourly_command: "rcb-rsnapshot.sh -i=hourly"

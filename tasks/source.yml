@@ -7,7 +7,7 @@
          dest [{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: rcb_debug
+  when: rcb_debug|bool
 
 - name: "source: Test presence of {{ rcb_source_dest }}/rcb-current.lock"
   stat:

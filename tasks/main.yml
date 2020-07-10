@@ -8,6 +8,7 @@
   tags: [rcb_sshkey, phase1]
 
 - import_tasks: packages.yml
+  when: rcb_install|bool
   tags: [rcb_packages, phase2, rcb_all]
 
 - import_tasks: source.yml
