@@ -1,12 +1,14 @@
 # ansible-rcb
 
-[![Build Status](https://travis-ci.org/vbotka/ansible-rcb.svg?branch=master)](https://travis-ci.org/vbotka/ansible-rcb)[![Documentation Status](https://readthedocs.org/projects/rcb/badge/?version=latest)](https://rcb.readthedocs.io/en/latest/)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/rcb)[![Build Status](https://travis-ci.org/vbotka/ansible-rcb.svg?branch=master)](https://travis-ci.org/vbotka/ansible-rcb)[![Documentation Status](https://readthedocs.org/projects/rcb/badge/?version=latest)](https://rcb.readthedocs.io/en/latest/)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/rcb/) Install and configure [RCB (Rsync-Crypto-Backup)](https://github.com/vbotka/rcb).
 
 [Documentation at readthedocs.io](http://rcb.readthedocs.io/)
 
-Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-config-light/issues). Contributions are welcome.
+Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-config-light/issues).
+
+[Contributions are welcome](https://github.com/firstcontributions/first-contributions).
 
 
 ## Requirements
