@@ -2,7 +2,7 @@
 
 - name: "RCB Debug"
   vars:
-    msg: |
+    msg: |-
       ansible_architecture [{{ ansible_architecture }}]
       ansible_os_family [{{ ansible_os_family }}]
       ansible_distribution [{{ ansible_distribution }}]
@@ -33,24 +33,24 @@
       rcb_conf [{{ rcb_conf }}]
       rcb_rsnapshot_conf [{{ rcb_rsnapshot_conf }}]
       rcb_backup_conf [{{ rcb_backup_conf }}]
-      rcb_RCB_EMAIL [{{ rcb_RCB_EMAIL }}]
-      rcb_RCB_BCK_ROOT [{{ rcb_RCB_BCK_ROOT }}]
-      rcb_RCB_BCK_PREFIX [{{ rcb_RCB_BCK_PREFIX }}]
-      rcb_RSYNCRYPTO_TRIM_E [{{ rcb_RSYNCRYPTO_TRIM_E }}]
-      rcb_RSYNCRYPTO_TRIM_D [{{ rcb_RSYNCRYPTO_TRIM_D }}]
-      rcb_RCB_RST_ROOT [{{ rcb_RCB_RST_ROOT }}]
-      rcb_RCB_CRT_ROOT [{{ rcb_RCB_CRT_ROOT }}]
+      rcb_rcb_email [{{ rcb_rcb_email }}]
+      rcb_rcb_bck_root [{{ rcb_rcb_bck_root }}]
+      rcb_rcb_bck_prefix [{{ rcb_rcb_bck_prefix }}]
+      rcb_rsyncrypto_trim_e [{{ rcb_rsyncrypto_trim_e }}]
+      rcb_rsyncrypto_trim_d [{{ rcb_rsyncrypto_trim_d }}]
+      rcb_rcb_rst_root [{{ rcb_rcb_rst_root }}]
+      rcb_rcb_crt_root [{{ rcb_rcb_crt_root }}]
 
-      rcb_cert_CN [{{ rcb_cert_CN }}]
+      rcb_cert_cn [{{ rcb_cert_cn }}]
       rcb_privatekey_cipher [{{ rcb_privatekey_cipher }}]
       rcb_privatekey_passphrase_file [{{ rcb_privatekey_passphrase_file }}]
       rcb_privatekey_passphrase_owner [{{ rcb_privatekey_passphrase_owner }}]
       rcb_privatekey_passphrase_group [{{ rcb_privatekey_passphrase_group }}]
       rcb_privatekey_passphrase_mode [{{ rcb_privatekey_passphrase_mode }}]
-      rcb_BCK_HOST [{{ rcb_BCK_HOST }}]
-      rcb_BCK_USER [{{ rcb_BCK_USER }}]
-      rcb_BCK_GROUP [{{ rcb_BCK_GROUP }}]
-      rcb_BCK_DST [{{ rcb_BCK_DST }}]
+      rcb_bck_host [{{ rcb_bck_host }}]
+      rcb_bck_user [{{ rcb_bck_user }}]
+      rcb_bck_group [{{ rcb_bck_group }}]
+      rcb_bck_dst [{{ rcb_bck_dst }}]
       rcb_link_restore [{{ rcb_link_restore }}]
 
       rcb_rsnapshot_cron [{{ rcb_rsnapshot_cron }}]
@@ -61,8 +61,8 @@
       {% if rcb_debug_classified|bool %}
       rcb_privatekey_passphrase [{{ rcb_privatekey_passphrase }}]
       {% endif %}
-  debug:
-    msg: "{{ msg.split('\n')[:-1] }}"
+  ansible.builtin.debug:
+    msg: "{{ msg.split('\n') }}"
 
 # EOF
 ...

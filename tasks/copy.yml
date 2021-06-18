@@ -2,37 +2,43 @@
 
 - name: "copy: DEBUG Print variables"
   vars:
-    msg: |
+    msg: |-
          work dir [{{ rcb_source_dest }}/rcb-work }}]
          bin dir [{{ rcb_bin_dir }}]
-  debug:
+  ansible.builtin.debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug|bool
 
 - name: "copy: Create directory for installation {{ rcb_bin_dir }}"
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ rcb_bin_dir }}"
+    mode: "{{ rcb_bin_dir_mode|default(omit) }}"
 
 - name: "copy: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
-  command: "find {{ rcb_source_dest }}/rcb-work -type f -name *.sh"
+  ansible.builtin.command:
+    cmd: "find {{ rcb_source_dest }}/rcb-work -type f -name *.sh"
   register: rcb_scripts
   changed_when: false
 
 - name: "copy: DEBUG Scripts"
-  debug:
-    msg: "Scripts = {{ rcb_scripts.stdout_lines }}"
+  ansible.builtin.debug:
+    msg: "{{ msg.split('\n') }}"
+  vars:
+    msg: |-
+      Scripts =
+      {{ rcb_scripts.stdout_lines|to_nice_yaml }}"
   when:
     - rcb_debug|bool
     - not ansible_check_mode
 
 - name: "copy: Copy scripts to {{ rcb_bin_dir }}"
-  copy:
+  ansible.builtin.copy:
     remote_src: true
     src: "{{ item }}"
     dest: "{{ rcb_bin_dir }}"
-    owner: "root"
-    group: "root"
+    owner: root
+    group: root
     mode: "0750"
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode

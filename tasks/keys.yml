@@ -2,69 +2,73 @@
 
 - name: "keys: DEBUG Print variables"
   vars:
-    msg: |
-         Dir [{{ rcb_RCB_CRT_ROOT }}]
-         Key [{{ rcb_RCB_CRT_ROOT }}/backup.key]
+    msg: |-
+         Dir [{{ rcb_rcb_crt_root }}]
+         Key [{{ rcb_rcb_crt_root }}/backup.key]
          Passphrase [{{ rcb_privatekey_passphrase_file }}]
          Cipher [{{ rcb_privatekey_cipher }}]
-         CSR [{{ rcb_RCB_CRT_ROOT }}/backup.csr]
-         CN [{{ rcb_cert_CN }}]
-         Cert [{{ rcb_RCB_CRT_ROOT }}/backup.crt]
-  debug:
+         CSR [{{ rcb_rcb_crt_root }}/backup.csr]
+         CN [{{ rcb_cert_cn }}]
+         Cert [{{ rcb_rcb_crt_root }}/backup.crt]
+  ansible.builtin.debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug|bool
 
-- name: "keys: Create directory for certificate and keys {{ rcb_RCB_CRT_ROOT }}"
-  file:
+- name: "keys: Create directory for certificate and keys {{ rcb_rcb_crt_root }}"
+  ansible.builtin.file:
     state: directory
-    path: "{{ rcb_RCB_CRT_ROOT }}"
+    path: "{{ rcb_rcb_crt_root }}"
+    mode: "{{ rcb_rcb_crt_root_mode|default(omit) }}"
 
 - name: "keys: Create file with PEM passphase in {{ rcb_privatekey_passphrase_file }}"
-  template:
+  ansible.builtin.template:
     src: "pem-pass-phrase.j2"
     dest: "{{ rcb_privatekey_passphrase_file }}"
     owner: "{{ rcb_privatekey_passphrase_owner }}"
     group: "{{ rcb_privatekey_passphrase_group }}"
     mode: "{{ rcb_privatekey_passphrase_mode }}"
 
-# - name: Create self-signed server SSL cert for {{ rcb_cert_CN }}
-#   command: openssl req -new -x509 -extensions v3_ca \
-#            -passout "file:{{ rcb_RCB_CRT_ROOT }}/p#em-pass-phrase" \
-#            -days {{ cert_days | default(3650) }} \
-#            -subj "/C=''/ST=''/L='' /O='' /OU='' #/CN='example.com' /emailAddress=''" \
-#            -keyout {{ rcb_RCB_CRT_ROOT }}/backup.key \
-#            -out {{ rcb_R#CB_CRT_ROOT }}/backup.crt
+# - name: Create self-signed server SSL cert for {{ rcb_cert_cn }}
+#   ansible.builtin.command:
+#     cmd: >
+#       openssl req
+#       -new -x509 -extensions v3_ca
+#       -passout "file:{{ rcb_rcb_crt_root }}/p#em-pass-phrase"
+#       -days {{ cert_days | default(3650) }}
+#       -subj "/C=''/ST=''/L='' /O='' /OU='' #/CN='example.com' /emailAddress=''"
+#       -keyout {{ rcb_rcb_crt_root }}/backup.key
+#       -out {{ rcb_rcb_crt_root }}/backup.crt
 #   args:
-#     creates: "{{ rcb_RCB_CRT_ROOT }}/backup.crt"
+#     creates: "{{ rcb_rcb_crt_root }}/backup.crt"
 #   tags: [rcb_keys, phase2, rcb_all, rcb_devel]
 
 - name: "keys: Generate an OpenSSL private key"
-  openssl_privatekey:
-    path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
+  community.crypto.openssl_privatekey:
+    path: "{{ rcb_rcb_crt_root }}/backup.key"
     passphrase: "{{ rcb_privatekey_passphrase }}"
     cipher: "{{ rcb_privatekey_cipher }}"
   when: not ansible_check_mode
 
 - name: "keys: Generate an OpenSSL Certificate Signing Request"
-  openssl_csr:
-    path: "{{ rcb_RCB_CRT_ROOT }}/backup.csr"
-    privatekey_path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
+  community.crypto.openssl_csr:
+    path: "{{ rcb_rcb_crt_root }}/backup.csr"
+    privatekey_path: "{{ rcb_rcb_crt_root }}/backup.key"
     privatekey_passphrase: "{{ rcb_privatekey_passphrase }}"
-    common_name: "{{ rcb_cert_CN }}"
+    common_name: "{{ rcb_cert_cn }}"
   when: not ansible_check_mode
 
 - name: "keys: Generate a Self Signed OpenSSL certificate"
-  openssl_certificate:
+  community.crypto.x509_certificate:
     provider: selfsigned
-    path: "{{ rcb_RCB_CRT_ROOT }}/backup.crt"
-    privatekey_path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
+    path: "{{ rcb_rcb_crt_root }}/backup.crt"
+    privatekey_path: "{{ rcb_rcb_crt_root }}/backup.key"
     privatekey_passphrase: "{{ rcb_privatekey_passphrase }}"
-    csr_path: "{{ rcb_RCB_CRT_ROOT }}/backup.csr"
+    csr_path: "{{ rcb_rcb_crt_root }}/backup.csr"
   when: not ansible_check_mode
 
-- name: "keys: Change permissions of {{ rcb_RCB_CRT_ROOT }}/backup.key to 0600"
-  file:
-    path: "{{ rcb_RCB_CRT_ROOT }}/backup.key"
+- name: "keys: Change permissions of {{ rcb_rcb_crt_root }}/backup.key to 0600"
+  ansible.builtin.file:
+    path: "{{ rcb_rcb_crt_root }}/backup.key"
     mode: "0600"
   when: not ansible_check_mode
 

@@ -2,14 +2,15 @@
 
 - name: "test5: DEBUG Print variables"
   vars:
-    msg: |
+    msg: |-
          TEST5 rcb conf [{{ rcb_etc_dir }}/{{ rcb_conf }}]
-  debug:
+  ansible.builtin.debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug|bool
 
 - name: "test5: Test decrytpion"
-  command: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-decrypt.sh --delete"
+  ansible.builtin.command:
+    cmd: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-decrypt.sh --delete"
   changed_when: false
 
 # EOF

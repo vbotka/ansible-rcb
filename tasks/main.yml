@@ -1,56 +1,71 @@
 ---
 
-- import_tasks: debug.yml
+- name: Import debug.yml
+  ansible.builtin.import_tasks: debug.yml
   when: rcb_debug|bool
   tags: [rcb_debug, always]
 
-- import_tasks: sshkey.yml
+- name: Import sshkey.yml
+  ansible.builtin.import_tasks: sshkey.yml
   tags: [rcb_sshkey, phase1]
 
-- import_tasks: packages.yml
+- name: Import packages.yml
+  ansible.builtin.import_tasks: packages.yml
   when: rcb_install|bool
   tags: [rcb_packages, phase2, rcb_all]
 
-- import_tasks: source.yml
+- name: Import source.yml
+  ansible.builtin.import_tasks: source.yml
   tags: [rcb_source, phase2, rcb_all]
 
-- import_tasks: patch.yml
+- name: Import patch.yml
+  ansible.builtin.import_tasks: patch.yml
   tags: [rcb_patch, phase2, rcb_all, rcb_devel]
 
-- import_tasks: copy.yml
+- name: Import copy.yml
+  ansible.builtin.import_tasks: copy.yml
   tags: [rcb_copy, phase2, rcb_all, rcb_devel]
 
-- import_tasks: configure.yml
+- name: Import configure.yml
+  ansible.builtin.import_tasks: configure.yml
   tags: [rcb_configure, phase2, rcb_all, rcb_devel]
 
-- import_tasks: cron.yml
+- name: Import cron.yml
+  ansible.builtin.import_tasks: cron.yml
   when: rcb_rsnapshot_cron|bool
   tags: [rcb_cron, phase2, rcb_all, rcb_devel]
 
-- import_tasks: keys.yml
+- name: Import keys.yml
+  ansible.builtin.import_tasks: keys.yml
   tags: [rcb_keys, phase2, rcb_all, rcb_devel]
 
-- import_tasks: test1.yml
+- name: Import test1.yml
+  ansible.builtin.import_tasks: test1.yml
   when: rcb_test|bool
   tags: [test1, testall, rcb_all, rcb_devel]
 
-- import_tasks: test2.yml
+- name: Import test2.yml
+  ansible.builtin.import_tasks: test2.yml
   when: rcb_test|bool
   tags: [test2, testall, rcb_all, rcb_devel]
 
-- import_tasks: test3.yml
+- name: Import test3.yml
+  ansible.builtin.import_tasks: test3.yml
   when: rcb_test|bool
   tags: [test3, testall, rcb_all, rcb_devel]
 
-- import_tasks: test4.yml
+- name: Import test4.yml
+  ansible.builtin.import_tasks: test4.yml
   when: rcb_test|bool
   tags: [test4, testall, rcb_all, rcb_devel]
 
-- import_tasks: test5.yml
+- name: Import test5.yml
+  ansible.builtin.import_tasks: test5.yml
   when: rcb_test|bool
   tags: [test5, testall, rcb_all, rcb_devel]
 
-- import_tasks: test6.yml
+- name: Import test6.yml
+  ansible.builtin.import_tasks: test6.yml
   when: rcb_test|bool
   tags: [test6, testall, rcb_all, rcb_devel]
 

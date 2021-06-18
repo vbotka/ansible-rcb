@@ -1,10 +1,10 @@
 ---
-# vars for vbotka.rcb
+# vars samples for vbotka.rcb
 
 # rcb_debug: "yes"
 # rcb_test: "yes"
-# rcb_BCK_HOST: "FQN-OF-BACKUP-SERVER"
-# rcb_BCK_DST: "/scratch/rcb"
+# rcb_BCK_HOST: FQN-OF-BACKUP-SERVER
+# rcb_BCK_DST: /scratch/rcb
 
 # EOF
 ...
