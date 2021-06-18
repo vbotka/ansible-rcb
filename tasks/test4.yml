@@ -2,14 +2,15 @@
 
 - name: "test4: DEBUG Print variables"
   vars:
-    msg: |
+    msg: |-
          TEST4 rcb conf [{{ rcb_etc_dir }}/{{ rcb_conf }}]
-  debug:
+  ansible.builtin.debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug|bool
 
-- name: "test4: Test rsync from {{ rcb_BCK_USER }}@{{ rcb_BCK_HOST }}:/{{ rcb_BCK_DST }}"
-  command: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsync-back.sh"
+- name: "test4: Test rsync from {{ rcb_bck_user }}@{{ rcb_bck_host }}:/{{ rcb_bck_dst }}"
+  ansible.builtin.command:
+    cmd: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsync-back.sh"
   changed_when: false
 
 # EOF

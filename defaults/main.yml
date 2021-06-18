@@ -26,11 +26,13 @@ rcb_source_checksum: "sha256:04724edd070018978c918ff4f4f18f710b383620ff2ec63fdbc
 rcb_source_file: "{{ rcb_source_version }}.tar.gz"
 rcb_source_dir: "rcb-{{ rcb_source_version }}"
 rcb_source_dest: /usr/local/src
+# rcb_source_dest_mode: "0755"
 rcb_source_url: "https://github.com/vbotka/rcb/archive"
 
 # directories
 rcb_root_public_keys_dir: /tmp
 rcb_bin_dir: /root/bin
+# rcb_bin_dir_mode: "0755"
 rcb_etc_dir: /usr/local/etc
 rcb_snapshot_root: /scratch/rcb/backup/snapshots
 
@@ -42,31 +44,34 @@ rcb_backup_conf: false
 # rcb.conf
 #
 # RCB_HOST will be replaced with ansible_hostname
-rcb_RCB_EMAIL: root
-rcb_RCB_BCK_ROOT: /scratch/rcb/backup
-rcb_RCB_BCK_PREFIX: snapshots/hourly.0
+rcb_rcb_email: root
+rcb_rcb_bck_root: /scratch/rcb/backup
+# rcb_rcb_bck_root_mode: "0755"
+rcb_rcb_bck_prefix: snapshots/hourly.0
 # path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
-rcb_RSYNCRYPTO_TRIM_E: 5
+rcb_rsyncrypto_trim_e: 5
 # path length of $RCB_BCK_ROOT/enc
-rcb_RSYNCRYPTO_TRIM_D: 4
-rcb_RCB_RST_ROOT: /scratch/rcb/restore
-rcb_RCB_CRT_ROOT: /scratch/rcb/cert
+rcb_rsyncrypto_trim_d: 4
+rcb_rcb_rst_root: /scratch/rcb/restore
+# rcb_rcb_rst_root_mode: "0755"
+rcb_rcb_crt_root: /scratch/rcb/cert
+# rcb_rcb_crt_root_mode: "0755"
 
 # certificate
-rcb_cert_CN: example.com
+rcb_cert_cn: example.com
 rcb_privatekey_cipher: AES-256-CBC
 rcb_privatekey_passphrase: passphrase
-rcb_privatekey_passphrase_file: "{{ rcb_RCB_CRT_ROOT }}/pem-pass-phrase"
+rcb_privatekey_passphrase_file: "{{ rcb_rcb_crt_root }}/pem-pass-phrase"
 rcb_privatekey_passphrase_owner: root
 rcb_privatekey_passphrase_group: admin
 rcb_privatekey_passphrase_mode: "0640"
 
 # backup server
 # rcb_BCK_HOST: "example.com"
-rcb_BCK_HOST: FQN-OF-BACKUP-SERVER
-rcb_BCK_USER: rcbackup
-rcb_BCK_GROUP: rcbackup
-rcb_BCK_DST: /scratch/rcb
+rcb_bck_host: FQN-OF-BACKUP-SERVER
+rcb_bck_user: rcbackup
+rcb_bck_group: rcbackup
+rcb_bck_dst: /scratch/rcb
 # BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
 
 # configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
@@ -93,10 +98,10 @@ rcb_rsnapshot_cron_monthly_day: "1"
 rcb_rsnapshot_cron_monthly_command: "rcb-rsnapshot.sh -i=monthly"
 
 # MAILTO="root"
-# 15 */4 * * *rcb-rsnapshot.sh -i=hourly
-# 15 1   * * 1rcb-rsnapshot.sh -i=weekly
-# 15 2   1 * *rcb-rsnapshot.sh -i=monthly
-# 15 5   * * *rcb-daily-encrypt-rsync-decrypt-restore.sh
+# 15 */4 * * * rcb-rsnapshot.sh -i=hourly
+# 15 1   * * 1 rcb-rsnapshot.sh -i=weekly
+# 15 2   1 * * rcb-rsnapshot.sh -i=monthly
+# 15 5   * * * rcb-daily-encrypt-rsync-decrypt-restore.sh
 
 # EOF
 ...

@@ -1,21 +1,21 @@
 # {{ ansible_managed }}
 
-BCK_HOST="{{ rcb_BCK_HOST }}"
-BCK_USER="{{ rcb_BCK_USER }}"
-BCK_DST="{{ rcb_BCK_DST }}/{{ ansible_hostname }}"
+BCK_HOST="{{ rcb_bck_host }}"
+BCK_USER="{{ rcb_bck_user }}"
+BCK_DST="{{ rcb_bck_dst }}/{{ ansible_hostname }}"
 
 RCB_HOST="{{ ansible_hostname }}"
-RCB_EMAIL="{{ rcb_RCB_EMAIL }}"
+RCB_EMAIL="{{ rcb_rcb_email }}"
 
-RCB_BCK_ROOT="{{ rcb_RCB_BCK_ROOT }}"
-RCB_BCK_PREFIX="{{ rcb_RCB_BCK_PREFIX }}"
+RCB_BCK_ROOT="{{ rcb_rcb_bck_root }}"
+RCB_BCK_PREFIX="{{ rcb_rcb_bck_prefix }}"
 RCB_ENC="$RCB_BCK_ROOT/enc"
 RCB_ENCR="$RCB_BCK_ROOT/enc.restored"
 RCB_DEC="$RCB_BCK_ROOT/dec"
 RCB_DEC_MODE="0700"
 RCB_META="$RCB_BCK_ROOT/meta"
 
-RCB_RST_ROOT="{{ rcb_RCB_RST_ROOT }}"
+RCB_RST_ROOT="{{ rcb_rcb_rst_root }}"
 
 # THE TRIM OPTION. When running rsyncrypto in recursive mode, the directory
 # structure under srcdir is re-created under dstdir, with one directory stripped
@@ -27,13 +27,13 @@ RCB_RST_ROOT="{{ rcb_RCB_RST_ROOT }}"
 # file names, and to fail to locate the files to decrypt. (man rsyncrypto)
 #
 # path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
-RSYNCRYPTO_TRIM_E="{{ rcb_RSYNCRYPTO_TRIM_E }}"
+RSYNCRYPTO_TRIM_E="{{ rcb_rsyncrypto_trim_e }}"
 #
 # path length of $RCB_ENCR
-RSYNCRYPTO_TRIM_D="{{ rcb_RSYNCRYPTO_TRIM_D }}"
+RSYNCRYPTO_TRIM_D="{{ rcb_rsyncrypto_trim_d }}"
 # TODO: use awk '{print patsplit($0, array , "/")}'
 
-RCB_CRT_ROOT="{{ rcb_RCB_CRT_ROOT }}"
+RCB_CRT_ROOT="{{ rcb_rcb_crt_root }}"
 RCB_KEYS="$RCB_CRT_ROOT/keys"
 RCB_CRT="$RCB_CRT_ROOT/backup.crt"
 RCB_NAMES="$RCB_CRT_ROOT/encrypted_names"

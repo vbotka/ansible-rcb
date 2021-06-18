@@ -2,75 +2,95 @@
 
 - name: "patch: DEBUG Print variables"
   vars:
-    msg: |
+    msg: |-
          Source dir [{{ rcb_source_dest }}/rcb]
          Work dir [{{ rcb_source_dest }}/rcb-work]
-  debug:
+  ansible.builtin.debug:
     msg: "{{ msg.split('\n') }}"
   when: rcb_debug|bool
 
 - name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb"
-  command: 'find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"'
+  ansible.builtin.command:
+    cmd: >
+      find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"
   register: rcb_scripts
   changed_when: false
 
 - name: "patch: DEBUG Scripts"
-  debug:
-    msg: "*.sh files in {{ rcb_source_dest }}/rcb = {{ rcb_scripts.stdout_lines }}"
+  ansible.builtin.debug:
+    msg: "{{ msg.split('\n') }}"
+  vars:
+    msg: |-
+      *.sh files in {{ rcb_source_dest }}/rcb =
+      {{ rcb_scripts.stdout_lines|to_nice_yaml }}
   when:
     - rcb_debug|bool
     - not ansible_check_mode
 
 - name: "patch: Create working directory for the scripts {{ rcb_source_dest }}/rcb-work"
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ rcb_source_dest }}/rcb-work"
+    mode: "{{ rcb_source_dest_mode|default(omit) }}"
 
 - name: "patch: Copy scripts to working directory"
-  copy:
+  ansible.builtin.copy:
     remote_src: true
     src: "{{ item }}"
     dest: "{{ rcb_source_dest }}/rcb-work"
+    mode: "0644"
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
   changed_when: false
 
 - name: "patch: Which bash"
-  command: "which bash"
+  ansible.builtin.command:
+    cmd: >
+      which bash
   register: rcb_which_bash
   changed_when: false
 
 - name: "patch: DEBUG bash"
-  debug:
-    msg: "DEBUG Bash path = {{ rcb_which_bash.stdout }}"
+  ansible.builtin.debug:
+    msg: "{{ msg.split('\n') }}"
+  vars:
+    msg: |-
+      DEBUG Bash path =
+      {{ rcb_which_bash.stdout|to_nice_yaml }}
   when:
     - rcb_debug|bool
     - not ansible_check_mode
 
 - name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
-  command: 'find "{{ rcb_source_dest }}/rcb-work" -type f -name "*.sh"'
+  ansible.builtin.command:
+    cmd: >
+      find "{{ rcb_source_dest }}/rcb-work" -type f -name "*.sh"
   register: rcb_scripts
   changed_when: false
 
 - name: "patch: DEBUG Scripts"
-  debug:
-    msg: "Scripts = {{ rcb_scripts.stdout_lines }}"
+  ansible.builtin.debug:
+    msg: "{{ msg.split('\n') }}"
+  vars:
+    msg: |-
+      Scripts =
+      {{ rcb_scripts.stdout_lines|to_nice_yaml }}
   when:
     - rcb_debug|bool
     - not ansible_check_mode
 
 - name: "patch: Patch {{ rcb_which_bash.stdout }} in scripts in {{ rcb_source_dest }}/rcb-work"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "{{ item }}"
     regexp: "#!"
     line: "#!{{ rcb_which_bash.stdout }}"
-    insertbefore: "BOF"
+    insertbefore: BOF
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
   changed_when: false
 
 - name: "patch: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "{{ rcb_source_dest }}/rcb-work/rcb-daily-encrypt-rsync-decrypt-restore.sh"
     regexp: "rcb-rsync-back.sh"
     line: "rcb-rsync-back.sh --link"

@@ -1,19 +1,19 @@
 ---
 
 - name: "cron: Configure cron MAILTO={{ rcb_rsnapshot_cron_mailto }}"
-  cronvar:
-    name: "MAILTO"
+  community.general.cronvar:
+    name: MAILTO
     value: "{{ rcb_rsnapshot_cron_mailto }}"
     user: "{{ rcb_rsnapshot_cron_user }}"
 
 - name: "cron: Configure cron PATH={{ rcb_rsnapshot_cron_path }}"
-  cronvar:
-    name: "PATH"
+  community.general.cronvar:
+    name: PATH
     value: "{{ rcb_rsnapshot_cron_path }}"
     user: "{{ rcb_rsnapshot_cron_user }}"
 
 - name: "cron: Configure cron hourly rsnapshot"
-  cron:
+  ansible.builtin.cron:
     name: "hourly rcb_rsnapshot"
     minute: "{{ rcb_rsnapshot_cron_hourly_minute }}"
     hour: "{{ rcb_rsnapshot_cron_hourly_hour }}"
@@ -22,7 +22,7 @@
     backup: "{{ rcb_backup_conf }}"
 
 - name: "cron: Configure cron daily rsnapshot"
-  cron:
+  ansible.builtin.cron:
     name: "daily rcb_rsnapshot"
     minute: "{{ rcb_rsnapshot_cron_daily_minute }}"
     hour: "{{ rcb_rsnapshot_cron_daily_hour }}"
@@ -31,7 +31,7 @@
     backup: "{{ rcb_backup_conf }}"
 
 - name: "cron: Configure cron weekly rsnapshot"
-  cron:
+  ansible.builtin.cron:
     name: "weekly rcb_rsnapshot"
     weekday: "{{ rcb_rsnapshot_cron_weekly_day }}"
     minute: "{{ rcb_rsnapshot_cron_weekly_minute }}"
@@ -41,7 +41,7 @@
     backup: "{{ rcb_backup_conf }}"
 
 - name: "cron: Configure cron monthly rsnapshot"
-  cron:
+  ansible.builtin.cron:
     name: "monthly rcb_rsnapshot"
     day: "{{ rcb_rsnapshot_cron_monthly_day }}"
     minute: "{{ rcb_rsnapshot_cron_monthly_minute }}"

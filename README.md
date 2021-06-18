@@ -11,9 +11,13 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 [Contributions are welcome](https://github.com/firstcontributions/first-contributions).
 
 
-## Requirements
+## Requirements and dependencies
 
-None.
+### Collections
+
+* ansible.posix
+* community.crypto
+* community.general
 
 
 ## Role Variables
@@ -21,19 +25,17 @@ None.
 Review the defaults and examples in vars.
 
 
-## Dependencies
-
-None.
-
-
 ## Examples
 
 Examples of playbooks and variables are available in [RCB project](https://github.com/vbotka/rcb/tree/master/ansible).
 
-1) Install the role
+1) Install the role and collections
 
 ```
-shell> ansible-galaxy install vbotka.rcb
+shell> ansible-galaxy role install vbotka.rcb
+shell> ansible-galaxy collections install ansible.posix
+shell> ansible-galaxy collections install community.crypto
+shell> ansible-galaxy collections install community.general
 ```
 
 Edit and change at least:
@@ -43,7 +45,7 @@ Edit and change at least:
 - hosts in playbooks/rcb-backup-server.yml
 
 
-Following workflow was tested with Ubuntu 18.04 (localhost Backup-Client) and FreeBSD 10.3 (remote Backup-Server)
+Following workflow was tested with Ubuntu 18.04 and 20.04 (localhost Backup-Client), and FreeBSD 10.3 (remote Backup-Server)
 
 2) Create SSH keys at Backup-Clients
 
