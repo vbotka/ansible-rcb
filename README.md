@@ -15,7 +15,6 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 ### Collections
 
-* ansible.posix
 * community.crypto
 * community.general
 
@@ -33,7 +32,6 @@ Examples of playbooks and variables are available in [RCB project](https://githu
 
 ```
 shell> ansible-galaxy role install vbotka.rcb
-shell> ansible-galaxy collections install ansible.posix
 shell> ansible-galaxy collections install community.crypto
 shell> ansible-galaxy collections install community.general
 ```
