@@ -96,4 +96,4 @@ shell> ansible-playbook ~/.ansible/playbooks/rcb.yml -t rcb_devel
 
 ## Author Information
 
-[Vladimir Botka](https://botka.link)
+[Vladimir Botka](https://botka.info)
