@@ -3,10 +3,10 @@
 - name: "source: DEBUG Print variables"
   vars:
     msg: |-
-         url [{{ rcb_source_url }}/{{ rcb_source_file }}]
-         dest [{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}]
+         url: {{ rcb_source_url }}/{{ rcb_source_file }}
+         dest: {{ rcb_source_dest }}/rcb-{{ rcb_source_file }}
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
 
 - name: "source: Test presence of {{ rcb_source_dest }}/rcb-current.lock"

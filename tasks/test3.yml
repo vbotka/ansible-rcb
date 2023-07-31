@@ -3,9 +3,9 @@
 - name: "test3: DEBUG Print variables"
   vars:
     msg: |-
-         TEST3 rcb conf [{{ rcb_etc_dir }}/{{ rcb_conf }}]
+         TEST3 rcb conf: {{ rcb_etc_dir }}/{{ rcb_conf }}
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
 
 - name: "test3: Test rsync to {{ rcb_bck_user }}@{{ rcb_bck_host }}:/{{ rcb_bck_dst }}"

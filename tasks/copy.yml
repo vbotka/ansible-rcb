@@ -3,10 +3,10 @@
 - name: "copy: DEBUG Print variables"
   vars:
     msg: |-
-         work dir [{{ rcb_source_dest }}/rcb-work }}]
-         bin dir [{{ rcb_bin_dir }}]
+         work dir: {{ rcb_source_dest }}/rcb-work }}
+         bin dir: {{ rcb_bin_dir }}
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
 
 - name: "copy: Create directory for installation {{ rcb_bin_dir }}"
@@ -22,12 +22,12 @@
   changed_when: false
 
 - name: "copy: DEBUG Scripts"
-  ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
   vars:
     msg: |-
-      Scripts =
-      {{ rcb_scripts.stdout_lines|to_nice_yaml }}"
+      Scripts:
+        {{ rcb_scripts.stdout_lines|to_nice_yaml(indent=2)|indent(2) }}
+  ansible.builtin.debug:
+    msg: "{{ '{}'.format(msg) }}"
   when:
     - rcb_debug|bool
     - not ansible_check_mode
@@ -39,7 +39,7 @@
     dest: "{{ rcb_bin_dir }}"
     owner: root
     group: root
-    mode: "0750"
+    mode: '0750'
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
 

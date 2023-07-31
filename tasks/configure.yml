@@ -3,12 +3,12 @@
 - name: "configure: DEBUG Print variables"
   vars:
     msg: |
-         Backup dir [{{ rcb_rcb_bck_root }}]
-         Restore dir [{{ rcb_rcb_rst_root }}]
-         RCB config [{{ rcb_etc_dir }}/{{ rcb_conf }}]
-         Rsnaphost config [{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}]
+         Backup dir: {{ rcb_rcb_bck_root }}
+         Restore dir: {{ rcb_rcb_rst_root }}
+         RCB config: {{ rcb_etc_dir }}/{{ rcb_conf }}
+         Rsnaphost config: {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
 
 - name: "configure: Create directory for backup {{ rcb_rcb_bck_root }}"
@@ -25,11 +25,11 @@
 
 - name: "configure: Configure {{ rcb_etc_dir }}/{{ rcb_conf }}"
   ansible.builtin.template:
-    src: "rcb.conf.ubuntu.j2"
+    src: rcb.conf.ubuntu.j2
     dest: "{{ rcb_etc_dir }}/{{ rcb_conf }}"
     owner: root
     group: root
-    mode: "0640"
+    mode: '0640'
     backup: "{{ rcb_backup_conf }}"
 
 # EOF

@@ -7,18 +7,18 @@
 - name: "test1: DEBUG Print variables"
   vars:
     msg: |-
-         TEST1 dir [{{ rcb_test_dir }}]
-         TEST1 rsnapshot conf [{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}]
-         TEST1 rcb conf [{{ rcb_etc_dir }}/{{ rcb_conf }}]
+         TEST1 dir: {{ rcb_test_dir }}
+         TEST1 rsnapshot conf: {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
+         TEST1 rcb conf: {{ rcb_etc_dir }}/{{ rcb_conf }}
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
 
 - name: "test1: Create test directory {{ rcb_test_dir }}"
   ansible.builtin.file:
     state: directory
     path: "{{ rcb_test_dir }}"
-    mode: "0700"
+    mode: '0700'
 
 - name: "test1: Create test files in {{ rcb_test_dir }}"
   ansible.builtin.command:
@@ -37,7 +37,7 @@
   ansible.builtin.lineinfile:
     dest: "{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
     regexp: "{{ rcb_test_dir }}"
-    insertafter: "### BACKUP POINTS"
+    insertafter: '### BACKUP POINTS'
     line: "backup\t{{ rcb_test_dir }}\tlocalhost/"  # noqa no-tabs
 
 - name: "test1: Test backup {{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"

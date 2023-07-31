@@ -3,9 +3,9 @@
 - name: "test2: DEBUG Print variables"
   vars:
     msg: |-
-         TEST2 rcb conf [{{ rcb_etc_dir }}/{{ rcb_conf }}]
+         TEST2 rcb conf: {{ rcb_etc_dir }}/{{ rcb_conf }}
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
 
 - name: "test2: Test encryption {{ rcb_bin_dir }}/rcb-encrypt.sh"
