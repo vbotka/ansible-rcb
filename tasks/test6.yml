@@ -3,9 +3,9 @@
 - name: "test6: DEBUG Print variables"
   vars:
     msg: |-
-         TEST6 rcb conf [{{ rcb_etc_dir }}/{{ rcb_conf }}]
+         TEST6 rcb conf: {{ rcb_etc_dir }}/{{ rcb_conf }}
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
 
 - name: "test6: Test restore"

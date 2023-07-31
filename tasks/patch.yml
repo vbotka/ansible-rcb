@@ -3,10 +3,10 @@
 - name: "patch: DEBUG Print variables"
   vars:
     msg: |-
-         Source dir [{{ rcb_source_dest }}/rcb]
-         Work dir [{{ rcb_source_dest }}/rcb-work]
+         Source dir: {{ rcb_source_dest }}/rcb
+         Work dir: {{ rcb_source_dest }}/rcb-work
   ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
 
 - name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb"
@@ -17,12 +17,12 @@
   changed_when: false
 
 - name: "patch: DEBUG Scripts"
-  ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
   vars:
     msg: |-
-      *.sh files in {{ rcb_source_dest }}/rcb =
-      {{ rcb_scripts.stdout_lines|to_nice_yaml }}
+      *.sh files in {{ rcb_source_dest }}/rcb
+        {{ rcb_scripts.stdout_lines|to_nice_yaml(indent=2)|indent(2) }}
+  ansible.builtin.debug:
+    msg: "{{ '{}'.format(msg) }}"
   when:
     - rcb_debug|bool
     - not ansible_check_mode
@@ -38,7 +38,7 @@
     remote_src: true
     src: "{{ item }}"
     dest: "{{ rcb_source_dest }}/rcb-work"
-    mode: "0644"
+    mode: '0644'
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
   changed_when: false
@@ -51,12 +51,12 @@
   changed_when: false
 
 - name: "patch: DEBUG bash"
-  ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
   vars:
     msg: |-
-      DEBUG Bash path =
-      {{ rcb_which_bash.stdout|to_nice_yaml }}
+      DEBUG Bash path
+        {{ rcb_which_bash.stdout|to_nice_yaml(indent=2)|indent(2) }}
+  ansible.builtin.debug:
+    msg: "{{ '{}'.format(msg) }}"
   when:
     - rcb_debug|bool
     - not ansible_check_mode
@@ -69,12 +69,12 @@
   changed_when: false
 
 - name: "patch: DEBUG Scripts"
-  ansible.builtin.debug:
-    msg: "{{ msg.split('\n') }}"
   vars:
     msg: |-
-      Scripts =
-      {{ rcb_scripts.stdout_lines|to_nice_yaml }}
+      Scripts:
+        {{ rcb_scripts.stdout_lines|to_nice_yaml(indent=2)|indent(2) }}
+  ansible.builtin.debug:
+    msg: "{{ '{}'.format(msg) }}"
   when:
     - rcb_debug|bool
     - not ansible_check_mode
@@ -82,8 +82,8 @@
 - name: "patch: Patch {{ rcb_which_bash.stdout }} in scripts in {{ rcb_source_dest }}/rcb-work"
   ansible.builtin.lineinfile:
     dest: "{{ item }}"
-    regexp: "#!"
-    line: "#!{{ rcb_which_bash.stdout }}"
+    regexp: '#!'
+    line: '#!{{ rcb_which_bash.stdout }}'
     insertbefore: BOF
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
@@ -92,8 +92,8 @@
 - name: "patch: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh"
   ansible.builtin.lineinfile:
     dest: "{{ rcb_source_dest }}/rcb-work/rcb-daily-encrypt-rsync-decrypt-restore.sh"
-    regexp: "rcb-rsync-back.sh"
-    line: "rcb-rsync-back.sh --link"
+    regexp: 'rcb-rsync-back.sh'
+    line: 'rcb-rsync-back.sh --link'
   when:
     - rcb_link_restore|bool
     - not ansible_check_mode
