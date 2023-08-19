@@ -8,14 +8,6 @@ rcb_test: false
 
 rcb_apt_update_cache: true
 ubuntu_cache_valid_time: 14400
-rcb_packages:
-  - bash
-  - git
-  - hashdeep
-  - rsnapshot
-  - rsyncrypto
-  - freebsd-buildutils
-  - bsd-mailx
 
 # source
 rcb_source_ignore_current_lock: false

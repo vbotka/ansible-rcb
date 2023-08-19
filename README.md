@@ -30,60 +30,61 @@ Examples of playbooks and variables are available in [RCB project](https://githu
 
 1) Install the role and collections
 
-```
+```bash
 shell> ansible-galaxy role install vbotka.rcb
 shell> ansible-galaxy collections install community.crypto
 shell> ansible-galaxy collections install community.general
 ```
 
 Edit and change at least:
-- rcb_BCK_HOST and rcb_BCK_DST in vars/rcb.yml
-- rcb_BCK_DST in vars/rcb-backup-server.yml
+
+- rcb_bck_host and rcb_bck_dst in vars/rcb.yml
+- rcb_bck_dst in vars/rcb-backup-server.yml
 - hosts in playbooks/rcb.yml
 - hosts in playbooks/rcb-backup-server.yml
 
 
-Following workflow was tested with Ubuntu 18.04 and 20.04 (localhost Backup-Client), and FreeBSD 10.3 (remote Backup-Server)
+Following workflow was tested with Ubuntu 22.04 and 20.04 (localhost Backup-Client), and FreeBSD 10.3 (remote Backup-Server)
 
 2) Create SSH keys at Backup-Clients
 
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb.yml -t phase1
+```bash
+shell> ansible-playbook rcb.yml -t phase1
 ```
 
 3) Configure the Backup-Server
 
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb-backup-server.yml
-```
-
-4) Configure the Backup-Clients
-
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb.yml -t phase2
+```bash
+shell> ansible-playbook rcb-backup-server.yml
 ```
 
-5) Run tests and check /var/log/rcb.log for potential errors.
+4) Proceed with the Configuration of the Backup-Clients
 
+```bash
+shell> ansible-playbook rcb.yml -t phase2
 ```
-shell> ansible-playbook ~/.ansible/playbooks/rcb.yml -t testall
+
+5) Run tests and check /var/log/rcb.log for potential errors
+
+```bash
+shell> ansible-playbook rcb.yml -t testall
 ```    
 
-6) Add backup directories to rsnapshot.conf and configure cron. [RCB project](https://github.com/vbotka/rcb) provides  [crontab.example](https://github.com/vbotka/rcb/blob/master/crontab.example)
+6) Add backup directories to rsnapshot.conf and configure cron. [RCB project](https://github.com/vbotka/rcb) provides [crontab.example](https://github.com/vbotka/rcb/blob/master/crontab.example)
 
 
 ## Development
 
 Copy local changes to Backup client
 
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb-devel.yml
+```bash
+shell> ansible-playbook rcb-devel.yml
 ```
 
 Test it
 
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb.yml -t rcb_devel
+```bash
+shell> ansible-playbook rcb.yml -t rcb_devel
 ```
 
 

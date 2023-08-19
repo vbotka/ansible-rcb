@@ -89,7 +89,7 @@ RSYNC_StrictHostKeyChecking="false"
 RSYNC_StrictHostKeyChecking_No="ssh -o StrictHostKeyChecking=no"
 RSYNC_StrictHostKeyChecking_Yes="ssh -o StrictHostKeyChecking=yes"
 
-MTREE="/usr/bin/fmtree"
+MTREE="{{ rcb_config_mtree }}"
 MTREE_PARAM="-c -p"
 MTREE_SPEC=".rcb-mtree.txt"
 
