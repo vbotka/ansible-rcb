@@ -1,6 +1,6 @@
 ---
 
-- name: RCB Debug
+- name: "debug: RCB"
   vars:
     msg: |-
       ansible_architecture: {{ ansible_architecture }}
