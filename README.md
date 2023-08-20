@@ -26,7 +26,20 @@ Review the defaults and examples in vars.
 
 ## Examples
 
-Examples of playbooks and variables are available in [RCB project](https://github.com/vbotka/rcb/tree/master/ansible).
+Examples of playbooks and variables are available in [RCB project](https://github.com/vbotka/rcb/tree/master/ansible). Create directory ~/.ansible and download the examples
+
+```bash
+shell> tree .
+.
+├── hosts
+├── playbooks
+│   ├── rcb-backup-server.yml
+│   ├── rcb-devel.yml
+│   └── rcb.yml
+└── vars
+    ├── rcb-backup-server.yml
+    └── rcb.yml
+```
 
 1) Install the role and collections
 
