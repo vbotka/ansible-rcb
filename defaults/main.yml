@@ -33,19 +33,22 @@ rcb_backup_conf: false
 
 # rcb.conf
 #
-# RCB_HOST will be replaced with ansible_hostname
+# RCB_HOST will be replaced with {{ ansible_hostname }}
+# BCK_DST  will be replaced with {{ rcb_bck_dst }}/{{ ansible_hostname }}
 rcb_rcb_email: root
 rcb_rcb_bck_root: /scratch/rcb/backup
 # rcb_rcb_bck_root_mode: '0755'
 rcb_rcb_bck_prefix: snapshots/hourly.0
-# path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
-rcb_rsyncrypto_trim_e: 5
-# path length of $RCB_BCK_ROOT/enc
-rcb_rsyncrypto_trim_d: 4
 rcb_rcb_rst_root: /scratch/rcb/restore
 # rcb_rcb_rst_root_mode: '0755'
 rcb_rcb_crt_root: /scratch/rcb/cert
 # rcb_rcb_crt_root_mode: '0755'
+#
+# path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
+rcb_rsyncrypto_trim_e: "{{ rcb_rcb_bck_root.split('/')|select|length +
+                           rcb_rcb_bck_prefix.split('/')|select|length }}"
+# path length of $RCB_BCK_ROOT/enc
+rcb_rsyncrypto_trim_d: "{{ rcb_rcb_bck_root.split('/')|select|length + 1 }}"
 
 # certificate
 rcb_cert_cn: example.com
