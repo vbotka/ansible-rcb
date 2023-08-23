@@ -8,21 +8,11 @@ rcb_test: false
 
 rcb_apt_update_cache: true
 ubuntu_cache_valid_time: 14400
-rcb_packages:
-  - bash
-  - git
-  - hashdeep
-  - rsnapshot
-  - rsyncrypto
-  - freebsd-buildutils
-  - bsd-mailx
 
 # source
 rcb_source_ignore_current_lock: false
-# rcb_source_version: 1.0.1
-# rcb_source_checksum: 'sha1:08a1e2924ed5d68eec5776963550f52134decb43'
-rcb_source_version: 1.1.0
-rcb_source_checksum: 'sha256:04724edd070018978c918ff4f4f18f710b383620ff2ec63fdbcb621eea921bbb'
+rcb_source_version: 1.1.2
+rcb_source_checksum: 'sha256:f75a2038449a2cda4c757fae0de17982822eb05631399eba6f59295075f077f7'
 rcb_source_file: "{{ rcb_source_version }}.tar.gz"
 rcb_source_dir: "rcb-{{ rcb_source_version }}"
 rcb_source_dest: /usr/local/src
@@ -43,19 +33,22 @@ rcb_backup_conf: false
 
 # rcb.conf
 #
-# RCB_HOST will be replaced with ansible_hostname
+# RCB_HOST will be replaced with {{ ansible_hostname }}
+# BCK_DST  will be replaced with {{ rcb_bck_dst }}/{{ ansible_hostname }}
 rcb_rcb_email: root
 rcb_rcb_bck_root: /scratch/rcb/backup
 # rcb_rcb_bck_root_mode: '0755'
 rcb_rcb_bck_prefix: snapshots/hourly.0
-# path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
-rcb_rsyncrypto_trim_e: 5
-# path length of $RCB_BCK_ROOT/enc
-rcb_rsyncrypto_trim_d: 4
 rcb_rcb_rst_root: /scratch/rcb/restore
 # rcb_rcb_rst_root_mode: '0755'
 rcb_rcb_crt_root: /scratch/rcb/cert
 # rcb_rcb_crt_root_mode: '0755'
+#
+# path length of $RCB_BCK_ROOT/$RCB_BCK_PREFIX
+rcb_rsyncrypto_trim_e: "{{ rcb_rcb_bck_root.split('/')|select|length +
+                           rcb_rcb_bck_prefix.split('/')|select|length }}"
+# path length of $RCB_BCK_ROOT/enc
+rcb_rsyncrypto_trim_d: "{{ rcb_rcb_bck_root.split('/')|select|length + 1 }}"
 
 # certificate
 rcb_cert_cn: example.com
@@ -67,12 +60,12 @@ rcb_privatekey_passphrase_group: admin
 rcb_privatekey_passphrase_mode: '0640'
 
 # backup server
-# rcb_BCK_HOST: example.com
+# rcb_bck_host: example.com
 rcb_bck_host: FQN-OF-BACKUP-SERVER
 rcb_bck_user: rcbackup
 rcb_bck_group: rcbackup
 rcb_bck_dst: /scratch/rcb
-# BCK_DST will be replaced with rcb_BCK_DST/ansible_hostname
+# Config parameter BCK_DST will be replaced by rcb_BCK_DST/ansible_hostname
 
 # configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh
 rcb_link_restore: true

@@ -9,8 +9,7 @@
 
 - name: "packages: Install packages"
   ansible.builtin.apt:
-    name: "{{ item }}"
-  loop: "{{ rcb_packages }}"
+    name: "{{ rcb_packages }}"
   when: ansible_os_family == 'Debian'
 
 # EOF

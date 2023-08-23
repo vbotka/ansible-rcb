@@ -13,77 +13,30 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 ## Requirements and dependencies
 
+### Roles
+
+* vbotka.ansible_lib
+
 ### Collections
 
 * community.crypto
 * community.general
 
 
-## Role Variables
+## Install roles and collections
 
-Review the defaults and examples in vars.
-
-
-## Examples
-
-Examples of playbooks and variables are available in [RCB project](https://github.com/vbotka/rcb/tree/master/ansible).
-
-1) Install the role and collections
-
-```
+```bash
 shell> ansible-galaxy role install vbotka.rcb
+shell> ansible-galaxy role install vbotka.ansible_lib
+```
+
+The collections community.crypto and community.general should be
+included in standard Ansible packages. If the are not or if you want
+to use the latest versions install them
+
+```bash
 shell> ansible-galaxy collections install community.crypto
 shell> ansible-galaxy collections install community.general
-```
-
-Edit and change at least:
-- rcb_BCK_HOST and rcb_BCK_DST in vars/rcb.yml
-- rcb_BCK_DST in vars/rcb-backup-server.yml
-- hosts in playbooks/rcb.yml
-- hosts in playbooks/rcb-backup-server.yml
-
-
-Following workflow was tested with Ubuntu 18.04 and 20.04 (localhost Backup-Client), and FreeBSD 10.3 (remote Backup-Server)
-
-2) Create SSH keys at Backup-Clients
-
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb.yml -t phase1
-```
-
-3) Configure the Backup-Server
-
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb-backup-server.yml
-```
-
-4) Configure the Backup-Clients
-
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb.yml -t phase2
-```
-
-5) Run tests and check /var/log/rcb.log for potential errors.
-
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb.yml -t testall
-```    
-
-6) Add backup directories to rsnapshot.conf and configure cron. [RCB project](https://github.com/vbotka/rcb) provides  [crontab.example](https://github.com/vbotka/rcb/blob/master/crontab.example)
-
-
-## Development
-
-Copy local changes to Backup client
-
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb-devel.yml
-```
-
-Test it
-
-```
-shell> ansible-playbook ~/.ansible/playbooks/rcb.yml -t rcb_devel
 ```
 
 

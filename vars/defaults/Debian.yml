@@ -1,0 +1,16 @@
+---
+# Debian vars for rcb
+
+rcb_packages:
+  - bash
+  - git
+  - hashdeep
+  - rsnapshot
+  - rsyncrypto
+  - freebsd-buildutils
+  - bsd-mailx
+
+rcb_config_mtree: /usr/bin/fmtree
+
+# EOF
+...

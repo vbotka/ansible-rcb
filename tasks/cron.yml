@@ -14,7 +14,7 @@
 
 - name: "cron: Configure cron hourly rsnapshot"
   ansible.builtin.cron:
-    name: "hourly rcb_rsnapshot"
+    name: 'hourly rcb_rsnapshot'
     minute: "{{ rcb_rsnapshot_cron_hourly_minute }}"
     hour: "{{ rcb_rsnapshot_cron_hourly_hour }}"
     job: "{{ rcb_rsnapshot_cron_hourly_command }}"
@@ -23,7 +23,7 @@
 
 - name: "cron: Configure cron daily rsnapshot"
   ansible.builtin.cron:
-    name: "daily rcb_rsnapshot"
+    name: 'daily rcb_rsnapshot'
     minute: "{{ rcb_rsnapshot_cron_daily_minute }}"
     hour: "{{ rcb_rsnapshot_cron_daily_hour }}"
     job: "{{ rcb_rsnapshot_cron_daily_command }}"
@@ -32,7 +32,7 @@
 
 - name: "cron: Configure cron weekly rsnapshot"
   ansible.builtin.cron:
-    name: "weekly rcb_rsnapshot"
+    name: 'weekly rcb_rsnapshot'
     weekday: "{{ rcb_rsnapshot_cron_weekly_day }}"
     minute: "{{ rcb_rsnapshot_cron_weekly_minute }}"
     hour: "{{ rcb_rsnapshot_cron_weekly_hour }}"
@@ -42,7 +42,7 @@
 
 - name: "cron: Configure cron monthly rsnapshot"
   ansible.builtin.cron:
-    name: "monthly rcb_rsnapshot"
+    name: 'monthly rcb_rsnapshot'
     day: "{{ rcb_rsnapshot_cron_monthly_day }}"
     minute: "{{ rcb_rsnapshot_cron_monthly_minute }}"
     hour: "{{ rcb_rsnapshot_cron_monthly_hour }}"

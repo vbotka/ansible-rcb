@@ -1,5 +1,9 @@
 ---
 
+- name: Import vars.yml
+  ansible.builtin.import_tasks: vars.yml
+  tags: [ma_vars, always]
+
 - name: Import debug.yml
   ansible.builtin.import_tasks: debug.yml
   when: rcb_debug|bool
