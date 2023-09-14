@@ -2,14 +2,13 @@
 
 - name: "test1: Assign test variables"
   ansible.builtin.set_fact:
-    rcb_test_dir: /scratch/rcb-test
+    rcb_test_dir: "{{ rcb_test_dir|d('/scratch/rcb-test') }}"
 
 - name: "test1: DEBUG Print variables"
   vars:
     msg: |-
-         TEST1 dir: {{ rcb_test_dir }}
-         TEST1 rsnapshot conf: {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
-         TEST1 rcb conf: {{ rcb_etc_dir }}/{{ rcb_conf }}
+         rcb_test_dir: {{ rcb_test_dir }}
+         rcb_etc_dir/rcb_conf_test: {{ rcb_etc_dir }}/{{ rcb_conf_test }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
@@ -33,16 +32,11 @@
     dest: "{{ rcb_test_dir }}/link-{{ item }}"
   loop: [1, 2, 3]
 
-- name: "test1: Configure {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }} to backup {{ rcb_test_dir }}"
-  ansible.builtin.lineinfile:
-    dest: "{{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}"
-    regexp: "{{ rcb_test_dir }}"
-    insertafter: '### BACKUP POINTS'
-    line: "backup\t{{ rcb_test_dir }}\tlocalhost/"  # noqa no-tabs
-
 - name: "test1: Test backup {{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
   ansible.builtin.command:
-    cmd: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
+    cmd: "{{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
+  environment:
+    RCBCONFIG: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
   changed_when: false
 
 # EOF

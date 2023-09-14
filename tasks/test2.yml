@@ -1,16 +1,10 @@
 ---
 
-- name: "test2: DEBUG Print variables"
-  vars:
-    msg: |-
-         TEST2 rcb conf: {{ rcb_etc_dir }}/{{ rcb_conf }}
-  ansible.builtin.debug:
-    msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug|bool
-
 - name: "test2: Test encryption {{ rcb_bin_dir }}/rcb-encrypt.sh"
   ansible.builtin.command:
-    cmd: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-encrypt.sh"
+    cmd: "{{ rcb_bin_dir }}/rcb-encrypt.sh"
+  environment:
+    RCBCONFIG: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
   changed_when: false
 
 # EOF
