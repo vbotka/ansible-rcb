@@ -4,6 +4,7 @@
 rcb_install: true
 rcb_debug: false
 rcb_debug_classified: false
+rcb_backup_conf: false
 rcb_test: false
 
 rcb_apt_update_cache: true
@@ -24,12 +25,14 @@ rcb_root_public_keys_dir: /tmp
 rcb_bin_dir: /root/bin
 # rcb_bin_dir_mode: '0755'
 rcb_etc_dir: /usr/local/etc
-rcb_snapshot_root: /scratch/rcb/backup/snapshots
 
 # conf
 rcb_conf: rcb.conf
+rcb_conf_arr: "{{ rcb_conf|splitext|list }}"
+rcb_conf_test: "{{ rcb_conf_arr.0 }}-test{{ rcb_conf_arr.1 }}"
 rcb_rsnapshot_conf: rsnapshot.conf
-rcb_backup_conf: false
+rcb_rsnapshot_conf_arr: "{{ rcb_rsnapshot_conf|splitext|list }}"
+rcb_rsnapshot_conf_test: "{{ rcb_rsnapshot_conf_arr.0 }}-test{{ rcb_rsnapshot_conf_arr.1 }}"
 
 # rcb.conf
 #
@@ -39,6 +42,7 @@ rcb_rcb_email: root
 rcb_rcb_bck_root: /scratch/rcb/backup
 # rcb_rcb_bck_root_mode: '0755'
 rcb_rcb_bck_prefix: snapshots/hourly.0
+rcb_rcb_bck_prefix_test: snapshots-test/hourly.0
 rcb_rcb_rst_root: /scratch/rcb/restore
 # rcb_rcb_rst_root_mode: '0755'
 rcb_rcb_crt_root: /scratch/rcb/cert
@@ -51,7 +55,7 @@ rcb_rsyncrypto_trim_e: "{{ rcb_rcb_bck_root.split('/')|select|length +
 rcb_rsyncrypto_trim_d: "{{ rcb_rcb_bck_root.split('/')|select|length + 1 }}"
 
 # certificate
-rcb_cert_cn: example.com
+rcb_cert_cn: backup.example.org
 rcb_privatekey_cipher: AES-256-CBC
 rcb_privatekey_passphrase: passphrase
 rcb_privatekey_passphrase_file: "{{ rcb_rcb_crt_root }}/pem-pass-phrase"
@@ -60,11 +64,12 @@ rcb_privatekey_passphrase_group: admin
 rcb_privatekey_passphrase_mode: '0640'
 
 # backup server
-# rcb_bck_host: example.com
+# rcb_bck_host: backup.example.org
 rcb_bck_host: FQN-OF-BACKUP-SERVER
 rcb_bck_user: rcbackup
 rcb_bck_group: rcbackup
 rcb_bck_dst: /scratch/rcb
+rcb_bck_dst_test: /scratch/rcb-test
 # Config parameter BCK_DST will be replaced by rcb_BCK_DST/ansible_hostname
 
 # configure rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh

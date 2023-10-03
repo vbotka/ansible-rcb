@@ -3,10 +3,16 @@
 - name: "configure: DEBUG Print variables"
   vars:
     msg: |
-         Backup dir: {{ rcb_rcb_bck_root }}
-         Restore dir: {{ rcb_rcb_rst_root }}
-         RCB config: {{ rcb_etc_dir }}/{{ rcb_conf }}
-         Rsnaphost config: {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
+         Backup dir .......... rcb_rcb_bck_root .................. {{ rcb_rcb_bck_root }}
+         Restore dir ......... rcb_rcb_rst_root .................. {{ rcb_rcb_rst_root }}
+         Prefix .............. rcb_rcb_bck_prefix ................ {{ rcb_rcb_bck_prefix }}
+         Destination ......... rcb_bck_dst ....................... {{ rcb_bck_dst }}
+         RCB config .......... rcb_etc_dir/rcb_conf .............. {{ rcb_etc_dir }}/{{ rcb_conf }}
+         Rsnapshot config .... rcb_etc_dir/rcb_rsnapshot_conf .... {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
+         Prefix test ......... rcb_rcb_bck_prefix_test ........... {{ rcb_rcb_bck_prefix_test }}
+         Destination test .... rcb_bck_dst_test .................. {{ rcb_bck_dst_test }}
+         RCB config test ..... rcb_etc_dir/rcb_conf_test ......... {{ rcb_etc_dir }}/{{ rcb_conf_test }}
+         Rsnapshot config test rcb_etc_dir/rcb_rsnapshot_conf_test {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf_test }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug|bool
@@ -27,6 +33,15 @@
   ansible.builtin.template:
     src: rcb.conf.ubuntu.j2
     dest: "{{ rcb_etc_dir }}/{{ rcb_conf }}"
+    owner: root
+    group: root
+    mode: '0640'
+    backup: "{{ rcb_backup_conf }}"
+
+- name: "configure: Configure {{ rcb_etc_dir }}/{{ rcb_conf_test }}"
+  ansible.builtin.template:
+    src: rcb-test.conf.ubuntu.j2
+    dest: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
     owner: root
     group: root
     mode: '0640'

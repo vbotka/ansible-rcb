@@ -1,9 +1,9 @@
 ---
 # vars samples for vbotka.rcb
 
-# rcb_debug: 'yes'
-# rcb_test: 'yes'
-# rcb_BCK_HOST: FQN-OF-BACKUP-SERVER
+# rcb_debug: true
+# rcb_test: true
+# rcb_BCK_HOST: backup.example.org
 # rcb_BCK_DST: /scratch/rcb
 
 # EOF

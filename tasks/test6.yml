@@ -1,16 +1,10 @@
 ---
 
-- name: "test6: DEBUG Print variables"
-  vars:
-    msg: |-
-         TEST6 rcb conf: {{ rcb_etc_dir }}/{{ rcb_conf }}
-  ansible.builtin.debug:
-    msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug|bool
-
 - name: "test6: Test restore"
   ansible.builtin.command:
-    cmd: "export RCBCONFIG={{ rcb_etc_dir }}/{{ rcb_conf }}; {{ rcb_bin_dir }}/rcb-restore.sh"
+    cmd: "{{ rcb_bin_dir }}/rcb-restore.sh"
+  environment:
+    RCBCONFIG: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
   changed_when: false
 
 # EOF

@@ -31,7 +31,7 @@ shell> ansible-galaxy role install vbotka.ansible_lib
 ```
 
 The collections community.crypto and community.general should be
-included in standard Ansible packages. If the are not or if you want
+included in standard Ansible packages. If they are not or if you want
 to use the latest versions install them
 
 ```bash
