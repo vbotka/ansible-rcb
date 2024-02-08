@@ -1,5 +1,5 @@
 ---
-# Debian vars for rcb
+# Ubuntu Kinetic vars for rcb
 
 rcb_packages:
   - bash

@@ -1,38 +1,38 @@
 ---
 
-- name: "test1: Assign test variables"
+- name: "Test1: Assign test variables"
   ansible.builtin.set_fact:
-    rcb_test_dir: "{{ rcb_test_dir|d('/scratch/rcb-test') }}"
+    rcb_test_dir: "{{ rcb_test_dir | d('/scratch/rcb-test') }}"
 
-- name: "test1: DEBUG Print variables"
+- name: "Test1: DEBUG Print variables"
   vars:
     msg: |-
-         rcb_test_dir: {{ rcb_test_dir }}
-         rcb_etc_dir/rcb_conf_test: {{ rcb_etc_dir }}/{{ rcb_conf_test }}
+      rcb_test_dir: {{ rcb_test_dir }}
+      rcb_etc_dir/rcb_conf_test: {{ rcb_etc_dir }}/{{ rcb_conf_test }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug|bool
+  when: rcb_debug | bool
 
-- name: "test1: Create test directory {{ rcb_test_dir }}"
+- name: "Test1: Create test directory {{ rcb_test_dir }}"
   ansible.builtin.file:
     state: directory
     path: "{{ rcb_test_dir }}"
-    mode: '0700'
+    mode: "0700"
 
-- name: "test1: Create test files in {{ rcb_test_dir }}"
+- name: "Test1: Create test files in {{ rcb_test_dir }}"
   ansible.builtin.command:
-    cmd: "dd if=/dev/urandom of={{ rcb_test_dir }}/{{ item }} count=10 bs=1024"
+    cmd: dd if=/dev/urandom of={{ rcb_test_dir }}/{{ item }} count=10 bs=1024
     creates: "{{ rcb_test_dir }}/{{ item }}"
   loop: [1, 2, 3]
 
-- name: "test1: Create test links in {{ rcb_test_dir }}"
+- name: "Test1: Create test links in {{ rcb_test_dir }}"
   ansible.builtin.file:
     state: link
     src: "{{ rcb_test_dir }}/{{ item }}"
     dest: "{{ rcb_test_dir }}/link-{{ item }}"
   loop: [1, 2, 3]
 
-- name: "test1: Test backup {{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
+- name: "Test1: Test backup {{ rcb_bin_dir ~ '/rcb-rsnapshot.sh -i=hourly' }}"
   ansible.builtin.command:
     cmd: "{{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
   environment:

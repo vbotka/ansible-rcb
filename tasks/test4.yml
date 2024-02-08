@@ -1,6 +1,6 @@
 ---
 
-- name: "test4: Test rsync from {{ rcb_bck_user }}@{{ rcb_bck_host }}:/{{ rcb_bck_dst_test }}"
+- name: "Test4: Test rsync from {{ rcb_bck_user ~ '@' ~ rcb_bck_host ~ ':/' ~ rcb_bck_dst_test }}"
   ansible.builtin.command:
     cmd: "{{ rcb_bin_dir }}/rcb-rsync-back.sh"
   environment:

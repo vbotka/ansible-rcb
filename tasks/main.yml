@@ -6,7 +6,7 @@
 
 - name: Import debug.yml
   ansible.builtin.import_tasks: debug.yml
-  when: rcb_debug|bool
+  when: rcb_debug | bool
   tags: [rcb_debug, always]
 
 - name: Import sshkey.yml
@@ -15,7 +15,7 @@
 
 - name: Import packages.yml
   ansible.builtin.import_tasks: packages.yml
-  when: rcb_install|bool
+  when: rcb_install | bool
   tags: [rcb_packages, phase2, rcb_all]
 
 - name: Import source.yml
@@ -36,7 +36,7 @@
 
 - name: Import cron.yml
   ansible.builtin.import_tasks: cron.yml
-  when: rcb_rsnapshot_cron|bool
+  when: rcb_rsnapshot_cron | bool
   tags: [rcb_cron, phase2, rcb_all, rcb_devel]
 
 - name: Import keys.yml
@@ -45,32 +45,32 @@
 
 - name: Import test1.yml
   ansible.builtin.import_tasks: test1.yml
-  when: rcb_test|bool
+  when: rcb_test | bool
   tags: [test1, testall, rcb_all, rcb_devel]
 
 - name: Import test2.yml
   ansible.builtin.import_tasks: test2.yml
-  when: rcb_test|bool
+  when: rcb_test | bool
   tags: [test2, testall, rcb_all, rcb_devel]
 
 - name: Import test3.yml
   ansible.builtin.import_tasks: test3.yml
-  when: rcb_test|bool
+  when: rcb_test | bool
   tags: [test3, testall, rcb_all, rcb_devel]
 
 - name: Import test4.yml
   ansible.builtin.import_tasks: test4.yml
-  when: rcb_test|bool
+  when: rcb_test | bool
   tags: [test4, testall, rcb_all, rcb_devel]
 
 - name: Import test5.yml
   ansible.builtin.import_tasks: test5.yml
-  when: rcb_test|bool
+  when: rcb_test | bool
   tags: [test5, testall, rcb_all, rcb_devel]
 
 - name: Import test6.yml
   ansible.builtin.import_tasks: test6.yml
-  when: rcb_test|bool
+  when: rcb_test | bool
   tags: [test6, testall, rcb_all, rcb_devel]
 
 # EOF

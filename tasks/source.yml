@@ -1,64 +1,64 @@
 ---
-
-- name: "source: DEBUG Print variables"
+- name: "Source: DEBUG Print variables"
   vars:
     msg: |-
-         url: {{ rcb_source_url }}/{{ rcb_source_file }}
-         dest: {{ rcb_source_dest }}/rcb-{{ rcb_source_file }}
+      url: {{ rcb_source_url }}/{{ rcb_source_file }}
+      dest: {{ rcb_source_dest }}/rcb-{{ rcb_source_file }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug|bool
+  when: rcb_debug | bool
 
-- name: "source: Test presence of {{ rcb_source_dest }}/rcb-current.lock"
+- name: "Source: Test presence of {{ rcb_source_dest ~ '/rcb-current.lock' }}"
   ansible.builtin.stat:
     path: "{{ rcb_source_dest }}/rcb-current.lock"
   register: rcb_current_lock
 
-- name: "source: Debug rcb-current.lock"
+- name: "Source: Debug rcb-current.lock"
   ansible.builtin.debug:
     msg: "[DEBUG] rcb-current.lock file is present: {{ rcb_current_lock.stat.exists }}"
-  when: rcb_debug|bool
+  when: rcb_debug | bool
 
-- name: "source: Create directory for the source code {{ rcb_source_dest }}"
+- name: "Source: Create directory for the source code {{ rcb_source_dest }}"
   ansible.builtin.file:
     state: directory
     path: "{{ rcb_source_dest }}"
-    mode: "{{ rcb_source_dest_mode|default(omit) }}"
+    mode: "{{ rcb_source_dest_mode | d(omit) }}"
 
-- name: "source: Download source code from {{ rcb_source_url }}/{{ rcb_source_file }}"
+- name: "Source: Download source code from {{ rcb_source_url ~ '/' ~ rcb_source_file }}"
   ansible.builtin.get_url:
     url: "{{ rcb_source_url }}/{{ rcb_source_file }}"
     dest: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
+    mode: "0664"
     checksum: "{{ rcb_source_checksum }}"
 
-- name: "source: Check existence of {{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
+- name: "Source: Check existence of {{ rcb_source_dest ~ '/rcb-' ~ rcb_source_file }}"
   ansible.builtin.stat:
     path: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
   register: rcb_source_file_downloaded
 
-- name: "source: Debug rcb_source_file_downloaded"
+- name: "Source: Debug rcb_source_file_downloaded"
   ansible.builtin.debug:
     msg: "[DEBUG] rcb_source_file_downloaded: {{ rcb_source_file_downloaded.stat.exists }}"
-  when: rcb_debug|bool
+  when: rcb_debug | bool
 
-- name: "source: Extract source code from {{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
+- name: "Source: Extract source code from {{ rcb_source_dest ~ '/rcb-' ~ rcb_source_file }}"
   ansible.builtin.unarchive:
     remote_src: true
     src: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
     dest: "{{ rcb_source_dest }}"
   when: rcb_source_file_downloaded.stat.exists
 
-- name: "source: Check existence of {{ rcb_source_dest }}/{{ rcb_source_dir }}"
+- name: "Source: Check existence of {{ rcb_source_dest ~ '/' ~ rcb_source_dir }}"
   ansible.builtin.stat:
     path: "{{ rcb_source_dest }}/{{ rcb_source_dir }}"
   register: rcb_source_dir_extracted
 
-- name: "source: Debug rcb_source_dir_extracted"
+- name: "Source: Debug rcb_source_dir_extracted"
   ansible.builtin.debug:
     msg: "[DEBUG] rcb_source_dir_extracted: {{ rcb_source_dir_extracted.stat.exists }}"
-  when: rcb_debug|bool
+  when: rcb_debug | bool
 
-- name: "source: Create symbolic link rcb to {{ rcb_source_dir }}"
+- name: "Source: Create symbolic link rcb to {{ rcb_source_dir }}"
   ansible.builtin.file:
     state: link
     src: "{{ rcb_source_dest }}/{{ rcb_source_dir }}"
@@ -66,7 +66,7 @@
     force: true
   when:
     - rcb_source_dir_extracted.stat.exists
-    - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock|bool)
+    - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock | bool)
 
 # EOF
 ...

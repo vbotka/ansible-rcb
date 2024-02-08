@@ -1,6 +1,6 @@
 ---
 
-- name: "debug: RCB"
+- name: "Debug: RCB"
   vars:
     msg: |-
       ansible_architecture: {{ ansible_architecture }}
@@ -16,7 +16,7 @@
       ubuntu_cache_valid_time: {{ ubuntu_cache_valid_time }}
       rcb_install: {{ rcb_install }}
       rcb_packages:
-        {{ rcb_packages|to_nice_yaml(indent=2)|indent(2) }}
+        {{ rcb_packages | to_nice_yaml(indent=2) | indent(2) }}
       rcb_source_version: {{ rcb_source_version }}
       rcb_source_ignore_current_lock: {{ rcb_source_ignore_current_lock }}
       rcb_source_file: {{ rcb_source_file }}
@@ -44,7 +44,7 @@
       rcb_rsnapshot_conf_test: {{ rcb_rsnapshot_conf_test }}
       rcb_bck_dst_test: {{ rcb_bck_dst_test }}
       rcb_rcb_bck_prefix_test: {{ rcb_rcb_bck_prefix_test }}
-      rcb_test_dir: {{ rcb_test_dir|d('/scratch/rcb-test') }}
+      rcb_test_dir: {{ rcb_test_dir | d('/scratch/rcb-test') }}
 
       rcb_cert_cn: {{ rcb_cert_cn }}
       rcb_privatekey_cipher: {{ rcb_privatekey_cipher }}
@@ -63,7 +63,7 @@
       rcb_rsnapshot_cron_path: {{ rcb_rsnapshot_cron_path }}
       rcb_rsnapshot_cron_mailto : {{ rcb_rsnapshot_cron_mailto }}
 
-      {% if rcb_debug_classified|bool %}
+      {% if rcb_debug_classified | bool %}
       rcb_privatekey_passphrase: {{ rcb_privatekey_passphrase }}
       {% endif %}
   ansible.builtin.debug:

@@ -1,6 +1,6 @@
 ---
 
-- name: "test2: Test encryption {{ rcb_bin_dir }}/rcb-encrypt.sh"
+- name: "Test2: Test encryption {{ rcb_bin_dir ~ '/rcb-encrypt.sh'}}"
   ansible.builtin.command:
     cmd: "{{ rcb_bin_dir }}/rcb-encrypt.sh"
   environment:
