@@ -1,21 +1,21 @@
 ---
 
-- name: "sshkey: DEBUG Print variables"
+- name: "Sshkey: DEBUG Print variables"
   vars:
     msg: |-
-         ssh_key_comment: root@{{ ansible_hostname }}
-         dest: {{ rcb_root_public_keys_dir }}/{{ rcb_bck_host }}/root-{{ ansible_hostname }}.id_rsa.pub
+      ssh_key_comment: root@{{ ansible_hostname }}
+      dest: {{ rcb_root_public_keys_dir }}/{{ rcb_bck_host }}/root-{{ ansible_hostname }}.id_rsa.pub
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug|bool
+  when: rcb_debug | bool
 
-- name: "sshkey: Generate RSA key for root"
+- name: "Sshkey: Generate RSA key for root"
   ansible.builtin.user:
     name: root
     generate_ssh_key: true
-    ssh_key_comment: "root@{{ ansible_hostname }}"
+    ssh_key_comment: root@{{ ansible_hostname }}
 
-- name: "sshkey: Download root public key"
+- name: "Sshkey: Download root public key"
   ansible.builtin.fetch:
     src: /root/.ssh/id_rsa.pub
     dest: "{{ rcb_root_public_keys_dir }}/{{ rcb_bck_host }}/root-{{ ansible_hostname }}.id_rsa.pub"

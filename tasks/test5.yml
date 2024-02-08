@@ -1,6 +1,6 @@
 ---
 
-- name: "test5: Test decrytpion"
+- name: "Test5: Test decrytpion"
   ansible.builtin.command:
     cmd: "{{ rcb_bin_dir }}/rcb-decrypt.sh --delete"
   environment:

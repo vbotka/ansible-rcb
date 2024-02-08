@@ -31,12 +31,23 @@ shell> ansible-galaxy role install vbotka.ansible_lib
 ```
 
 The collections community.crypto and community.general should be
-included in standard Ansible packages. If they are not or if you want
+included in standard Ansible installation. If they are not or if you want
 to use the latest versions install them
 
 ```bash
 shell> ansible-galaxy collections install community.crypto
 shell> ansible-galaxy collections install community.general
+```
+
+
+## Ansible lint
+
+Use the configuration file *.ansible-lint.local* when running
+*ansible-lint*. Some rules might be disabled and some warnings might
+be ignored. See the notes in the configuration file.
+
+```bash
+shell> ansible-lint -c .ansible-lint.local
 ```
 
 

@@ -1,6 +1,6 @@
 ---
 
-- name: "test6: Test restore"
+- name: "Test6: Test restore"
   ansible.builtin.command:
     cmd: "{{ rcb_bin_dir }}/rcb-restore.sh"
   environment:

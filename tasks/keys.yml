@@ -1,26 +1,26 @@
 ---
 
-- name: "keys: DEBUG Print variables"
+- name: "Keys: DEBUG Print variables"
   vars:
     msg: |-
-         Dir: {{ rcb_rcb_crt_root }}
-         Key: {{ rcb_rcb_crt_root }}/backup.key
-         Passphrase: {{ rcb_privatekey_passphrase_file }}
-         Cipher: {{ rcb_privatekey_cipher }}
-         CSR: {{ rcb_rcb_crt_root }}/backup.csr
-         CN: {{ rcb_cert_cn }}
-         Cert: {{ rcb_rcb_crt_root }}/backup.crt
+      Dir: {{ rcb_rcb_crt_root }}
+      Key: {{ rcb_rcb_crt_root }}/backup.key
+      Passphrase: {{ rcb_privatekey_passphrase_file }}
+      Cipher: {{ rcb_privatekey_cipher }}
+      CSR: {{ rcb_rcb_crt_root }}/backup.csr
+      CN: {{ rcb_cert_cn }}
+      Cert: {{ rcb_rcb_crt_root }}/backup.crt
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug|bool
+  when: rcb_debug | bool
 
-- name: "keys: Create directory for certificate and keys {{ rcb_rcb_crt_root }}"
+- name: "Keys: Create directory for certificate and keys {{ rcb_rcb_crt_root }}"
   ansible.builtin.file:
     state: directory
     path: "{{ rcb_rcb_crt_root }}"
-    mode: "{{ rcb_rcb_crt_root_mode|default(omit) }}"
+    mode: "{{ rcb_rcb_crt_root_mode | d(omit) }}"
 
-- name: "keys: Create file with PEM passphase in {{ rcb_privatekey_passphrase_file }}"
+- name: "Keys: Create file with PEM passphase in {{ rcb_privatekey_passphrase_file }}"
   ansible.builtin.template:
     src: pem-pass-phrase.j2
     dest: "{{ rcb_privatekey_passphrase_file }}"
@@ -42,14 +42,14 @@
 #     creates: "{{ rcb_rcb_crt_root }}/backup.crt"
 #   tags: [rcb_keys, phase2, rcb_all, rcb_devel]
 
-- name: "keys: Generate an OpenSSL private key"
+- name: "Keys: Generate an OpenSSL private key"
   community.crypto.openssl_privatekey:
     path: "{{ rcb_rcb_crt_root }}/backup.key"
     passphrase: "{{ rcb_privatekey_passphrase }}"
     cipher: "{{ rcb_privatekey_cipher }}"
   when: not ansible_check_mode
 
-- name: "keys: Generate an OpenSSL Certificate Signing Request"
+- name: "Keys: Generate an OpenSSL Certificate Signing Request"
   community.crypto.openssl_csr:
     path: "{{ rcb_rcb_crt_root }}/backup.csr"
     privatekey_path: "{{ rcb_rcb_crt_root }}/backup.key"
@@ -57,7 +57,7 @@
     common_name: "{{ rcb_cert_cn }}"
   when: not ansible_check_mode
 
-- name: "keys: Generate a Self Signed OpenSSL certificate"
+- name: "Keys: Generate a Self Signed OpenSSL certificate"
   community.crypto.x509_certificate:
     provider: selfsigned
     path: "{{ rcb_rcb_crt_root }}/backup.crt"
@@ -66,10 +66,10 @@
     csr_path: "{{ rcb_rcb_crt_root }}/backup.csr"
   when: not ansible_check_mode
 
-- name: "keys: Change permissions of {{ rcb_rcb_crt_root }}/backup.key to 0600"
+- name: "Keys: Change permissions of {{ rcb_rcb_crt_root ~ '/backup.key' }}"
   ansible.builtin.file:
     path: "{{ rcb_rcb_crt_root }}/backup.key"
-    mode: '0600'
+    mode: "0600"
   when: not ansible_check_mode
 
 # EOF

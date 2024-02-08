@@ -1,101 +1,101 @@
 ---
 
-- name: "patch: DEBUG Print variables"
+- name: "Patch: DEBUG Print variables"
   vars:
     msg: |-
-         Source dir: {{ rcb_source_dest }}/rcb
-         Work dir: {{ rcb_source_dest }}/rcb-work
+      Source dir: {{ rcb_source_dest }}/rcb
+      Work dir: {{ rcb_source_dest }}/rcb-work
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug|bool
+  when: rcb_debug | bool
 
-- name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb"
+- name: "Patch: Register list of the .sh files in {{ rcb_source_dest ~ '/rcb' }}"
   ansible.builtin.command:
     cmd: >
       find "{{ rcb_source_dest }}/rcb/" -type f -name "*.sh"
   register: rcb_scripts
   changed_when: false
 
-- name: "patch: DEBUG Scripts"
+- name: "Patch: DEBUG Scripts"
   vars:
     msg: |-
       *.sh files in {{ rcb_source_dest }}/rcb
-        {{ rcb_scripts.stdout_lines|to_nice_yaml(indent=2)|indent(2) }}
+        {{ rcb_scripts.stdout_lines | to_nice_yaml(indent=2) | indent(2) }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
   when:
-    - rcb_debug|bool
+    - rcb_debug | bool
     - not ansible_check_mode
 
-- name: "patch: Create working directory for the scripts {{ rcb_source_dest }}/rcb-work"
+- name: "Patch: Create working directory for the scripts {{ rcb_source_dest ~ '/rcb-work' }}"
   ansible.builtin.file:
     state: directory
     path: "{{ rcb_source_dest }}/rcb-work"
-    mode: "{{ rcb_source_dest_mode|default(omit) }}"
+    mode: "{{ rcb_source_dest_mode | d(omit) }}"
 
-- name: "patch: Copy scripts to working directory"
+- name: "Patch: Copy scripts to working directory"
   ansible.builtin.copy:
     remote_src: true
     src: "{{ item }}"
     dest: "{{ rcb_source_dest }}/rcb-work"
-    mode: '0644'
+    mode: "0644"
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
   changed_when: false
 
-- name: "patch: Which bash"
+- name: "Patch: Which bash"
   ansible.builtin.command:
     cmd: >
       which bash
   register: rcb_which_bash
   changed_when: false
 
-- name: "patch: DEBUG bash"
+- name: "Patch: DEBUG bash"
   vars:
     msg: |-
       DEBUG Bash path
-        {{ rcb_which_bash.stdout|to_nice_yaml(indent=2)|indent(2) }}
+        {{ rcb_which_bash.stdout | to_nice_yaml(indent=2) | indent(2) }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
   when:
-    - rcb_debug|bool
+    - rcb_debug | bool
     - not ansible_check_mode
 
-- name: "patch: Register list of the .sh files in {{ rcb_source_dest }}/rcb-work"
+- name: "Patch: Register list of the .sh files (scripts) in {{ rcb_source_dest ~ '/rcb-work' }} "
   ansible.builtin.command:
     cmd: >
       find "{{ rcb_source_dest }}/rcb-work" -type f -name "*.sh"
   register: rcb_scripts
   changed_when: false
 
-- name: "patch: DEBUG Scripts"
+- name: "Patch: DEBUG Scripts"
   vars:
     msg: |-
       Scripts:
-        {{ rcb_scripts.stdout_lines|to_nice_yaml(indent=2)|indent(2) }}
+        {{ rcb_scripts.stdout_lines | to_nice_yaml(indent=2) | indent(2) }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
   when:
-    - rcb_debug|bool
+    - rcb_debug | bool
     - not ansible_check_mode
 
-- name: "patch: Patch {{ rcb_which_bash.stdout }} in scripts in {{ rcb_source_dest }}/rcb-work"
+- name: "Patch: Patch scripts interpreter {{ rcb_which_bash.stdout }}"
   ansible.builtin.lineinfile:
     dest: "{{ item }}"
-    regexp: '#!'
-    line: '#!{{ rcb_which_bash.stdout }}'
+    regexp: "#!"
+    line: "#!{{ rcb_which_bash.stdout }}"
     insertbefore: BOF
   loop: "{{ rcb_scripts.stdout_lines }}"
   when: not ansible_check_mode
   changed_when: false
 
-- name: "patch: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh"
+- name: "Patch: Patch rcb-rsync-back.sh --link in rcb-daily-encrypt-rsync-decrypt-restore.sh"
   ansible.builtin.lineinfile:
     dest: "{{ rcb_source_dest }}/rcb-work/rcb-daily-encrypt-rsync-decrypt-restore.sh"
-    regexp: 'rcb-rsync-back.sh'
-    line: 'rcb-rsync-back.sh --link'
+    regexp: rcb-rsync-back.sh
+    line: rcb-rsync-back.sh --link
   when:
-    - rcb_link_restore|bool
+    - rcb_link_restore | bool
     - not ansible_check_mode
   changed_when: false
 

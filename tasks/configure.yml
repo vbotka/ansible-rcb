@@ -1,50 +1,50 @@
 ---
 
-- name: "configure: DEBUG Print variables"
+- name: "Configure: DEBUG Print variables"
   vars:
     msg: |
-         Backup dir .......... rcb_rcb_bck_root .................. {{ rcb_rcb_bck_root }}
-         Restore dir ......... rcb_rcb_rst_root .................. {{ rcb_rcb_rst_root }}
-         Prefix .............. rcb_rcb_bck_prefix ................ {{ rcb_rcb_bck_prefix }}
-         Destination ......... rcb_bck_dst ....................... {{ rcb_bck_dst }}
-         RCB config .......... rcb_etc_dir/rcb_conf .............. {{ rcb_etc_dir }}/{{ rcb_conf }}
-         Rsnapshot config .... rcb_etc_dir/rcb_rsnapshot_conf .... {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
-         Prefix test ......... rcb_rcb_bck_prefix_test ........... {{ rcb_rcb_bck_prefix_test }}
-         Destination test .... rcb_bck_dst_test .................. {{ rcb_bck_dst_test }}
-         RCB config test ..... rcb_etc_dir/rcb_conf_test ......... {{ rcb_etc_dir }}/{{ rcb_conf_test }}
-         Rsnapshot config test rcb_etc_dir/rcb_rsnapshot_conf_test {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf_test }}
+      Backup dir .......... rcb_rcb_bck_root .................. {{ rcb_rcb_bck_root }}
+      Restore dir ......... rcb_rcb_rst_root .................. {{ rcb_rcb_rst_root }}
+      Prefix .............. rcb_rcb_bck_prefix ................ {{ rcb_rcb_bck_prefix }}
+      Destination ......... rcb_bck_dst ....................... {{ rcb_bck_dst }}
+      RCB config .......... rcb_etc_dir/rcb_conf .............. {{ rcb_etc_dir }}/{{ rcb_conf }}
+      Rsnapshot config .... rcb_etc_dir/rcb_rsnapshot_conf .... {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf }}
+      Prefix test ......... rcb_rcb_bck_prefix_test ........... {{ rcb_rcb_bck_prefix_test }}
+      Destination test .... rcb_bck_dst_test .................. {{ rcb_bck_dst_test }}
+      RCB config test ..... rcb_etc_dir/rcb_conf_test ......... {{ rcb_etc_dir }}/{{ rcb_conf_test }}
+      Rsnapshot config test rcb_etc_dir/rcb_rsnapshot_conf_test {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf_test }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug|bool
+  when: rcb_debug | bool
 
-- name: "configure: Create directory for backup {{ rcb_rcb_bck_root }}"
+- name: "Configure: Create directory for backup {{ rcb_rcb_bck_root }}"
   ansible.builtin.file:
     state: directory
     path: "{{ rcb_rcb_bck_root }}"
-    mode: "{{ rcb_rcb_bck_root_mode|default(omit) }}"
+    mode: "{{ rcb_rcb_bck_root_mode | d(omit) }}"
 
-- name: "configure: Create directory to restore from backup {{ rcb_rcb_rst_root }}"
+- name: "Configure: Create directory to restore from backup {{ rcb_rcb_rst_root }}"
   ansible.builtin.file:
     state: directory
     path: "{{ rcb_rcb_rst_root }}"
-    mode: "{{ rcb_rcb_rst_root_mode|default(omit) }}"
+    mode: "{{ rcb_rcb_rst_root_mode | d(omit) }}"
 
-- name: "configure: Configure {{ rcb_etc_dir }}/{{ rcb_conf }}"
+- name: "Configure: Configure {{ rcb_etc_dir ~ '/' ~ rcb_conf }}"
   ansible.builtin.template:
     src: rcb.conf.ubuntu.j2
     dest: "{{ rcb_etc_dir }}/{{ rcb_conf }}"
     owner: root
     group: root
-    mode: '0640'
+    mode: "0640"
     backup: "{{ rcb_backup_conf }}"
 
-- name: "configure: Configure {{ rcb_etc_dir }}/{{ rcb_conf_test }}"
+- name: "Configure: Configure {{ rcb_etc_dir ~ '/' ~ rcb_conf_test }}"
   ansible.builtin.template:
     src: rcb-test.conf.ubuntu.j2
     dest: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
     owner: root
     group: root
-    mode: '0640'
+    mode: "0640"
     backup: "{{ rcb_backup_conf }}"
 
 # EOF
