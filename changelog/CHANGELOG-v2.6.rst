@@ -10,13 +10,14 @@ vbotka.rcb 2.6 Release Notes
 
 Release Summary
 ---------------
-Distro update.
+Bugfix update.
 
 Major Changes
 -------------
 
 Minor Changes
 -------------
+* Update README.
 
 
 2.6.0
