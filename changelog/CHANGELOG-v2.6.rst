@@ -18,6 +18,7 @@ Major Changes
 Minor Changes
 -------------
 * Update README.
+* Use default rules in local ansible-lint
 
 
 2.6.0
