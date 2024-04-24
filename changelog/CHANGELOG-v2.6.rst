@@ -19,7 +19,8 @@ Minor Changes
 -------------
 * Update README.
 * Fix README label.
-* Use default rules in local ansible-lint
+* Use default rules in local ansible-lint config
+* Empty skip list in local ansible-lint config
 
 
 2.6.0
