@@ -18,6 +18,7 @@ Major Changes
 Minor Changes
 -------------
 * Update README.
+* Fix README label.
 * Use default rules in local ansible-lint
 
 
