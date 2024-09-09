@@ -10,7 +10,7 @@ vbotka.rcb 2.6 Release Notes
 
 Release Summary
 ---------------
-Bugfix update.
+Ansible 2.17 update.
 
 Major Changes
 -------------
@@ -19,8 +19,7 @@ Minor Changes
 -------------
 * Update README.
 * Fix README label.
-* Use default rules in local ansible-lint config
-* Empty skip list in local ansible-lint config
+* Update lint config.
 
 
 2.6.0
