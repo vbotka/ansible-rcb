@@ -14,12 +14,15 @@ Ansible 2.17 update.
 
 Major Changes
 -------------
+* Add supported Ubuntu 24.04 Noble
 
 Minor Changes
 -------------
 * Update README.
 * Fix README label.
 * Update lint config.
+* Add var rcb_role_version
+* Update tasks/debug.yml
 
 
 2.6.0
