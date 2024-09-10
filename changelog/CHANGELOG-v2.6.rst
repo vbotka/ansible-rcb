@@ -5,6 +5,21 @@ vbotka.rcb 2.6 Release Notes
 .. contents:: Topics
 
 
+2.6.2
+=====
+
+Release Summary
+---------------
+Maintenance update.
+
+Major Changes
+-------------
+* Update source vewrsion 1.2.0
+
+Minor Changes
+-------------
+
+
 2.6.1
 =====
 
