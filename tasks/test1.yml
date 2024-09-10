@@ -4,7 +4,7 @@
   ansible.builtin.set_fact:
     rcb_test_dir: "{{ rcb_test_dir | d('/scratch/rcb-test') }}"
 
-- name: "Test1: DEBUG Print variables"
+- name: "Test1: DEBUG test1 variables rcb_debug={{ rcb_debug }}"
   vars:
     msg: |-
       rcb_test_dir: {{ rcb_test_dir }}

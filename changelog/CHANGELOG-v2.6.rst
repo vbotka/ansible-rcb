@@ -23,6 +23,13 @@ Minor Changes
 * Update lint config.
 * Add var rcb_role_version
 * Update tasks/debug.yml
+* Rename tasks keys->cert, configure->config, packages->pkg
+* Update all debug names
+* Create logical blocks of tasks
+* Update ansible_check_mode conditions
+* Tasks paths.yml note: The two steps: 1) Copy scripts to working
+  directory and 2) Patch scripts in working directory are not
+  idempotent. The second step will always report changed.
 
 
 2.6.0

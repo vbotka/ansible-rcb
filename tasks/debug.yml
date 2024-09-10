@@ -1,8 +1,9 @@
 ---
 
-- name: "Debug: RCB"
+- name: "Debug: RCB rcb_debug={{ rcb_debug }}"
   vars:
     msg: |-
+      rcb_role_version: {{ rcb_role_version }}
       ansible_architecture: {{ ansible_architecture }}
       ansible_os_family: {{ ansible_os_family }}
       ansible_distribution: {{ ansible_distribution }}

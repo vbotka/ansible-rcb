@@ -4,12 +4,12 @@
   when: ansible_os_family == 'Debian'
   block:
 
-    - name: "Packages: Update apt cache"
+    - name: "Pkg: Update apt cache"
       ansible.builtin.apt:
         cache_valid_time: "{{ ubuntu_cache_valid_time }}"
       when: rcb_apt_update_cache | bool
 
-    - name: "Packages: Install packages"
+    - name: "Pkg: Install packages"
       ansible.builtin.apt:
         name: "{{ rcb_packages }}"
 

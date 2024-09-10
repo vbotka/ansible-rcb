@@ -1,0 +1,76 @@
+---
+
+- name: "Cert: DEBUG cert variables rcb_debug={{ rcb_debug }}"
+  vars:
+    msg: |-
+      Dir: {{ rcb_rcb_crt_root }}
+      Key: {{ rcb_rcb_crt_root }}/backup.key
+      Passphrase: {{ rcb_privatekey_passphrase_file }}
+      Cipher: {{ rcb_privatekey_cipher }}
+      CSR: {{ rcb_rcb_crt_root }}/backup.csr
+      CN: {{ rcb_cert_cn }}
+      Cert: {{ rcb_rcb_crt_root }}/backup.crt
+  ansible.builtin.debug:
+    msg: "{{ '{}'.format(msg) }}"
+  when: rcb_debug | bool
+
+- name: "Cert: Create directory for certificate and keys {{ rcb_rcb_crt_root }}"
+  ansible.builtin.file:
+    state: directory
+    path: "{{ rcb_rcb_crt_root }}"
+    mode: "{{ rcb_rcb_crt_root_mode | d(omit) }}"
+
+- name: "Cert: Create file with PEM passphase in {{ rcb_privatekey_passphrase_file }}"
+  ansible.builtin.template:
+    src: pem-pass-phrase.j2
+    dest: "{{ rcb_privatekey_passphrase_file }}"
+    owner: "{{ rcb_privatekey_passphrase_owner }}"
+    group: "{{ rcb_privatekey_passphrase_group }}"
+    mode: "{{ rcb_privatekey_passphrase_mode }}"
+
+# - name: "Cert: Create self-signed server SSL cert for {{ rcb_cert_cn }}"
+#   ansible.builtin.command:
+#     cmd: >
+#       openssl req
+#       -new -x509 -extensions v3_ca
+#       -passout "file:{{ rcb_rcb_crt_root }}/p#em-pass-phrase"
+#       -days {{ cert_days | default(3650) }}
+#       -subj "/C=''/ST=''/L='' /O='' /OU='' #/CN='example.com' /emailAddress=''"
+#       -keyout {{ rcb_rcb_crt_root }}/backup.key
+#       -out {{ rcb_rcb_crt_root }}/backup.crt
+#   args:
+#     creates: "{{ rcb_rcb_crt_root }}/backup.crt"
+#   tags: [rcb_keys, phase2, rcb_all, rcb_devel]
+
+- name: Generate OpenSSL key, request, and certificate
+  when: not ansible_check_mode
+  block:
+
+    - name: "Cert: Generate an OpenSSL private key"
+      community.crypto.openssl_privatekey:
+        path: "{{ rcb_rcb_crt_root }}/backup.key"
+        passphrase: "{{ rcb_privatekey_passphrase }}"
+        cipher: "{{ rcb_privatekey_cipher }}"
+
+    - name: "Cert: Generate an OpenSSL Certificate Signing Request"
+      community.crypto.openssl_csr:
+        path: "{{ rcb_rcb_crt_root }}/backup.csr"
+        privatekey_path: "{{ rcb_rcb_crt_root }}/backup.key"
+        privatekey_passphrase: "{{ rcb_privatekey_passphrase }}"
+        common_name: "{{ rcb_cert_cn }}"
+
+    - name: "Cert: Generate a Self Signed OpenSSL certificate"
+      community.crypto.x509_certificate:
+        provider: selfsigned
+        path: "{{ rcb_rcb_crt_root }}/backup.crt"
+        privatekey_path: "{{ rcb_rcb_crt_root }}/backup.key"
+        privatekey_passphrase: "{{ rcb_privatekey_passphrase }}"
+        csr_path: "{{ rcb_rcb_crt_root }}/backup.csr"
+
+    - name: "Cert: Change permissions of {{ rcb_rcb_crt_root ~ '/backup.key' }}"
+      ansible.builtin.file:
+        path: "{{ rcb_rcb_crt_root }}/backup.key"
+        mode: "0600"
+
+# EOF
+...

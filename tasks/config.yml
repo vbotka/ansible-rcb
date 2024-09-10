@@ -1,10 +1,12 @@
 ---
 
-- name: "Configure: DEBUG Print variables"
+- name: "Config: DEBUG config variables rcb_debug={{ rcb_debug }}"
   vars:
     msg: |
       Backup dir .......... rcb_rcb_bck_root .................. {{ rcb_rcb_bck_root }}
+      Backup dir mode ..... rcb_rcb_bck_root_mode ............. {{ rcb_rcb_bck_root_mode | d('UNDEFINED') }}
       Restore dir ......... rcb_rcb_rst_root .................. {{ rcb_rcb_rst_root }}
+      Restore dir mode .... rcb_rcb_rst_root_mode ............. {{ rcb_rcb_rst_root_mode | d('UNDEFINED') }}
       Prefix .............. rcb_rcb_bck_prefix ................ {{ rcb_rcb_bck_prefix }}
       Destination ......... rcb_bck_dst ....................... {{ rcb_bck_dst }}
       RCB config .......... rcb_etc_dir/rcb_conf .............. {{ rcb_etc_dir }}/{{ rcb_conf }}
@@ -17,19 +19,19 @@
     msg: "{{ '{}'.format(msg) }}"
   when: rcb_debug | bool
 
-- name: "Configure: Create directory for backup {{ rcb_rcb_bck_root }}"
+- name: "Config: Create directory for backup {{ rcb_rcb_bck_root }}"
   ansible.builtin.file:
     state: directory
     path: "{{ rcb_rcb_bck_root }}"
     mode: "{{ rcb_rcb_bck_root_mode | d(omit) }}"
 
-- name: "Configure: Create directory to restore from backup {{ rcb_rcb_rst_root }}"
+- name: "Config: Create directory to restore from backup {{ rcb_rcb_rst_root }}"
   ansible.builtin.file:
     state: directory
     path: "{{ rcb_rcb_rst_root }}"
     mode: "{{ rcb_rcb_rst_root_mode | d(omit) }}"
 
-- name: "Configure: Configure {{ rcb_etc_dir ~ '/' ~ rcb_conf }}"
+- name: "Config: Configure {{ rcb_etc_dir ~ '/' ~ rcb_conf }}"
   ansible.builtin.template:
     src: rcb.conf.ubuntu.j2
     dest: "{{ rcb_etc_dir }}/{{ rcb_conf }}"
@@ -38,7 +40,7 @@
     mode: "0640"
     backup: "{{ rcb_backup_conf }}"
 
-- name: "Configure: Configure {{ rcb_etc_dir ~ '/' ~ rcb_conf_test }}"
+- name: "Config: Configure {{ rcb_etc_dir ~ '/' ~ rcb_conf_test }}"
   ansible.builtin.template:
     src: rcb-test.conf.ubuntu.j2
     dest: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
