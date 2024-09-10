@@ -1,6 +1,6 @@
 ---
 
-- name: "Sshkey: DEBUG Print variables"
+- name: "Sshkey: DEBUG Print variables rcb_debug={{ rcb_debug }}"
   vars:
     msg: |-
       ssh_key_comment: root@{{ ansible_hostname }}

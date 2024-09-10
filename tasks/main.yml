@@ -7,71 +7,74 @@
 - name: Import debug.yml
   ansible.builtin.import_tasks: debug.yml
   when: rcb_debug | bool
-  tags: [rcb_debug, always]
+  tags: rcb_debug
 
 - name: Import sshkey.yml
   ansible.builtin.import_tasks: sshkey.yml
   tags: [rcb_sshkey, phase1]
 
-- name: Import packages.yml
-  ansible.builtin.import_tasks: packages.yml
-  when: rcb_install | bool
-  tags: [rcb_packages, phase2, rcb_all]
+- name: Phase2
+  tags: [phase2, rcb_all]
+  block:
 
-- name: Import source.yml
-  ansible.builtin.import_tasks: source.yml
-  tags: [rcb_source, phase2, rcb_all]
+    - name: Import pkg.yml
+      ansible.builtin.import_tasks: pkg.yml
+      when: rcb_install | bool
+      tags: rcb_pkg
 
-- name: Import patch.yml
-  ansible.builtin.import_tasks: patch.yml
-  tags: [rcb_patch, phase2, rcb_all, rcb_devel]
+    - name: Import source.yml
+      ansible.builtin.import_tasks: source.yml
+      tags: rcb_source
 
-- name: Import copy.yml
-  ansible.builtin.import_tasks: copy.yml
-  tags: [rcb_copy, phase2, rcb_all, rcb_devel]
+    - name: Import patch.yml
+      ansible.builtin.import_tasks: patch.yml
+      tags: rcb_patch
 
-- name: Import configure.yml
-  ansible.builtin.import_tasks: configure.yml
-  tags: [rcb_configure, phase2, rcb_all, rcb_devel]
+    - name: Import copy.yml
+      ansible.builtin.import_tasks: copy.yml
+      tags: [rcb_copy, rcb_devel]
 
-- name: Import cron.yml
-  ansible.builtin.import_tasks: cron.yml
-  when: rcb_rsnapshot_cron | bool
-  tags: [rcb_cron, phase2, rcb_all, rcb_devel]
+    - name: Import config.yml
+      ansible.builtin.import_tasks: config.yml
+      tags: [rcb_config, rcb_devel]
 
-- name: Import keys.yml
-  ansible.builtin.import_tasks: keys.yml
-  tags: [rcb_keys, phase2, rcb_all, rcb_devel]
+    - name: Import cron.yml
+      ansible.builtin.import_tasks: cron.yml
+      when: rcb_rsnapshot_cron | bool
+      tags: [rcb_cron, rcb_devel]
 
-- name: Import test1.yml
-  ansible.builtin.import_tasks: test1.yml
+    - name: Import cert.yml
+      ansible.builtin.import_tasks: cert.yml
+      tags: [rcb_cert, rcb_devel]
+
+- name: Test
   when: rcb_test | bool
-  tags: [test1, testall, rcb_all, rcb_devel]
+  tags: [testall, rcb_all, rcb_devel]
+  block:
 
-- name: Import test2.yml
-  ansible.builtin.import_tasks: test2.yml
-  when: rcb_test | bool
-  tags: [test2, testall, rcb_all, rcb_devel]
+    - name: Import test1.yml
+      ansible.builtin.import_tasks: test1.yml
+      tags: test1
 
-- name: Import test3.yml
-  ansible.builtin.import_tasks: test3.yml
-  when: rcb_test | bool
-  tags: [test3, testall, rcb_all, rcb_devel]
+    - name: Import test2.yml
+      ansible.builtin.import_tasks: test2.yml
+      tags: test2
 
-- name: Import test4.yml
-  ansible.builtin.import_tasks: test4.yml
-  when: rcb_test | bool
-  tags: [test4, testall, rcb_all, rcb_devel]
+    - name: Import test3.yml
+      ansible.builtin.import_tasks: test3.yml
+      tags: test3
 
-- name: Import test5.yml
-  ansible.builtin.import_tasks: test5.yml
-  when: rcb_test | bool
-  tags: [test5, testall, rcb_all, rcb_devel]
+    - name: Import test4.yml
+      ansible.builtin.import_tasks: test4.yml
+      tags: test4
 
-- name: Import test6.yml
-  ansible.builtin.import_tasks: test6.yml
-  when: rcb_test | bool
-  tags: [test6, testall, rcb_all, rcb_devel]
+    - name: Import test5.yml
+      ansible.builtin.import_tasks: test5.yml
+      tags: test5
+
+    - name: Import test6.yml
+      ansible.builtin.import_tasks: test6.yml
+      tags: test6
 
 # EOF
 ...

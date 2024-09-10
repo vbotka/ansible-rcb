@@ -1,5 +1,6 @@
 ---
 # defaults for vbotka.rcb
+rcb_role_version: 2.6.1
 
 rcb_install: true
 rcb_debug: false
