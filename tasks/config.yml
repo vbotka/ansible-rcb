@@ -1,6 +1,7 @@
 ---
 
 - name: "Config: DEBUG config variables rcb_debug={{ rcb_debug }}"
+  when: rcb_debug | bool
   vars:
     msg: |
       Backup dir .......... rcb_rcb_bck_root .................. {{ rcb_rcb_bck_root }}
@@ -17,7 +18,6 @@
       Rsnapshot config test rcb_etc_dir/rcb_rsnapshot_conf_test {{ rcb_etc_dir }}/{{ rcb_rsnapshot_conf_test }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug | bool
 
 - name: "Config: Create directory for backup {{ rcb_rcb_bck_root }}"
   ansible.builtin.file:
@@ -50,4 +50,3 @@
     backup: "{{ rcb_backup_conf }}"
 
 # EOF
-...

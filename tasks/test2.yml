@@ -1,11 +1,10 @@
 ---
 
 - name: "Test2: Test encryption {{ rcb_bin_dir ~ '/rcb-encrypt.sh'}}"
-  ansible.builtin.command:
-    cmd: "{{ rcb_bin_dir }}/rcb-encrypt.sh"
   environment:
     RCBCONFIG: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
   changed_when: false
+  ansible.builtin.command:
+    cmd: "{{ rcb_bin_dir }}/rcb-encrypt.sh"
 
 # EOF
-...

@@ -1,26 +1,26 @@
 ---
 
 - name: "Source: DEBUG source variables rcb_debug={{ rcb_debug }}"
+  when: rcb_debug | bool
   vars:
     msg: |-
       url: {{ rcb_source_url }}/{{ rcb_source_file }}
       dest: {{ rcb_source_dest }}/rcb-{{ rcb_source_file }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug | bool
 
 - name: Test lock
   block:
 
     - name: "Source: Test presence of {{ rcb_source_dest ~ '/rcb-current.lock' }}"
+      register: rcb_current_lock
       ansible.builtin.stat:
         path: "{{ rcb_source_dest }}/rcb-current.lock"
-      register: rcb_current_lock
 
     - name: "Source: Debug rcb-current.lock rcb_debug={{ rcb_debug }}"
+      when: rcb_debug | bool
       ansible.builtin.debug:
         msg: "[DEBUG] rcb-current.lock file is present: {{ rcb_current_lock.stat.exists }}"
-      when: rcb_debug | bool
 
 - name: Download source
   block:
@@ -32,6 +32,8 @@
         mode: "{{ rcb_source_dest_mode | d(omit) }}"
 
     - name: "Source: Download source code from {{ rcb_source_url ~ '/' ~ rcb_source_file }}"
+      environment:
+        CRYPTOGRAPHY_OPENSSL_NO_LEGACY: '1'
       ansible.builtin.get_url:
         url: "{{ rcb_source_url }}/{{ rcb_source_file }}"
         dest: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
@@ -39,44 +41,45 @@
         checksum: "{{ rcb_source_checksum }}"
 
     - name: "Source: Check existence of {{ rcb_source_dest ~ '/rcb-' ~ rcb_source_file }}"
+      register: rcb_source_file_downloaded
       ansible.builtin.stat:
         path: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
-      register: rcb_source_file_downloaded
 
     - name: "Source: Debug rcb_source_file_downloaded rcb_debug={{ rcb_debug }}"
+      when: rcb_debug | bool
       ansible.builtin.debug:
         msg: "[DEBUG] rcb_source_file_downloaded: {{ rcb_source_file_downloaded.stat.exists }}"
-      when: rcb_debug | bool
 
 - name: Extract source
   block:
 
     - name: "Source: Extract source code from {{ rcb_source_dest ~ '/rcb-' ~ rcb_source_file }}"
+      when: rcb_source_file_downloaded.stat.exists
+      environment:
+        CRYPTOGRAPHY_OPENSSL_NO_LEGACY: '1'
       ansible.builtin.unarchive:
         remote_src: true
         src: "{{ rcb_source_dest }}/rcb-{{ rcb_source_file }}"
         dest: "{{ rcb_source_dest }}"
-      when: rcb_source_file_downloaded.stat.exists
 
     - name: "Source: Check existence of {{ rcb_source_dest ~ '/' ~ rcb_source_dir }}"
+      register: rcb_source_dir_extracted
       ansible.builtin.stat:
         path: "{{ rcb_source_dest }}/{{ rcb_source_dir }}"
-      register: rcb_source_dir_extracted
 
     - name: "Source: Debug rcb_source_dir_extracted rcb_debug={{ rcb_debug }}"
+      when: rcb_debug | bool
       ansible.builtin.debug:
         msg: "[DEBUG] rcb_source_dir_extracted: {{ rcb_source_dir_extracted.stat.exists }}"
-      when: rcb_debug | bool
 
     - name: "Source: Create symbolic link rcb to {{ rcb_source_dir }}"
+      when:
+        - rcb_source_dir_extracted.stat.exists
+        - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock | bool)
       ansible.builtin.file:
         state: link
         src: "{{ rcb_source_dest }}/{{ rcb_source_dir }}"
         dest: "{{ rcb_source_dest }}/rcb"
         force: true
-      when:
-        - rcb_source_dir_extracted.stat.exists
-        - (not rcb_current_lock.stat.exists or rcb_source_ignore_current_lock | bool)
 
 # EOF
-...

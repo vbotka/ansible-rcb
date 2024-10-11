@@ -1,13 +1,13 @@
 ---
 
 - name: "Sshkey: DEBUG Print variables rcb_debug={{ rcb_debug }}"
+  when: rcb_debug | bool
   vars:
     msg: |-
       ssh_key_comment: root@{{ ansible_hostname }}
       dest: {{ rcb_root_public_keys_dir }}/{{ rcb_bck_host }}/root-{{ ansible_hostname }}.id_rsa.pub
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug | bool
 
 - name: "Sshkey: Generate RSA key for root"
   ansible.builtin.user:
@@ -22,4 +22,3 @@
     flat: true
 
 # EOF
-...

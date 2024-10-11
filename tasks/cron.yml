@@ -51,4 +51,3 @@
     backup: "{{ rcb_backup_conf }}"
 
 # EOF
-...
