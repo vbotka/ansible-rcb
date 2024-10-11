@@ -5,13 +5,12 @@
   block:
 
     - name: "Pkg: Update apt cache"
+      when: rcb_apt_update_cache | bool
       ansible.builtin.apt:
         cache_valid_time: "{{ ubuntu_cache_valid_time }}"
-      when: rcb_apt_update_cache | bool
 
     - name: "Pkg: Install packages"
       ansible.builtin.apt:
         name: "{{ rcb_packages }}"
 
 # EOF
-...

@@ -1,11 +1,10 @@
 ---
 
 - name: "Test5: Test decrytpion"
-  ansible.builtin.command:
-    cmd: "{{ rcb_bin_dir }}/rcb-decrypt.sh --delete"
   environment:
     RCBCONFIG: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
   changed_when: false
+  ansible.builtin.command:
+    cmd: "{{ rcb_bin_dir }}/rcb-decrypt.sh --delete"
 
 # EOF
-...

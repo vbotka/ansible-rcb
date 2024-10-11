@@ -1,13 +1,13 @@
 ---
 
 - name: "Copy: DEBUG copy variables rcb_debug={{ rcb_debug }}"
+  when: rcb_debug | bool
   vars:
     msg: |-
       work dir: {{ rcb_source_dest }}/rcb-work }}
       bin dir: {{ rcb_bin_dir }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug | bool
 
 - name: "Copy: Create directory for installation {{ rcb_bin_dir }}"
   ansible.builtin.file:
@@ -16,20 +16,20 @@
     mode: "{{ rcb_bin_dir_mode | d(omit) }}"
 
 - name: "Copy: Register list of the .sh files in {{ rcb_source_dest ~ '/rcb-work' }}"
+  register: rcb_scripts
   ansible.builtin.command:
     cmd: find {{ rcb_source_dest }}/rcb-work -type f -name *.sh
-  register: rcb_scripts
   changed_when: false
   check_mode: false
 
 - name: "Copy: DEBUG Scripts rcb_debug={{ rcb_debug }}"
+  when: rcb_debug | bool
   vars:
     msg: |-
       Scripts:
         {{ rcb_scripts.stdout_lines | to_nice_yaml(indent=2) | indent(2) }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug | bool
 
 - name: "Copy: Copy scripts to {{ rcb_bin_dir }}"
   ansible.builtin.copy:
@@ -42,4 +42,3 @@
   loop: "{{ rcb_scripts.stdout_lines }}"
 
 # EOF
-...

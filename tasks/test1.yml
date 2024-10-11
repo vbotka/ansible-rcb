@@ -5,13 +5,13 @@
     rcb_test_dir: "{{ rcb_test_dir | d('/scratch/rcb-test') }}"
 
 - name: "Test1: DEBUG test1 variables rcb_debug={{ rcb_debug }}"
+  when: rcb_debug | bool
   vars:
     msg: |-
       rcb_test_dir: {{ rcb_test_dir }}
       rcb_etc_dir/rcb_conf_test: {{ rcb_etc_dir }}/{{ rcb_conf_test }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
-  when: rcb_debug | bool
 
 - name: "Test1: Create test directory {{ rcb_test_dir }}"
   ansible.builtin.file:
@@ -33,11 +33,10 @@
   loop: [1, 2, 3]
 
 - name: "Test1: Test backup {{ rcb_bin_dir ~ '/rcb-rsnapshot.sh -i=hourly' }}"
-  ansible.builtin.command:
-    cmd: "{{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
   environment:
     RCBCONFIG: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
   changed_when: false
+  ansible.builtin.command:
+    cmd: "{{ rcb_bin_dir }}/rcb-rsnapshot.sh -i=hourly"
 
 # EOF
-...
