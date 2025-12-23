@@ -13,12 +13,12 @@
   ansible.builtin.user:
     name: root
     generate_ssh_key: true
-    ssh_key_comment: root@{{ ansible_hostname }}
+    ssh_key_comment: root@{{ ansible_facts['hostname'] }}
 
 - name: "Sshkey: Download root public key"
   ansible.builtin.fetch:
     src: /root/.ssh/id_rsa.pub
-    dest: "{{ rcb_root_public_keys_dir }}/{{ rcb_bck_host }}/root-{{ ansible_hostname }}.id_rsa.pub"
+    dest: "{{ rcb_root_public_keys_dir }}/{{ rcb_bck_host }}/root-{{ ansible_facts['hostname'] }}.id_rsa.pub"
     flat: true
 
 # EOF

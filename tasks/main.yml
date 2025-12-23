@@ -49,6 +49,8 @@
 
 - name: Test
   when: rcb_test | bool
+  environment:
+    RCBCONFIG: "{{ rcb_etc_dir }}/{{ rcb_conf_test }}"
   tags: [testall, rcb_all, rcb_devel]
   block:
 

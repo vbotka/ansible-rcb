@@ -110,5 +110,8 @@ rcb_rsnapshot_cron_monthly_command: rcb-rsnapshot.sh -i=monthly
 # 15 2   1 * * rcb-rsnapshot.sh -i=monthly
 # 15 5   * * * rcb-daily-encrypt-rsync-decrypt-restore.sh
 
+# test
+rcb_test_dir: /scratch/rcb-test
+
 # EOF
 ...
