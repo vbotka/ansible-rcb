@@ -1,6 +1,6 @@
 ---
 # defaults for vbotka.rcb
-rcb_role_version: 2.6.4
+rcb_role_version: 2.8.0
 
 rcb_install: true
 rcb_debug: false
@@ -109,6 +109,9 @@ rcb_rsnapshot_cron_monthly_command: rcb-rsnapshot.sh -i=monthly
 # 15 1   * * 1 rcb-rsnapshot.sh -i=weekly
 # 15 2   1 * * rcb-rsnapshot.sh -i=monthly
 # 15 5   * * * rcb-daily-encrypt-rsync-decrypt-restore.sh
+
+# test
+rcb_test_dir: /scratch/rcb-test
 
 # EOF
 ...

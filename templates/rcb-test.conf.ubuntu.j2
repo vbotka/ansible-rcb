@@ -2,9 +2,9 @@
 
 BCK_HOST="{{ rcb_bck_host }}"
 BCK_USER="{{ rcb_bck_user }}"
-BCK_DST="{{ rcb_bck_dst_test }}/{{ ansible_hostname }}"
+BCK_DST="{{ rcb_bck_dst_test }}/{{ ansible_facts['hostname'] }}"
 
-RCB_HOST="{{ ansible_hostname }}"
+RCB_HOST="{{ ansible_facts['hostname'] }}"
 RCB_EMAIL="{{ rcb_rcb_email }}"
 
 RCB_BCK_ROOT="{{ rcb_rcb_bck_root }}"
