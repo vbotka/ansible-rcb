@@ -5,6 +5,21 @@ vbotka.rcb 2.8 Release Notes
 .. contents:: Topics
 
 
+2.8.1
+=====
+
+Release Summary
+---------------
+Maintenance update.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Convert ansible_* variables to ansible_facts
+
+
 2.8.0
 =====
 
