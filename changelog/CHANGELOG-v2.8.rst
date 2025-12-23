@@ -5,6 +5,20 @@ vbotka.rcb 2.8 Release Notes
 .. contents:: Topics
 
 
+2.8.1
+=====
+
+Release Summary
+---------------
+Maintenance update.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+
+
 2.8.0
 =====
 
